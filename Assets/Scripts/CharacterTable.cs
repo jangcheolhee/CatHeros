@@ -5,15 +5,14 @@ public class CharacterData
 {
     public string Character_ID { get; set; }
     public string Name { get; set; }
-   
-    
-    
-
-
-    public override string ToString()
-    {
-        return $"{Name} ";
-    }
+    public string Rarity {  get; set; }
+    public string Position {  get; set; }
+    public string Base_HP {  get; set; }
+    public string Base_ATK {  get; set; }
+    public string Base_DEF {  get; set; }
+    public string Base_SPD {  get; set; }
+    public string Skill_Set_ID {  get; set; }
+    public string Basic_attack_ID {  get; set; }
 
 }
 public class CharacterTable : DataTable
@@ -33,7 +32,7 @@ public class CharacterTable : DataTable
             }
             else
             {
-                Debug.LogError("캐릭터 ID 아이디 중복!");
+                //Debug.LogError("캐릭터 ID 아이디 중복!");
             }
             
         }

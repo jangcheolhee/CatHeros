@@ -11,6 +11,7 @@ public static class DataTableManger
     static DataTableManger()
     {
         Init();
+        
     }
 
     private static void Init()
@@ -18,6 +19,9 @@ public static class DataTableManger
         var charcterTable = new CharacterTable();
         charcterTable.Load(DataTableIds.Character);
         tables.Add(DataTableIds.Character, charcterTable);
+        var skillTable = new SkillDataTable();
+        skillTable.Load(DataTableIds.Skill);
+        tables.Add(DataTableIds.Skill, skillTable);
 #if UNITY_EDITOR
        
 
@@ -33,6 +37,13 @@ public static class DataTableManger
         get
         {
             return Get<CharacterTable>(DataTableIds.Character);
+        }
+    }
+    public static SkillDataTable SkillTable
+    {
+        get
+        {
+            return Get<SkillDataTable>(DataTableIds.Skill);
         }
     }
 

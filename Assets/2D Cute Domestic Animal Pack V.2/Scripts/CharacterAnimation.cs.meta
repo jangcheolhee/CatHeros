@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 08613f58884689544a847b518ce8cd12
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 82750
+  packageName: 2D Cute Domestic Animal Pack V.2
+  packageVersion: 2.0
+  assetPath: Assets/2D Cute Domestic Animal Pack V.2/Scripts/CharacterAnimation.cs
+  uploadId: 439217
