@@ -1,19 +1,67 @@
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public class Enemy : LivingEntity
 {
-    public string enemyName;
-    public int Damage = 20;
+    public MonsterData monsterData;
+    public SkillData basicAttack { get; private set; }
+    public SkillData skillData { get; private set; }
 
+    public int AttackDamage
+    {
+        get
+        {
+            return (int)(monsterData.M_Base_ATK * basicAttack.Power_Coeff_ATK);
+        }
+    }
+    public int SkillDamage
+    {
+        get
+        {
+            return (int)(skillData.Base_Power + monsterData.M_Base_ATK * skillData.Power_Coeff_ATK);
+        }
+    }
+    public int Speed
+    {
+        get
+        {
+            return monsterData.M_Base_SPD;
+        }
+    }
+    public int Defence { get; private set; }
+
+    public string Position
+    {
+        get
+        {
+            return monsterData.M_Position;
+        }
+    }  // Tanker인지   
     
-    private Player target;
     private float attackTimer;
+    private float AttackInterval
+    {
+        get
+        {
 
+            return Speed / (1 + basicAttack.Base_SPD / basicAttack.SPD_Factor);
+        }
+    }
+
+    private Player target;
+    private LivingEntity skillTarget;
     public BattleManager battleManager;
 
     private void Awake()
     {
        
+    }
+    public void Setup(int monster_ID)
+    {
+        monsterData = DataTableManger.MonsterTable.Get(monster_ID);
+        basicAttack = DataTableManger.SkillTable.Get(monsterData.M_Basic_attack_ID);
+        skillData = DataTableManger.SkillTable.Get(monsterData.M_Skill_Set_ID);
+
     }
 
     private void Update()
@@ -24,7 +72,7 @@ public class Enemy : LivingEntity
             FindTarget();
 
         attackTimer += Time.deltaTime;
-        if (target && attackTimer > 1.5f)
+        if (target && attackTimer > AttackInterval)
         {
             attackTimer = 0f;
             Attack();
@@ -33,9 +81,15 @@ public class Enemy : LivingEntity
 
     private void Attack()
     {
-       
         if (target != null)
-            target.OnDamage(Damage);
+            target.OnDamage(AttackDamage);
+    }
+    public void UseSkill()
+    {
+        //animator.SetBool("IsSkill", true);
+        //target.OnDamage(skill.damage);
+
+        Debug.Log($"스킬 사용");
     }
 
     private void FindTarget()
@@ -50,6 +104,6 @@ public class Enemy : LivingEntity
     {
         base.Die();
         
-        Debug.Log($"{enemyName} 사망");
+        
     }
 }

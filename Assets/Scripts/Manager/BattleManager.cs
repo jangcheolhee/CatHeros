@@ -71,7 +71,7 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             Transform slot = playerParent.GetChild(i);
-            Debug.Log(slot);
+            
             GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerParent.parent);
             Player player = obj.GetComponent<Player>();
             
@@ -97,12 +97,14 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log($"웨이브 {currentWave + 1} 시작!");
             battleUIManager.UpdateWaveText(currentWave + 1, totalWave);
-
-            for (int i = 0; i < 3; i++)
+            var waveq = Waves[wave];
+            int i = 0;
+            foreach (var enemys in waveq.Enemies)
             {
-                Transform slot = enemyParent.GetChild(i);
+                Transform slot = enemyParent.GetChild(i++);
                 GameObject obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyParent);
                 Enemy enemy = obj.GetComponent<Enemy>();
+                enemy.Setup(enemys.Monster_ID);
                 AliveEnemies.Add(enemy);
                 enemy.battleManager = this;
                 enemy.OnDeath += () => AliveEnemies.Remove(enemy);

@@ -6,28 +6,66 @@ using UnityEngine.UI;
 
 public class Player : LivingEntity
 {
-    
-
 
     private int level;
-    
-   
+
     public List<SpriteLibraryAsset> spriteAssets = new List<SpriteLibraryAsset>();
-
-    public int Damage { get; private set; } = 50;
-    public string Position {  get; private set; }  // Tanker인지   
-    public SkillData BasicAttack {  get; private set; }
-    public SkillData Skill { get; private set; }
-
-    public string characterName;
-    
-
     private Animator animator;
     private AudioSource audioSource;
     private SpriteLibrary spriteLibrary;
 
+
+    public CharacterData characterData;
+    public SkillData basicAttack { get; private set; }
+    public SkillData skillData { get; private set; }
+
+
+    public int AttackDamage
+    {
+        get
+        {
+            return (int)(characterData.Base_ATK * basicAttack.Power_Coeff_ATK);
+        }
+    }
+    public int SkillDamage
+    {
+        get
+        {
+            return (int)(skillData.Base_Power + characterData.Base_ATK * skillData.Power_Coeff_ATK);
+        }
+    }
+    public int Speed
+    {
+        get
+        {
+            return characterData.Base_SPD;
+        }
+    }
+    public int Defence { get; private set; }
+
+    public string Position
+    {
+        get
+        {
+            return characterData.Position;
+        }
+    }  // Tanker인지   
+
+    
+
+  
+
     private Enemy target;
+    private LivingEntity skillTarget;
     private float attackTimer;
+    private float AttackInterval
+    {
+        get
+        {
+           
+            return Speed / (1 + basicAttack.Base_SPD / basicAttack.SPD_Factor);
+        }
+    }
 
     public BattleManager battleManager;
 
@@ -38,23 +76,22 @@ public class Player : LivingEntity
         audioSource = GetComponent<AudioSource>();
         spriteLibrary = GetComponentInChildren<SpriteLibrary>();
     }
-    public void Setup(int Character_ID)
+    public void Setup(int character_ID)
     {
-        
-        int idx = Character_ID - 10101;
-        var characterData = DataTableManger.CharacterTable.Get(Character_ID);
-        Damage = characterData.Base_ATK;
-        BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
-        Skill = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
+
+        int idx = character_ID - 10101;
+        characterData = DataTableManger.CharacterTable.Get(character_ID);
+        basicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
+        skillData = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
         spriteLibrary.spriteLibraryAsset = spriteAssets[idx];
         spriteLibrary.RefreshSpriteResolvers();
-
+        Debug.Log(AttackInterval);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if(IsDead) return;
+        if (IsDead) return;
         if (target == null || target.IsDead)
         {
             target = null;
@@ -63,7 +100,7 @@ public class Player : LivingEntity
         attackTimer += Time.deltaTime;
         //skillTimer += Time.deltaTime;
 
-        if(target && attackTimer > BasicAttack.Cooldown + 1) // <- 수정 필요
+        if (target && attackTimer > AttackInterval) // <- 수정 필요
         {
             attackTimer = 0;
             Attack();
@@ -73,13 +110,13 @@ public class Player : LivingEntity
     {
         animator.SetTrigger("IsAttack");
         if (target != null)
-            target.OnDamage(Damage);
+            target.OnDamage(AttackDamage);
     }
     public void UseSkill()
     {
         //animator.SetBool("IsSkill", true);
-        //target.OnDamage(skill.damage);
-        
+        target.OnDamage(SkillDamage);
+
         Debug.Log($"스킬 사용");
     }
 
