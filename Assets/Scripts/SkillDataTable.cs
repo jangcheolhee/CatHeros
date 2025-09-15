@@ -6,6 +6,7 @@ public class SkillData
     public string Skill_ID {  get; set; }
     public string Skill_Name { get; set; }
     public string Skill_Type {  get; set; }
+    public string Cooldown {  get; set; }
 }
 public class SkillDataTable : DataTable
 {

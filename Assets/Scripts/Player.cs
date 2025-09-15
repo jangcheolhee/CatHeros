@@ -1,90 +1,101 @@
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
+using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : LivingEntity
 {
     
+
+
     private int level;
-    private string cName;
-    private Animator animator;
-    private AudioSource audioSource;
-    //private ParticleSystem attackEffect;
-    private SpriteLibrary spriteLibrary;
-    public List<SpriteLibraryAsset> spriteAssets = new List<SpriteLibraryAsset>();
     
-    public int MaxHP;
-    private int CurrentHP;
-    public float attackInterval = 2;
-    private float attackTimer = 0;
+   
+    public List<SpriteLibraryAsset> spriteAssets = new List<SpriteLibraryAsset>();
+
+    public int Damage { get; private set; } = 50;
+    public string Position {  get; private set; }  // Tanker인지   
+    public SkillData BasicAttack {  get; private set; }
+    public SkillData Skill { get; private set; }
+
+    public string characterName;
     
 
-    // 버프 디버프 상태이상 
-    private List<Skill> skills = new List<Skill>();
-    private float[] skillTimer;
+    private Animator animator;
+    private AudioSource audioSource;
+    private SpriteLibrary spriteLibrary;
+
+    private Enemy target;
+    private float attackTimer;
+
+    public BattleManager battleManager;
 
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         audioSource = GetComponent<AudioSource>();
-        spriteLibrary = GetComponent<SpriteLibrary>();
-
+        spriteLibrary = GetComponentInChildren<SpriteLibrary>();
     }
     public void Setup(string Character_ID)
     {
         
         int idx = int.Parse(Character_ID) - 10101;
-        
         var characterData = DataTableManger.CharacterTable.Get(Character_ID);
-        
-        var basicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
-        var skill = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
-        skills.Add(new Skill(basicAttack.Skill_Name, 3, 10));
-        skills.Add(new Skill(skill.Skill_Name, 4, 15));
-        cName = characterData.Name;
-       
+        Damage = int.Parse(characterData.Base_ATK);
+        BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
+        Skill = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
         spriteLibrary.spriteLibraryAsset = spriteAssets[idx];
         spriteLibrary.RefreshSpriteResolvers();
-        skillTimer = new float[skills.Count];
 
     }
-
 
     // Update is called once per frame
     private void Update()
     {
-        for (int i = 0; i < skills.Count; i++)
+        if(IsDead) return;
+        if (target == null || target.IsDead)
         {
-            skillTimer[i] += Time.deltaTime; 
-            if (skillTimer[i] > skills[i].cooldown)
-            {
-                UseSkill(skills[i]);
-                skillTimer[i] = 0;
-            }
+            target = null;
+            FindTarget();
+        }
+        attackTimer += Time.deltaTime;
+        //skillTimer += Time.deltaTime;
+
+        if(target && attackTimer > float.Parse(BasicAttack.Cooldown) + 1)
+        {
+            attackTimer = 0;
+            Attack();
         }
     }
-    void Attack()
+    private void Attack()
     {
-        // 
+        animator.SetTrigger("IsAttack");
+        if (target != null)
+            target.OnDamage(Damage);
     }
-    void UseSkill(Skill skill)
+    public void UseSkill()
     {
-        animator.SetBool("IsSkill", true);
-        StartCoroutine(Skill());
-        Debug.Log($"{skill.skill_ID} {skill.cooldown}{skill.damage}");
-    }
-    
-    private IEnumerator Skill()
-    {
-        Debug.Log(1);
+        //animator.SetBool("IsSkill", true);
+        //target.OnDamage(skill.damage);
         
-        
-        yield return new WaitForSeconds(0.5f);
-        Debug.Log(2);
-        //animator.SetBool("IsSkill", false);
+        Debug.Log($"스킬 사용");
     }
-    
+
+
+
+    private void FindTarget()
+    {
+        if (battleManager.AliveEnemies.Count > 0)
+        {
+            target = battleManager.AliveEnemies[0];
+        }
+    }
+    protected override void Die()
+    {
+        base.Die();
+        animator.SetTrigger("IsDie");
+    }
+
 }
