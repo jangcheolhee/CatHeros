@@ -38,12 +38,12 @@ public class Player : LivingEntity
         audioSource = GetComponent<AudioSource>();
         spriteLibrary = GetComponentInChildren<SpriteLibrary>();
     }
-    public void Setup(string Character_ID)
+    public void Setup(int Character_ID)
     {
         
-        int idx = int.Parse(Character_ID) - 10101;
+        int idx = Character_ID - 10101;
         var characterData = DataTableManger.CharacterTable.Get(Character_ID);
-        Damage = int.Parse(characterData.Base_ATK);
+        Damage = characterData.Base_ATK;
         BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
         Skill = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
         spriteLibrary.spriteLibraryAsset = spriteAssets[idx];
@@ -63,7 +63,7 @@ public class Player : LivingEntity
         attackTimer += Time.deltaTime;
         //skillTimer += Time.deltaTime;
 
-        if(target && attackTimer > float.Parse(BasicAttack.Cooldown) + 1)
+        if(target && attackTimer > BasicAttack.Cooldown + 1) // <- 수정 필요
         {
             attackTimer = 0;
             Attack();

@@ -22,8 +22,17 @@ public static class DataTableManger
         var skillTable = new SkillDataTable();
         skillTable.Load(DataTableIds.Skill);
         tables.Add(DataTableIds.Skill, skillTable);
+        var stageTable = new StageTable();
+        stageTable.Load(DataTableIds.Stage);
+        tables.Add(DataTableIds.Stage, stageTable);
+        var waveTable = new WaveTable();
+        waveTable.Load(DataTableIds.Wave);
+        tables.Add(DataTableIds.Wave, waveTable);
+        var monsterTable = new MonsterTable();
+        monsterTable.Load(DataTableIds.Monster);
+        tables.Add(DataTableIds.Monster, monsterTable);
 #if UNITY_EDITOR
-       
+
 
 #else
         var stringTable = new StringTable();
@@ -46,7 +55,27 @@ public static class DataTableManger
             return Get<SkillDataTable>(DataTableIds.Skill);
         }
     }
-
+    public static StageTable StageTable
+    {
+        get
+        {
+            return Get<StageTable>(DataTableIds.Stage);
+        }
+    }
+    public static WaveTable WaveTable
+    {
+        get
+        {
+            return Get<WaveTable>(DataTableIds.Wave);
+        }
+    }
+    public static MonsterTable MonsterTable
+    {
+        get
+        {
+            return Get<MonsterTable>(DataTableIds.Monster);
+        }
+    }
     public static T Get<T>(string id) where T : DataTable
     {
         if (!tables.ContainsKey(id))

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CharacterData
 {
-    public string Character_ID { get; set; }
+    public int Character_ID { get; set; }
     public string Name { get; set; }
-    public string Rarity {  get; set; }
+    public int Rarity {  get; set; }
     public string Position {  get; set; }
-    public string Base_HP {  get; set; }
-    public string Base_ATK {  get; set; }
-    public string Base_DEF {  get; set; }
-    public string Base_SPD {  get; set; }
-    public string Skill_Set_ID {  get; set; }
-    public string Basic_attack_ID {  get; set; }
+    public int Base_HP {  get; set; }
+    public int Base_ATK {  get; set; }
+    public int Base_DEF {  get; set; }
+    public int Base_SPD {  get; set; }
+    public int Skill_Set_ID {  get; set; }
+    public int Basic_attack_ID {  get; set; }
 
 }
 public class CharacterTable : DataTable
 {
-    private readonly Dictionary<string, CharacterData> table = new Dictionary<string, CharacterData>();
+    private readonly Dictionary<int, CharacterData> table = new Dictionary<int, CharacterData>();
     public override void Load(string filename)
     {
         table.Clear();
@@ -38,7 +38,7 @@ public class CharacterTable : DataTable
         }
         
     }
-    public CharacterData Get(string Character_ID)
+    public CharacterData Get(int Character_ID)
     {
         
         if (!table.ContainsKey(Character_ID))

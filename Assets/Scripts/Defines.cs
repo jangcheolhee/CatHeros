@@ -19,6 +19,9 @@ public static class DataTableIds
     public static string String => StringTableIds[(int)Variables.Language];
     public static readonly string Character = "Character";
     public static readonly string Skill = "Skill";
+    public static readonly string Stage = "Stage";
+    public static readonly string Wave = "Wave";
+    public static readonly string Monster = "Monster";
 }
 
 

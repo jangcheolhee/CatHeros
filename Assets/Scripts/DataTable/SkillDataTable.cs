@@ -3,14 +3,22 @@ using UnityEngine;
 
 public class SkillData
 {
-    public string Skill_ID {  get; set; }
+    public int Skill_ID {  get; set; }
     public string Skill_Name { get; set; }
-    public string Skill_Type {  get; set; }
-    public string Cooldown {  get; set; }
+    public int Skill_Type {  get; set; }
+    public int Base_Power {  get; set; }
+    public float Power_Coeff_ATK {  get; set; }
+    public int Range {  get; set; }
+    public string Area {  get; set; }
+    public int Cooldown {  get; set; }
+    public int Base_SPD {  get; set; }
+    public int SPD_Factor {  get; set; }
+    public string Skill_Target {  get; set; }
+
 }
 public class SkillDataTable : DataTable
 {
-    private readonly Dictionary<string, SkillData> table = new Dictionary<string, SkillData>();
+    private readonly Dictionary<int, SkillData> table = new Dictionary<int, SkillData>();
     public override void Load(string filename)
     {
         table.Clear();
@@ -31,7 +39,7 @@ public class SkillDataTable : DataTable
         }
 
     }
-    public SkillData Get(string id)
+    public SkillData Get(int id)
     {
 
         if (!table.ContainsKey(id))

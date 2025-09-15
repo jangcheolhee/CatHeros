@@ -1,0 +1,5 @@
+Wave_ID,Stage_ID,Wave_Number,Enemy_ID,Boss_Flag,Spawn_Delay,Wave_Condition,Special_Event,Description
+10901,3801,1,"[{""Monster_ID"":1201,""Count"":2,""Position"":""Front""},{""Monster_ID"":1204,""Count"":1,""Position"":""Back""}]",FALSE,0,모든 적 처치,"""""",
+22902,3801,2,"[{""Monster_ID"":1201,""Count"":2,""Position"":""Front""},{""Monster_ID"":1202,""Count"":1,""Position"":""Front""},{""Monster_ID"":1204,""Count"":2,""Position"":""Back""}]",FALSE,2000,모든 적 처치,"""""",
+32903,3801,3,"[{""Monster_ID"":1202,""Count"":2,""Position"":""Front""},{""Monster_ID"":1204,""Count"":2,""Position"":""Back""},{""Monster_ID"":1203,""Count"":1,""Position"":""Back""}]",FALSE,2000,모든 적 처치,"""""",
+43904,4805,4,"[{""Monster_ID"":1202,""Count"":2,""Position"":""Front""},{""Monster_ID"":2205,""Count"":1,""Position"":""Back""}]",TRUE,3000,모든 적 처치,보스 컷신 재생,

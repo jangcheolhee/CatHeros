@@ -1,4 +1,4 @@
-
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,20 +13,32 @@ public class BattleManager : MonoBehaviour
     public Transform playerParent; // BattleWorld
     public Transform enemyParent;  // BattleWorld
 
-    private string[] characterIds;
+    private int[] characterIds;
     public List<Player> Players { get; private set; } = new List<Player>();
     public int currentWave = 0;
-    private int totalWave = 3;
+    private int totalWave ;
     public List<Enemy> AliveEnemies { get; private set; } = new List<Enemy>();
-
+    public List<WaveData> Waves { get; private set; }
     private bool spawningWave = false;
 
     public BattleUIManager battleUIManager;
     public UIManager uiManager;
     private void Start()
     {
-        characterIds = new string[] { "10101", "10102", "10103", "10104" };
+        characterIds = new int[] { 10101, 10102, 10103, 10104 };
+        var stageData = DataTableManger.StageTable.Get(3801);
+        totalWave = stageData.MaxWaveCount;
+        Waves = DataTableManger.WaveTable.Get(stageData.StageID);
         
+        foreach(var wave in Waves)
+        {
+
+            Debug.Log(wave.Wave_Number);
+            foreach (var enemy in wave.Enemies)
+            {
+                Debug.Log($"{enemy.Monster_ID} {enemy.Count} {enemy.Position}");
+            }
+        }
         SpawnParty();
         
     }
@@ -55,7 +67,7 @@ public class BattleManager : MonoBehaviour
 
     private void SpawnParty()
     {
-        Debug.Log(123);
+        
         for (int i = 0; i < 4; i++)
         {
             Transform slot = playerParent.GetChild(i);

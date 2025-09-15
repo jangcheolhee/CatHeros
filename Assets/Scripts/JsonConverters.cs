@@ -34,8 +34,8 @@ public class CharacterDataConvertor : JsonConverter<CharacterData>
 
     public override CharacterData ReadJson(JsonReader reader, Type objectType, CharacterData existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
-        var id = reader.Value  as string;
-        return DataTableManger.CharacterTable.Get(id);
+        var id = reader.Value as String;
+        return DataTableManger.CharacterTable.Get(int.Parse(id));
     }
 
     public override void WriteJson(JsonWriter writer, CharacterData value, JsonSerializer serializer)
