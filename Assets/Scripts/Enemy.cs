@@ -24,7 +24,7 @@ public class Enemy : LivingEntity
             FindTarget();
 
         attackTimer += Time.deltaTime;
-        if (target && attackTimer > 1.5f) // 적 기본 공격 쿨다운
+        if (target && attackTimer > 1.5f)
         {
             attackTimer = 0f;
             Attack();

@@ -3,8 +3,8 @@ using TMPro;
 
 public class DamageText : MonoBehaviour
 {
-    public float floatSpeed = 2f;  // 위로 떠오르는 속도
-    public float duration = 1f;    // 지속 시간
+    public float floatSpeed = 2f;  
+    public float duration = 1f;    
     private TextMeshProUGUI text;
     private Color startColor;
 
@@ -30,7 +30,7 @@ public class DamageText : MonoBehaviour
         }
         else
         {
-            float alpha = duration / 1f; // 남은 시간 비율
+            float alpha = duration / 1f; 
             text.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
         }
     }

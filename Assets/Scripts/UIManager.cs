@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
         public GameObject panel;
     }
 
-    [Header("Panel List")]
+   
     public List<PanelEntry> panels;
 
     private Dictionary<string, GameObject> panelDict = new Dictionary<string, GameObject>();
@@ -31,15 +31,15 @@ public class UIManager : MonoBehaviour
 
     public void ShowPanel(string name, bool pauseGame = false)
     {
-        // 모든 패널 끄고
+       
         foreach (var p in panelDict.Values)
             p.SetActive(false);
 
-        // 특정 패널 켜기
+        
         if (panelDict.ContainsKey(name))
             panelDict[name].SetActive(true);
 
-        // 일시정지 여부 반영
+        
         Time.timeScale = pauseGame ? 0f : 1f;
     }
 
@@ -61,11 +61,11 @@ public class UIManager : MonoBehaviour
 
         if (isActive)
         {
-            HideAllPanels(); // 이미 켜져있으면 닫기
+            HideAllPanels();
         }
         else
         {
-            ShowPanel("PausePanel", true); // 꺼져있으면 켜기
+            ShowPanel("PausePanel", true);
         }
     }
     public void ShowEndPanel() => ShowPanel("EndPanel", true);

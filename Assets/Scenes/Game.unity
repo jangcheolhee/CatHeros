@@ -4446,7 +4446,7 @@ MonoBehaviour:
   - {fileID: 1632722503}
   - {fileID: 835515192}
   battleManager: {fileID: 1015202837}
-  waveText: {fileID: 0}
+  waveText: {fileID: 2104639385}
 --- !u!114 &2078430657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4634,6 +4634,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2814666762592246786, guid: 49b33005b9c13a84ebe1417945309282, type: 3}
   m_PrefabInstance: {fileID: 2079174947}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2104639385 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
+  m_PrefabInstance: {fileID: 396483132}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2119952081
 PrefabInstance:
   m_ObjectHideFlags: 0
