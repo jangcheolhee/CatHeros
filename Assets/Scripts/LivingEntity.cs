@@ -24,6 +24,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
     public float MaxHP { get; protected set; } = 1000;
     public float CurrentHP { get; protected set; }
     public bool IsDead { get; private set; }
+    public bool IsStunned {  get; private set; }
 
     public StatusEffect currentStatus = StatusEffect.None;
     private Dictionary<StatusEffect, float> statusTimers = new();
@@ -68,13 +69,17 @@ public class LivingEntity : MonoBehaviour, IDamagable
             case StatusEffect.DefenseUp:
                 AddDefense += amount;
                 break;
+            case StatusEffect.Stun:
+                Debug.Log("Stun");
+                IsStunned = true;
+                break;
             case StatusEffect.Bleed:
                 StartCoroutine(DoTCoroutine(5, 1f, effect));
                 break;
             case StatusEffect.Heal:
                 Debug.Log("Heal");
                 StartCoroutine(HotCoroutine(500, 1f, effect));
-                
+       
                 break;
         }
     }
@@ -91,10 +96,10 @@ public class LivingEntity : MonoBehaviour, IDamagable
             case StatusEffect.DefenseUp:
                 AddDefense = 0;
                 break;
-            case StatusEffect.Bleed:
+            case StatusEffect.Stun:
+                IsStunned = true;
                 break;
-            case StatusEffect.Heal:
-                break;
+                
                 
         }
     }

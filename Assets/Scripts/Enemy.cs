@@ -70,8 +70,11 @@ public class Enemy : LivingEntity
 
         if (target == null || target.IsDead)
             FindTarget();
-
-        attackTimer += Time.deltaTime;
+        if(!IsStunned)
+        {
+            attackTimer += Time.deltaTime;
+        }
+        
         if (target && attackTimer > AttackInterval)
         {
             attackTimer = 0f;

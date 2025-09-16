@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
-using UnityEngine.UI;
+
 
 
 public class Player : LivingEntity
@@ -20,7 +20,8 @@ public class Player : LivingEntity
     public CharacterData characterData;
     public SkillData BasicAttack { get; private set; }
     public SkillData SkillData { get; private set; }
-    public EffectData SkillEffect { get; private set; }
+    public EffectData SkillEffect { get; private set; } = null;
+
 
     public int Max_HP
     {
@@ -33,14 +34,14 @@ public class Player : LivingEntity
     {
         get
         {
-            return (int)(characterData.Base_ATK * BasicAttack.Power_Coeff_ATK + AddAttack);
+            return (int)((characterData.Base_ATK + AddAttack) * BasicAttack.Power_Coeff_ATK );
         }
     }
     public int SkillDamage
     {
         get
         {
-            return (int)((SkillData.Base_Power + characterData.Base_ATK * SkillData.Power_Coeff_ATK));
+            return (int)((SkillData.Base_Power + (characterData.Base_ATK + AddAttack) * SkillData.Power_Coeff_ATK));
         }
     }
     public int Speed
@@ -63,9 +64,10 @@ public class Player : LivingEntity
 
 
 
-    private Enemy target;
+    private LivingEntity target;
 
     private float attackTimer;
+    private float skillTimer;
     private float AttackInterval
     {
         get
@@ -93,15 +95,16 @@ public class Player : LivingEntity
         characterData = DataTableManger.CharacterTable.Get(character_ID);
         BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
         SkillData = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
-
-        SkillEffect = DataTableManger.EffectTable.Get(4404);
-        Debug.Log("skell");
-
-
+        if (int.TryParse(SkillData.Effect_1_ID, out int id))
+        {
+            SkillEffect = DataTableManger.EffectTable.Get(id);
+            
+        }
 
         MaxHP = Max_HP;
-        OnDamage(0);
 
+        var health = GetComponent<PlayerHealth>();
+        if (health != null) health.Refresh();
     }
 
 
@@ -115,31 +118,30 @@ public class Player : LivingEntity
             FindTarget();
         }
         attackTimer += Time.deltaTime;
-
+        skillTimer += Time.deltaTime;
 
         if (target && attackTimer > AttackInterval)
         {
             attackTimer = 0;
             Attack();
         }
+        if(battleManager.IsAuto && skillTimer > SkillData.Cooldown)
+        {
+            UseSkill();
+        }
     }
     private void Attack()
     {
-        animator.SetTrigger("IsAttack");
+        
         if (target != null)
             target.OnDamage(AttackDamage);
     }
     public void UseSkill()
     {
-        //animator.SetBool("IsSkill", true);
+       
         target.OnDamage(SkillDamage);
-
-
-        target.AddStatus(1, 3, float.Parse(SkillData.Effect_1_Duration) / 1000);
-        
-
-
-        //Debug.Log($"스킬 사용");
+        target.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(SkillData.Effect_1_Duration) / 1000);
+        skillTimer = 0;
     }
 
     private void FindTarget()
@@ -153,7 +155,6 @@ public class Player : LivingEntity
     protected override void Die()
     {
         base.Die();
-        animator.SetTrigger("IsDie");
     }
 
 }

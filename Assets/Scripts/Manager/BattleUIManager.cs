@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class BattleUIManager : MonoBehaviour
 {
     public List<Slider> playerHpSliders;
-    public List<SkillButton> skillButtons;   
+    public List<SkillButton> skillButtons;
     public BattleManager battleManager;
     public TextMeshProUGUI waveText;
+    public TextMeshProUGUI timerText;
 
     public void UpdateWaveText(int current, int total)
     {
@@ -18,6 +19,7 @@ public class BattleUIManager : MonoBehaviour
 
     private void Start()
     {
+        battleManager.OnTimeChanged += UpdateTimerUI;
         for (int i = 0; i < playerHpSliders.Count; i++)
         {
             if (i < battleManager.Players.Count)
@@ -25,24 +27,24 @@ public class BattleUIManager : MonoBehaviour
                 var player = battleManager.Players[i];
                 int index = i;
 
-                
+
                 float skillCooldown = player.SkillData.Cooldown;
                 skillButtons[index].Setup(player, skillCooldown);
 
-                
+
                 player.OnHealthChanged += (current, max) =>
                 {
                     playerHpSliders[index].value = current / max;
                 };
 
-                
+
                 player.OnDeath += () =>
                 {
                     playerHpSliders[index].gameObject.SetActive(false);
                     skillButtons[index].gameObject.SetActive(false);
                 };
 
-               
+
                 playerHpSliders[index].value = player.CurrentHP / player.MaxHP;
             }
             else
@@ -51,5 +53,11 @@ public class BattleUIManager : MonoBehaviour
                 skillButtons[i].gameObject.SetActive(false);
             }
         }
+    }
+    private void UpdateTimerUI(float remain)
+    {
+        int minutes = Mathf.FloorToInt(remain / 60f);
+        int seconds = Mathf.FloorToInt(remain % 60f);
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
 }

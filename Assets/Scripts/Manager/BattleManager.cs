@@ -1,11 +1,16 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    
+    public float battleDuration = 210f;
+    private float remainTime;
+
+    public event Action<float> OnTimeChanged;
+
     public GameObject Prefab;
     public GameObject Enemy;
 
@@ -23,6 +28,7 @@ public class BattleManager : MonoBehaviour
 
     public BattleUIManager battleUIManager;
     public UIManager uiManager;
+    public bool IsAuto {  get; private set; }
     private void Start()
     {
         
@@ -30,13 +36,19 @@ public class BattleManager : MonoBehaviour
         var stageData = DataTableManger.StageTable.Get(3801);
         totalWave = stageData.MaxWaveCount;
         Waves = DataTableManger.WaveTable.Get(stageData.StageID);
-        
-        
+        remainTime = battleDuration;
         SpawnParty();
         
     }
     private void Update()
     {
+        if (remainTime > 0)
+        {
+            remainTime -= Time.deltaTime;
+            if (remainTime < 0) remainTime = 0;
+
+            OnTimeChanged?.Invoke(remainTime);
+        }
         if (spawningWave || AliveEnemies.Count > 0) return;
 
         if (AliveEnemies.Count == 0)
@@ -55,6 +67,8 @@ public class BattleManager : MonoBehaviour
             }
             StartCoroutine(SpawnWaveWithDelay(currentWave, Waves[currentWave].Spawn_Delay * 0.001f));
         }
+
+        
     }
 
 
@@ -71,6 +85,7 @@ public class BattleManager : MonoBehaviour
             player.Setup(characterIds[i]);
             player.battleManager = this;
             player.OnDeath += () => Players.Remove(player);
+            
             Players.Add(player);
         }
     }
@@ -109,9 +124,6 @@ public class BattleManager : MonoBehaviour
         }
 
     }
-
-
-
 
 }
 

@@ -41,4 +41,9 @@ public class PlayerHealth : MonoBehaviour
         if (healthSlider != null)
             healthSlider.gameObject.SetActive(false);
     }
+    public void Refresh()
+    {
+        if (player != null)
+            UpdateHealthUI(player.CurrentHP, player.MaxHP);
+    }
 }
