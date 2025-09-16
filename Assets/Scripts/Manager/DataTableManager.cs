@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Data.Common;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public static class DataTableManger
@@ -35,9 +33,9 @@ public static class DataTableManger
 
 
 #else
-        var stringTable = new StringTable();
-        stringTable.Load(DataTableIds.String);
-        tables.Add(DataTableIds.String, stringTable);
+        //var stringTable = new StringTable();
+        //stringTable.Load(DataTableIds.String);
+        //tables.Add(DataTableIds.String, stringTable);
 #endif
     }
 

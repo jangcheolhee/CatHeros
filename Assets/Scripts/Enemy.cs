@@ -1,4 +1,3 @@
-using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public class Enemy : LivingEntity
@@ -68,13 +67,17 @@ public class Enemy : LivingEntity
     {
         if (IsDead) return;
 
-        if (target == null)
+        if (target == null || target.IsDead)
             FindTarget();
 
         attackTimer += Time.deltaTime;
         if (target && attackTimer > AttackInterval)
         {
             attackTimer = 0f;
+            Attack();
+        }
+        if(Input.GetKeyDown(KeyCode.A))
+        {
             Attack();
         }
     }

@@ -15,11 +15,18 @@ public class Player : LivingEntity
     private SpriteLibrary spriteLibrary;
 
 
+
     public CharacterData characterData;
     public SkillData basicAttack { get; private set; }
     public SkillData skillData { get; private set; }
 
-
+    public int Max_HP
+    {
+        get
+        {
+            return characterData.Base_HP;
+        }
+    }
     public int AttackDamage
     {
         get
@@ -51,9 +58,6 @@ public class Player : LivingEntity
         }
     }  // Tanker인지   
 
-    
-
-  
 
     private Enemy target;
     private LivingEntity skillTarget;
@@ -63,7 +67,7 @@ public class Player : LivingEntity
         get
         {
            
-            return Speed / (1 + basicAttack.Base_SPD / basicAttack.SPD_Factor);
+            return basicAttack.Base_SPD / (1 + Speed / basicAttack.SPD_Factor);
         }
     }
 
@@ -86,7 +90,11 @@ public class Player : LivingEntity
         spriteLibrary.spriteLibraryAsset = spriteAssets[idx];
         spriteLibrary.RefreshSpriteResolvers();
         Debug.Log(AttackInterval);
+        MaxHP = Max_HP;
+        OnDamage(0);
+
     }
+    
 
     // Update is called once per frame
     private void Update()
@@ -119,8 +127,6 @@ public class Player : LivingEntity
 
         Debug.Log($"스킬 사용");
     }
-
-
 
     private void FindTarget()
     {

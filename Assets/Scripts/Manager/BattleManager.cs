@@ -57,10 +57,10 @@ public class BattleManager : MonoBehaviour
             if (Players.TrueForAll(p => p.IsDead))
             {
                 Debug.Log("전투 패배...");
-                uiManager?.ShowPanel("End", true);
+                uiManager?.ShowPanel("EndPanel", true);
                 return;
             }
-            StartCoroutine(SpawnWaveWithDelay(currentWave, 1f));
+            StartCoroutine(SpawnWaveWithDelay(currentWave, Waves[currentWave].Spawn_Delay * 0.001f));
         }
     }
 
@@ -77,6 +77,7 @@ public class BattleManager : MonoBehaviour
             
             player.Setup(characterIds[i]);
             player.battleManager = this;
+            player.OnDeath += () => Players.Remove(player);
             Players.Add(player);
         }
     }
@@ -85,7 +86,7 @@ public class BattleManager : MonoBehaviour
         spawningWave = true;
         Debug.Log($"웨이브 {waveIndex + 1} 준비 중...");
 
-        yield return new WaitForSeconds(delay); // ? 1초 기다림
+        yield return new WaitForSeconds(delay);
 
         SpawnWave(waveIndex);
 

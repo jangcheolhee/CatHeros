@@ -18,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
             player.OnHealthChanged += UpdateHealthUI;
             player.OnDeath += HideHealthUI;
         }
+        
     }
 
     private void OnDisable()
