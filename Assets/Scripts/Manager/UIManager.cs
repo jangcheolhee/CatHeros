@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour
         timeSpeed = !timeSpeed;
         if(timeSpeed)
         {
-            Time.timeScale = 4f;
+            Time.timeScale = 2f;
         }
         else
         {

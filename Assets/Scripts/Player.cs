@@ -18,9 +18,9 @@ public class Player : LivingEntity
 
 
     public CharacterData characterData;
-    public SkillData basicAttack { get; private set; }
-    public SkillData skillData { get; private set; }
-    public EffectData skillEffect { get; private set; }
+    public SkillData BasicAttack { get; private set; }
+    public SkillData SkillData { get; private set; }
+    public EffectData SkillEffect { get; private set; }
 
     public int Max_HP
     {
@@ -33,14 +33,14 @@ public class Player : LivingEntity
     {
         get
         {
-            return (int)(characterData.Base_ATK * basicAttack.Power_Coeff_ATK );
+            return (int)(characterData.Base_ATK * BasicAttack.Power_Coeff_ATK + AddAttack);
         }
     }
     public int SkillDamage
     {
         get
         {
-            return (int)(skillData.Base_Power + characterData.Base_ATK * skillData.Power_Coeff_ATK);
+            return (int)((SkillData.Base_Power + characterData.Base_ATK * SkillData.Power_Coeff_ATK));
         }
     }
     public int Speed
@@ -52,6 +52,7 @@ public class Player : LivingEntity
     }
     public int Defence { get; private set; }
 
+
     public string Position
     {
         get
@@ -62,14 +63,14 @@ public class Player : LivingEntity
 
 
 
-    private LivingEntity target;
+    private Enemy target;
 
     private float attackTimer;
     private float AttackInterval
     {
         get
         {
-            return basicAttack.Base_SPD / (1 + Speed / basicAttack.SPD_Factor);
+            return BasicAttack.Base_SPD / (1 + Speed / BasicAttack.SPD_Factor);
         }
     }
 
@@ -86,16 +87,18 @@ public class Player : LivingEntity
     {
 
         int idx = character_ID - 10101;
-        characterData = DataTableManger.CharacterTable.Get(character_ID);
-        basicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
-        skillData = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
-        if (int.TryParse(skillData.Effect_1_ID, out int id))
-        {
-            skillEffect = DataTableManger.EffectTable.Get(4409);
-        }
         spriteLibrary.spriteLibraryAsset = spriteAssets[idx];
         spriteLibrary.RefreshSpriteResolvers();
-        Debug.Log(AttackInterval);
+
+        characterData = DataTableManger.CharacterTable.Get(character_ID);
+        BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
+        SkillData = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
+
+        SkillEffect = DataTableManger.EffectTable.Get(4404);
+        Debug.Log("skell");
+
+
+
         MaxHP = Max_HP;
         OnDamage(0);
 
@@ -130,11 +133,13 @@ public class Player : LivingEntity
     {
         //animator.SetBool("IsSkill", true);
         target.OnDamage(SkillDamage);
-        if (skillEffect != null)
-        {
-            target.AddStatus(skillEffect.Effect_Type, float.Parse(skillData.Effect_1_Duration) / 1000);
-        }
-        Debug.Log($"스킬 사용");
+
+
+        target.AddStatus(1, 3, float.Parse(SkillData.Effect_1_Duration) / 1000);
+        
+
+
+        //Debug.Log($"스킬 사용");
     }
 
     private void FindTarget()

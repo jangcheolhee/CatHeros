@@ -26,7 +26,7 @@ public class BattleUIManager : MonoBehaviour
                 int index = i;
 
                 
-                float skillCooldown = player.skillData.Cooldown;
+                float skillCooldown = player.SkillData.Cooldown;
                 skillButtons[index].Setup(player, skillCooldown);
 
                 

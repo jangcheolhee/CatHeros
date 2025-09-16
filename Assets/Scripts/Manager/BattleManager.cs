@@ -31,15 +31,7 @@ public class BattleManager : MonoBehaviour
         totalWave = stageData.MaxWaveCount;
         Waves = DataTableManger.WaveTable.Get(stageData.StageID);
         
-        foreach(var wave in Waves)
-        {
-
-            Debug.Log(wave.Wave_Number);
-            foreach (var enemy in wave.Enemies)
-            {
-                Debug.Log($"{enemy.Monster_ID} {enemy.Count} {enemy.Position}");
-            }
-        }
+        
         SpawnParty();
         
     }

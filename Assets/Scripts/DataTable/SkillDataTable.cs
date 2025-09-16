@@ -15,6 +15,7 @@ public class SkillData
     public int SPD_Factor {  get; set; }
     public string Skill_Target {  get; set; }
     public string Effect_1_ID { get; set; }
+    public string Effect_1_Value {  get; set; }
     public string Effect_1_Duration { get; set; }
 
 }

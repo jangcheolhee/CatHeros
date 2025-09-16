@@ -28,17 +28,18 @@ public class LivingEntity : MonoBehaviour, IDamagable
     public StatusEffect currentStatus = StatusEffect.None;
     private Dictionary<StatusEffect, float> statusTimers = new();
 
-    private float atkMultiplier = 1f;
-    private float defMultiplier = 1f;
+
 
     public event Action<float, float> OnHealthChanged; // (현재 HP, 최대 HP)
     public event Action OnDeath;
 
 
+    protected int AddAttack { get; private set; }
+    protected int AddDefense { get; private set; }
 
     protected virtual void Update()
     {
-        // 상태 지속시간 체크
+
         var expired = new List<StatusEffect>();
 
         foreach (var kvp in statusTimers.ToList())
@@ -51,34 +52,51 @@ public class LivingEntity : MonoBehaviour, IDamagable
             RemoveStatus(eff);
     }
 
-    public void AddStatus(int type, float duration = 0f)
+    public void AddStatus(int type, int amount, float duration = 0f)
     {
         StatusEffect effect = (StatusEffect)(1 << type);
-       
+
         currentStatus |= effect;
         if (duration > 0)
             statusTimers[effect] = duration;
-        
+
         switch (effect)
         {
             case StatusEffect.AttackUp:
-                atkMultiplier = 1.5f;
-                Debug.Log($"{effect} {duration}");
+                AddAttack += amount;
                 break;
             case StatusEffect.DefenseUp:
-                defMultiplier = 0.7f;
+                AddDefense += amount;
                 break;
             case StatusEffect.Bleed:
-                StartCoroutine(DoTCoroutine(5, 1f));
+                StartCoroutine(DoTCoroutine(5, 1f, effect));
+                break;
+            case StatusEffect.Heal:
+                Debug.Log("Heal");
+                StartCoroutine(HotCoroutine(500, 1f, effect));
+                
                 break;
         }
     }
     public void RemoveStatus(StatusEffect effect)
     {
-        
+
         currentStatus &= ~effect;
         statusTimers.Remove(effect);
-        Debug.Log(effect);
+        switch (effect)
+        {
+            case StatusEffect.AttackUp:
+                AddAttack = 0;
+                break;
+            case StatusEffect.DefenseUp:
+                AddDefense = 0;
+                break;
+            case StatusEffect.Bleed:
+                break;
+            case StatusEffect.Heal:
+                break;
+                
+        }
     }
 
     public bool HasStatus(StatusEffect effect) => (currentStatus & effect) != 0;
@@ -104,14 +122,34 @@ public class LivingEntity : MonoBehaviour, IDamagable
             Die();
         }
     }
-    private IEnumerator DoTCoroutine(int damage, float interval)
+    private IEnumerator DoTCoroutine(int damage, float interval, StatusEffect effect)
     {
-        while (HasStatus(StatusEffect.Bleed))
+        while (HasStatus(effect))
         {
             OnDamage(damage);
             yield return new WaitForSeconds(interval);
         }
     }
+
+    private IEnumerator HotCoroutine(int healAmount, float interval, StatusEffect effect)
+    {
+        while (HasStatus(effect))
+        {
+            Heal(healAmount);
+            Debug.Log(12);
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    public void Heal(int amount)
+    {
+        if (IsDead) return;
+        CurrentHP += amount;
+        if (CurrentHP > MaxHP) CurrentHP = MaxHP;
+
+        OnHealthChanged?.Invoke(CurrentHP, MaxHP);
+    }
+
     protected virtual void Die()
     {
         OnDeath?.Invoke();
