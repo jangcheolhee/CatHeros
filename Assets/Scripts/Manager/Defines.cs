@@ -22,6 +22,7 @@ public static class DataTableIds
     public static readonly string Stage = "Stage";
     public static readonly string Wave = "Wave";
     public static readonly string Monster = "Monster";
+    public static readonly string Effect = "Effect";
 }
 
 

@@ -25,6 +25,7 @@ public class BattleManager : MonoBehaviour
     public UIManager uiManager;
     private void Start()
     {
+        
         characterIds = new int[] { 10101, 10102, 10103, 10104 };
         var stageData = DataTableManger.StageTable.Get(3801);
         totalWave = stageData.MaxWaveCount;

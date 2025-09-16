@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     public List<PanelEntry> panels;
 
     private Dictionary<string, GameObject> panelDict = new Dictionary<string, GameObject>();
-
+    private bool timeSpeed = false;
     private void Awake()
     {
         foreach (var entry in panels)
@@ -28,7 +28,6 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-
     public void ShowPanel(string name, bool pauseGame = false)
     {
        
@@ -71,6 +70,18 @@ public class UIManager : MonoBehaviour
     public void ShowEndPanel() => ShowPanel("EndPanel", true);
 
     public void ResumeGame() => HideAllPanels();
+    public void SpeedChange()
+    {
+        timeSpeed = !timeSpeed;
+        if(timeSpeed)
+        {
+            Time.timeScale = 4f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+    }
 
     public void RestartGame()
     {

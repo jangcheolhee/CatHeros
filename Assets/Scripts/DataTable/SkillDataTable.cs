@@ -14,6 +14,8 @@ public class SkillData
     public int Base_SPD {  get; set; }
     public int SPD_Factor {  get; set; }
     public string Skill_Target {  get; set; }
+    public string Effect_1_ID { get; set; }
+    public string Effect_1_Duration { get; set; }
 
 }
 public class SkillDataTable : DataTable
@@ -35,9 +37,7 @@ public class SkillDataTable : DataTable
             {
                 Debug.LogError("캐릭터 ID 아이디 중복!");
             }
-
         }
-
     }
     public SkillData Get(int id)
     {

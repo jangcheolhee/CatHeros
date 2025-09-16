@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
+
 public class Player : LivingEntity
 {
 
@@ -19,6 +20,7 @@ public class Player : LivingEntity
     public CharacterData characterData;
     public SkillData basicAttack { get; private set; }
     public SkillData skillData { get; private set; }
+    public EffectData skillEffect { get; private set; }
 
     public int Max_HP
     {
@@ -31,7 +33,7 @@ public class Player : LivingEntity
     {
         get
         {
-            return (int)(characterData.Base_ATK * basicAttack.Power_Coeff_ATK);
+            return (int)(characterData.Base_ATK * basicAttack.Power_Coeff_ATK );
         }
     }
     public int SkillDamage
@@ -59,14 +61,14 @@ public class Player : LivingEntity
     }  // Tanker인지   
 
 
-    private Enemy target;
-    private LivingEntity skillTarget;
+
+    private LivingEntity target;
+
     private float attackTimer;
     private float AttackInterval
     {
         get
         {
-           
             return basicAttack.Base_SPD / (1 + Speed / basicAttack.SPD_Factor);
         }
     }
@@ -87,6 +89,10 @@ public class Player : LivingEntity
         characterData = DataTableManger.CharacterTable.Get(character_ID);
         basicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
         skillData = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
+        if (int.TryParse(skillData.Effect_1_ID, out int id))
+        {
+            skillEffect = DataTableManger.EffectTable.Get(4409);
+        }
         spriteLibrary.spriteLibraryAsset = spriteAssets[idx];
         spriteLibrary.RefreshSpriteResolvers();
         Debug.Log(AttackInterval);
@@ -94,11 +100,11 @@ public class Player : LivingEntity
         OnDamage(0);
 
     }
-    
 
-    // Update is called once per frame
-    private void Update()
+
+    protected override void Update()
     {
+        base.Update();
         if (IsDead) return;
         if (target == null || target.IsDead)
         {
@@ -106,9 +112,9 @@ public class Player : LivingEntity
             FindTarget();
         }
         attackTimer += Time.deltaTime;
-        //skillTimer += Time.deltaTime;
 
-        if (target && attackTimer > AttackInterval) // <- 수정 필요
+
+        if (target && attackTimer > AttackInterval)
         {
             attackTimer = 0;
             Attack();
@@ -124,7 +130,10 @@ public class Player : LivingEntity
     {
         //animator.SetBool("IsSkill", true);
         target.OnDamage(SkillDamage);
-
+        if (skillEffect != null)
+        {
+            target.AddStatus(skillEffect.Effect_Type, float.Parse(skillData.Effect_1_Duration) / 1000);
+        }
         Debug.Log($"스킬 사용");
     }
 
@@ -135,6 +144,7 @@ public class Player : LivingEntity
             target = battleManager.AliveEnemies[0];
         }
     }
+
     protected override void Die()
     {
         base.Die();

@@ -26,9 +26,14 @@ public static class DataTableManger
         var waveTable = new WaveTable();
         waveTable.Load(DataTableIds.Wave);
         tables.Add(DataTableIds.Wave, waveTable);
+
         var monsterTable = new MonsterTable();
         monsterTable.Load(DataTableIds.Monster);
         tables.Add(DataTableIds.Monster, monsterTable);
+
+        var effectTable = new EffectTable();
+        effectTable.Load(DataTableIds.Effect);
+        tables.Add (DataTableIds.Effect, effectTable);
 #if UNITY_EDITOR
 
 
@@ -72,6 +77,13 @@ public static class DataTableManger
         get
         {
             return Get<MonsterTable>(DataTableIds.Monster);
+        }
+    }
+    public static EffectTable EffectTable
+    {
+        get
+        {
+            return Get<EffectTable>(DataTableIds.Effect);
         }
     }
     public static T Get<T>(string id) where T : DataTable

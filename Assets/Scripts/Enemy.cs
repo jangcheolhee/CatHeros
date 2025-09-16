@@ -63,8 +63,9 @@ public class Enemy : LivingEntity
 
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (IsDead) return;
 
         if (target == null || target.IsDead)
