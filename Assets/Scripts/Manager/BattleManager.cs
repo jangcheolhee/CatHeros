@@ -36,7 +36,7 @@ public class BattleManager : MonoBehaviour
     public bool IsAuto {  get; private set; }
     private void Start()
     {
-
+        Time.timeScale = 1f;
         characterFrontIds = new int[] { 10101, 10102  };// <- 덱 구성한대로 들어가게하기
         characterBackIds = new int[] {  10103, 10104, 10105 };
 

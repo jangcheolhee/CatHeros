@@ -8,7 +8,9 @@ using UnityEngine.U2D.Animation;
 
 public class Player : LivingEntity
 {
-
+    private readonly int isDie = Animator.StringToHash("IsDie");
+    private readonly int isAttack = Animator.StringToHash("IsAttack");
+    private readonly int isSkill = Animator.StringToHash("IsSkill");
     private int level;
 
   
@@ -127,7 +129,7 @@ public class Player : LivingEntity
     }
     private void Attack()
     {
-        animator.SetTrigger("IsAttack");
+        animator.SetTrigger(isAttack);
         if (target != null)
             target.OnDamage(AttackDamage);
         
@@ -135,7 +137,7 @@ public class Player : LivingEntity
     public void UseSkill()
     {
 
-        animator.SetTrigger("IsSkill");
+        animator.SetTrigger(isSkill);
         target.OnDamage(SkillDamage);
         DamageTextSpawner.Instance.SpawnDamageText(SkillData.Skill_Name, transform.position + Vector3.up * 1.2f);
 
@@ -162,7 +164,7 @@ public class Player : LivingEntity
     }
     protected override void Die()
     {
-        animator.SetTrigger("IsDie");
+        animator.SetTrigger(isDie);
         base.Die();
     }
     private IEnumerator CorDamage()

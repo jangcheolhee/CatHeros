@@ -93,7 +93,7 @@ public class Enemy : LivingEntity
         if(!IsStunned)
         {
             attackTimer += Time.deltaTime;
-            Debug.Log(attackTimer);
+            
         }
         
         if (target && attackTimer > AttackInterval)

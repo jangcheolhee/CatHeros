@@ -554,8 +554,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -38.299988, y: -320.99997}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -204.6, y: -298.5}
+  m_SizeDelta: {x: 70, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &214149524
 MonoBehaviour:
@@ -633,7 +633,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2110,7 +2110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontSize
-      value: 36
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontStyle
@@ -2130,7 +2130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontSizeBase
-      value: 36
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_sharedMaterial
@@ -2139,6 +2139,10 @@ PrefabInstance:
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -2653,7 +2657,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontSize
-      value: 36
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontStyle
@@ -2673,7 +2677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontSizeBase
-      value: 36
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_sharedMaterial
@@ -2682,6 +2686,10 @@ PrefabInstance:
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -2819,11 +2827,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2908,6 +2916,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -3612994437931734774, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
+    - {fileID: 6236335995167515265, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       insertIndex: -1
@@ -3188,11 +3197,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3277,6 +3286,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -3612994437931734774, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
+    - {fileID: 6236335995167515265, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       insertIndex: -1
@@ -3302,7 +3312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontSize
-      value: 36
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontStyle
@@ -3322,7 +3332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontSizeBase
-      value: 36
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_sharedMaterial
@@ -3331,6 +3341,10 @@ PrefabInstance:
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190080
+      objectReference: {fileID: 0}
+    - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 1511258726242539497, guid: 7aab1271a877f73428c1772b13edb0a5, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -3468,11 +3482,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3557,6 +3571,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -3612994437931734774, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
+    - {fileID: 6236335995167515265, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       insertIndex: -1
@@ -4237,8 +4252,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -217, y: -321}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -292.9, y: -298.5}
+  m_SizeDelta: {x: 70, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676594104
 MonoBehaviour:
@@ -4279,7 +4294,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1676594105}
   m_OnClick:
     m_PersistentCalls:
@@ -4304,7 +4319,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5184,7 +5199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 210
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5237,6 +5252,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -3612994437931734774, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
+    - {fileID: 6236335995167515265, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       insertIndex: -1
@@ -5779,7 +5795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -210
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5832,6 +5848,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -3612994437931734774, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
+    - {fileID: 6236335995167515265, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 501203063372666881, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       insertIndex: -1
