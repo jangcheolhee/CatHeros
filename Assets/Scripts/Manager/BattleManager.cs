@@ -12,7 +12,7 @@ public class BattleManager : MonoBehaviour
 
     public event Action<float> OnTimeChanged;
 
-    public GameObject Prefab;
+    public GameObject PlayerPrefab;
     public GameObject Enemy;
 
  
@@ -20,8 +20,7 @@ public class BattleManager : MonoBehaviour
     public Transform playerBack;// BattleWorld
     public Transform enemyFront;  // BattleWorld
     public Transform enemyBack ;
-    private int[] characterFrontIds;
-    private int[] characterBackIds;
+    
     
     public List<Player> Players { get; private set; } = new List<Player>();
 
@@ -37,8 +36,7 @@ public class BattleManager : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1f;
-        characterFrontIds = new int[] { 10101, 10102  };// <- 덱 구성한대로 들어가게하기
-        characterBackIds = new int[] {  10103, 10104, 10105 };
+        
 
         var stageData = DataTableManger.StageTable.Get(3801);
         totalWave = stageData.MaxWaveCount;
@@ -81,35 +79,52 @@ public class BattleManager : MonoBehaviour
 
     private void SpawnParty()
     {
-        
-        for (int i = 0; i < characterFrontIds.Length; i++)
+
+        //for (int i = 0; i < characterFrontIds.Length; i++)
+        //{
+        //    Transform slot = playerFront.GetChild(i);
+
+        //    GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerFront.parent);
+        //    Player player = obj.GetComponent<Player>();
+
+        //    player.Setup(characterFrontIds[i]);
+        //    player.battleManager = this;
+        //    player.OnDeath += () => Players.Remove(player);
+        //    player.OnDeath += () => Destroy(player.gameObject, 1);
+
+        //    Players.Add(player);
+        //}
+        //for (int i = 0; i < characterBackIds.Length; i++)
+        //{
+        //    Transform slot = playerBack.GetChild(i);
+
+        //    GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerBack.parent);
+        //    Player player = obj.GetComponent<Player>();
+
+        //    player.Setup(characterBackIds[i]);
+            
+        //}
+        foreach (var slot in GameManager.Instance.PartySlots)
         {
-            Transform slot = playerFront.GetChild(i);
-            
-            GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerFront.parent);
+            Vector3 pos = GetSlotPosition(slot.row, slot.index);
+            GameObject obj = Instantiate(PlayerPrefab, pos, Quaternion.identity);
+
             Player player = obj.GetComponent<Player>();
-            
-            player.Setup(characterFrontIds[i]);
+            player.Setup(slot.characterId);
             player.battleManager = this;
             player.OnDeath += () => Players.Remove(player);
             player.OnDeath += () => Destroy(player.gameObject, 1);
 
             Players.Add(player);
+            Debug.Log($"{slot.characterId} → {slot.row} {slot.index} 위치 배치");
         }
-        for (int i = 0; i < characterBackIds.Length; i++)
-        {
-            Transform slot = playerBack.GetChild(i);
-
-            GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerBack.parent);
-            Player player = obj.GetComponent<Player>();
-
-            player.Setup(characterBackIds[i]);
-            player.battleManager = this;
-            player.OnDeath += () => Players.Remove(player);
-            player.OnDeath += () => Destroy(player.gameObject,1);
-
-            Players.Add(player);
-        }
+    }
+    private Vector3 GetSlotPosition(FormationRow row, int index)
+    {
+        if (row == FormationRow.Front)
+            return playerFront.GetChild(index).position;
+        else
+            return playerBack.GetChild(index).position;
     }
     private IEnumerator SpawnWaveWithDelay(int waveIndex, float delay)
     {

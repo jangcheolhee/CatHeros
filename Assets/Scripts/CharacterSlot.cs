@@ -1,47 +1,55 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class CharacterSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    private RectTransform rectTransform;
-    private CanvasGroup canvasGroup;
-    private Canvas canvas;
-    private Vector3 originalPosition;
-
     
-
+    private GameObject draggingIcon;
+    private Canvas canvas;
+    private CanvasGroup canvasGroup;
     public int characterID;
- 
+
+    public bool IsAssigned { get; private set; } = false; 
+    private Image image;
 
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
-        
+        canvasGroup = GetComponent<CanvasGroup>();
+        image = GetComponent<Image>();
+    }
+
+    public void SetAssigned(bool assigned)
+    {
+        IsAssigned = assigned;
+        if (image != null)
+            image.color = assigned ? new Color(1, 1, 1, 0.5f) : Color.white; 
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        originalPosition = rectTransform.position;
-        canvasGroup.blocksRaycasts = false;
+        if (IsAssigned) return; 
+
+        
+        draggingIcon = Instantiate(gameObject, canvas.transform);
+       
+        var cg = draggingIcon.GetComponent<CanvasGroup>();
+        if (cg == null) cg = draggingIcon.AddComponent<CanvasGroup>();
+        cg.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        if (draggingIcon != null)
+            draggingIcon.transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = true;
-
-        // 드롭 실패하면 원위치 복귀
-        if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<DropSlot>() == null)
-        {
-            rectTransform.position = originalPosition;
-        }
+        if (draggingIcon != null)
+            Destroy(draggingIcon);
     }
 }

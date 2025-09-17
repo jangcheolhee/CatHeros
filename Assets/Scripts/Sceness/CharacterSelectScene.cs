@@ -22,5 +22,19 @@ public class CharacterSelectScene : MonoBehaviour
             icon.GetComponentInChildren<TextMeshProUGUI>().text = DataTableManger.CharacterTable.Get(charId).Name;
         }
     }
+    public void OnClickConfirm()
+    {
+        //if (GameManager.Instance.PartySlots.Count == 0)
+        //{
+        //    Debug.LogWarning("파티가 비어 있음!");
+        //    return;
+        //}
+
+        SceneManager.LoadScene("Game");
+    }
+    public void OnClickBack()
+    {
+        SceneManager.LoadScene("Main");
+    }
 
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8648599530998584203}
   - component: {fileID: 2209246764886398839}
   - component: {fileID: 1519267939204809862}
+  - component: {fileID: -3642840357391214472}
   m_Layer: 5
   m_Name: DropSlot
   m_TagString: Untagged
@@ -59,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -88,3 +89,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cfa2114da98fcd4ea7641ee5211f80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
+--- !u!114 &-3642840357391214472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255706951527696496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a978cb4905dddfd469294b8d81f13b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Source: {fileID: 0}
