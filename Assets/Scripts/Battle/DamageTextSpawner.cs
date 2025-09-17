@@ -13,7 +13,7 @@ public class DamageTextSpawner : MonoBehaviour
         Instance = this;
     }
 
-    public void SpawnDamageText(int damage, Vector3 worldPosition)
+    public void SpawnDamageText(string damage, Vector3 worldPosition)
     {
         if (damageTextPrefab == null || worldCanvas == null) return;
 

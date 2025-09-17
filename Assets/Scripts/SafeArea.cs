@@ -45,7 +45,7 @@ public class SafeArea : MonoBehaviour
     private Rect GetSafeArea()
     {
 
-        return new Rect(132, 102, 2172, 1023);
+        return Screen.safeArea;
 
     }
 }

@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
@@ -15,11 +16,15 @@ public class BattleManager : MonoBehaviour
     public GameObject Enemy;
 
  
-    public Transform playerParent; // BattleWorld
-    public Transform enemyParent;  // BattleWorld
-
-    private int[] characterIds;
+    public Transform playerFront;
+    public Transform playerBack;// BattleWorld
+    public Transform enemyFront;  // BattleWorld
+    public Transform enemyBack ;
+    private int[] characterFrontIds;
+    private int[] characterBackIds;
+    
     public List<Player> Players { get; private set; } = new List<Player>();
+
     public int currentWave = 0;
     private int totalWave ;
     public List<Enemy> AliveEnemies { get; private set; } = new List<Enemy>();
@@ -31,8 +36,10 @@ public class BattleManager : MonoBehaviour
     public bool IsAuto {  get; private set; }
     private void Start()
     {
-        
-        characterIds = new int[] { 10101, 10102, 10103, 10104 };
+
+        characterFrontIds = new int[] { 10101, 10102  };// <- 덱 구성한대로 들어가게하기
+        characterBackIds = new int[] {  10103, 10104, 10105 };
+
         var stageData = DataTableManger.StageTable.Get(3801);
         totalWave = stageData.MaxWaveCount;
         Waves = DataTableManger.WaveTable.Get(stageData.StageID);
@@ -75,17 +82,32 @@ public class BattleManager : MonoBehaviour
     private void SpawnParty()
     {
         
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < characterFrontIds.Length; i++)
         {
-            Transform slot = playerParent.GetChild(i);
+            Transform slot = playerFront.GetChild(i);
             
-            GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerParent.parent);
+            GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerFront.parent);
             Player player = obj.GetComponent<Player>();
             
-            player.Setup(characterIds[i]);
+            player.Setup(characterFrontIds[i]);
             player.battleManager = this;
             player.OnDeath += () => Players.Remove(player);
-            
+            player.OnDeath += () => Destroy(player.gameObject, 1);
+
+            Players.Add(player);
+        }
+        for (int i = 0; i < characterBackIds.Length; i++)
+        {
+            Transform slot = playerBack.GetChild(i);
+
+            GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerBack.parent);
+            Player player = obj.GetComponent<Player>();
+
+            player.Setup(characterBackIds[i]);
+            player.battleManager = this;
+            player.OnDeath += () => Players.Remove(player);
+            player.OnDeath += () => Destroy(player.gameObject,1);
+
             Players.Add(player);
         }
     }
@@ -107,17 +129,31 @@ public class BattleManager : MonoBehaviour
             Debug.Log($"웨이브 {currentWave + 1} 시작!");
             battleUIManager.UpdateWaveText(currentWave + 1, totalWave);
             var waveq = Waves[wave];
-            int i = 0;
+            int f = 0;
+            int b = 0;
             foreach (var enemys in waveq.Enemies)
             {
-                Transform slot = enemyParent.GetChild(i++);
-                GameObject obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyParent);
+                Transform slot;
+                GameObject obj;
+                if (enemys.Position == "Front")
+                {
+                    slot = enemyFront.GetChild(f++);
+                    obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyFront);
+
+
+                }
+                else 
+                {
+                    slot = enemyBack.GetChild(b++);
+                    obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyBack);
+                }
+                    
                 Enemy enemy = obj.GetComponent<Enemy>();
                 enemy.Setup(enemys.Monster_ID);
                 AliveEnemies.Add(enemy);
                 enemy.battleManager = this;
                 enemy.OnDeath += () => AliveEnemies.Remove(enemy);
-                enemy.OnDeath += () => Destroy(enemy.gameObject);
+                enemy.OnDeath += () => Destroy(enemy.gameObject,1);
             }
 
             currentWave++;

@@ -20,6 +20,7 @@ public class BattleUIManager : MonoBehaviour
     private void Start()
     {
         battleManager.OnTimeChanged += UpdateTimerUI;
+        Debug.Log(playerHpSliders.Count);
         for (int i = 0; i < playerHpSliders.Count; i++)
         {
             if (i < battleManager.Players.Count)
@@ -41,7 +42,8 @@ public class BattleUIManager : MonoBehaviour
                 player.OnDeath += () =>
                 {
                     playerHpSliders[index].gameObject.SetActive(false);
-                    skillButtons[index].gameObject.SetActive(false);
+                    //skillButtons[index].gameObject.SetActive(false);
+                    skillButtons[index].button.interactable = false;
                 };
 
 

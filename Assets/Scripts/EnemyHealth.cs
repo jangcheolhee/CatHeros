@@ -40,4 +40,9 @@ public class EnemyHealth : MonoBehaviour
         if (healthSlider != null)
             healthSlider.gameObject.SetActive(false);
     }
+    public void Refresh()
+    {
+        if (enemy != null)
+            UpdateHealthUI(enemy.CurrentHP, enemy.MaxHP);
+    }
 }

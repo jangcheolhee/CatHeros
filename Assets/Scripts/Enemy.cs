@@ -1,11 +1,24 @@
+using System.Collections;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public class Enemy : LivingEntity
 {
+    private Animator animator;
+
     public MonsterData monsterData;
     public SkillData basicAttack { get; private set; }
     public SkillData skillData { get; private set; }
+    private SpriteRenderer spriteRenderer;
+    private Color originColor;
 
+    public int Max_HP
+    {
+        get
+        {
+            return monsterData.M_Base_HP;
+        }
+    }
     public int AttackDamage
     {
         get
@@ -43,7 +56,7 @@ public class Enemy : LivingEntity
         get
         {
 
-            return Speed / (1 + basicAttack.Base_SPD / basicAttack.SPD_Factor);
+            return basicAttack.Base_SPD / (1 + Speed / basicAttack.SPD_Factor);
         }
     }
 
@@ -53,13 +66,20 @@ public class Enemy : LivingEntity
 
     private void Awake()
     {
-       
+       animator=GetComponent<Animator>();
+        spriteRenderer=GetComponent<SpriteRenderer>();
+        originColor = spriteRenderer.color;
     }
     public void Setup(int monster_ID)
     {
         monsterData = DataTableManger.MonsterTable.Get(monster_ID);
         basicAttack = DataTableManger.SkillTable.Get(monsterData.M_Basic_attack_ID);
         skillData = DataTableManger.SkillTable.Get(monsterData.M_Skill_Set_ID);
+
+        MaxHP = Max_HP;
+
+        var health = GetComponent<EnemyHealth>();
+        if (health != null) health.Refresh();
 
     }
 
@@ -73,6 +93,7 @@ public class Enemy : LivingEntity
         if(!IsStunned)
         {
             attackTimer += Time.deltaTime;
+            Debug.Log(attackTimer);
         }
         
         if (target && attackTimer > AttackInterval)
@@ -88,6 +109,7 @@ public class Enemy : LivingEntity
 
     private void Attack()
     {
+        animator.SetTrigger("IsAttack");
         if (target != null)
             target.OnDamage(AttackDamage);
     }
@@ -97,6 +119,11 @@ public class Enemy : LivingEntity
         //target.OnDamage(skill.damage);
 
         Debug.Log($"스킬 사용");
+    }
+    public override void OnDamage(int damage)
+    {
+        StartCoroutine(CorDamage());
+        base.OnDamage(damage);
     }
 
     private void FindTarget()
@@ -109,8 +136,16 @@ public class Enemy : LivingEntity
 
     protected override void Die()
     {
+        
         base.Die();
+        animator.SetTrigger("IsDie");
         
-        
+    }
+    private IEnumerator CorDamage()
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = originColor; ;
+
     }
 }

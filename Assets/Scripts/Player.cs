@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
@@ -10,10 +11,11 @@ public class Player : LivingEntity
 
     private int level;
 
-    public List<SpriteLibraryAsset> spriteAssets = new List<SpriteLibraryAsset>();
+  
     private Animator animator;
     private AudioSource audioSource;
-    private SpriteLibrary spriteLibrary;
+    private SpriteRenderer spriteRenderer;
+    private Color originColor;
 
 
 
@@ -53,7 +55,6 @@ public class Player : LivingEntity
     }
     public int Defence { get; private set; }
 
-
     public string Position
     {
         get
@@ -61,8 +62,6 @@ public class Player : LivingEntity
             return characterData.Position;
         }
     }  // Tanker¿Œ¡ˆ   
-
-
 
     private LivingEntity target;
 
@@ -81,16 +80,13 @@ public class Player : LivingEntity
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        spriteLibrary = GetComponentInChildren<SpriteLibrary>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originColor = spriteRenderer.color;
     }
     public void Setup(int character_ID)
     {
-
-        int idx = character_ID - 10101;
-        spriteLibrary.spriteLibraryAsset = spriteAssets[idx];
-        spriteLibrary.RefreshSpriteResolvers();
 
         characterData = DataTableManger.CharacterTable.Get(character_ID);
         BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
@@ -98,7 +94,6 @@ public class Player : LivingEntity
         if (int.TryParse(SkillData.Effect_1_ID, out int id))
         {
             SkillEffect = DataTableManger.EffectTable.Get(id);
-            
         }
 
         MaxHP = Max_HP;
@@ -132,17 +127,26 @@ public class Player : LivingEntity
     }
     private void Attack()
     {
-        
+        animator.SetTrigger("IsAttack");
         if (target != null)
             target.OnDamage(AttackDamage);
+        
     }
     public void UseSkill()
     {
-       
+
+        animator.SetTrigger("IsSkill");
         target.OnDamage(SkillDamage);
-        target.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(SkillData.Effect_1_Duration) / 1000);
+        DamageTextSpawner.Instance.SpawnDamageText(SkillData.Skill_Name, transform.position + Vector3.up * 1.2f);
+
+        if (SkillEffect != null)
+        {
+            
+            target.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(SkillData.Effect_1_Duration) / 1000);
+        }
         skillTimer = 0;
     }
+    
 
     private void FindTarget()
     {
@@ -151,10 +155,22 @@ public class Player : LivingEntity
             target = battleManager.AliveEnemies[0];
         }
     }
-
+    public override void OnDamage(int damage)
+    {
+        StartCoroutine(CorDamage());
+        base.OnDamage(damage);
+    }
     protected override void Die()
     {
+        animator.SetTrigger("IsDie");
         base.Die();
+    }
+    private IEnumerator CorDamage()
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = originColor; ;
+
     }
 
 }

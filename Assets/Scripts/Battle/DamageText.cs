@@ -14,9 +14,9 @@ public class DamageText : MonoBehaviour
         startColor = text.color;
     }
 
-    public void SetText(int damage)
+    public void SetText(string damage)
     {
-        text.text = damage.ToString();
+        text.text = damage;
     }
 
     private void Update()

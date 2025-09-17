@@ -118,7 +118,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
 
         CurrentHP -= damage;
         if (CurrentHP < 0) CurrentHP = 0;
-        DamageTextSpawner.Instance.SpawnDamageText(damage, transform.position + Vector3.up * 1.5f);
+        DamageTextSpawner.Instance.SpawnDamageText(damage.ToString(), transform.position + Vector3.up);
 
         OnHealthChanged?.Invoke(CurrentHP, MaxHP);
 
@@ -132,6 +132,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
         while (HasStatus(effect))
         {
             OnDamage(damage);
+
             yield return new WaitForSeconds(interval);
         }
     }
@@ -141,7 +142,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
         while (HasStatus(effect))
         {
             Heal(healAmount);
-            Debug.Log(12);
+            DamageTextSpawner.Instance.SpawnDamageText("Heal", transform.position + Vector3.up);
             yield return new WaitForSeconds(interval);
         }
     }
