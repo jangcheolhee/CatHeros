@@ -13,7 +13,7 @@ public class Player : LivingEntity
     private readonly int isSkill = Animator.StringToHash("IsSkill");
     private int level;
 
-  
+
     private Animator animator;
     private AudioSource audioSource;
     private SpriteRenderer spriteRenderer;
@@ -26,7 +26,7 @@ public class Player : LivingEntity
     public SkillData SkillData { get; private set; }
     public EffectData SkillEffect { get; private set; } = null;
 
-    
+
     public int Max_HP
     {
         get
@@ -38,7 +38,7 @@ public class Player : LivingEntity
     {
         get
         {
-            return (int)((characterData.Base_ATK + AddAttack) * BasicAttack.Power_Coeff_ATK );
+            return (int)((characterData.Base_ATK + AddAttack) * BasicAttack.Power_Coeff_ATK);
         }
     }
     public int SkillDamage
@@ -66,6 +66,7 @@ public class Player : LivingEntity
     }  // Tanker¿Œ¡ˆ   
 
     private LivingEntity target;
+    private LivingEntity skillTarget;
 
     private float attackTimer;
     private float skillTimer;
@@ -79,7 +80,7 @@ public class Player : LivingEntity
 
     public BattleManager battleManager;
 
-    
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -126,7 +127,7 @@ public class Player : LivingEntity
             attackTimer = 0;
             Attack();
         }
-        if(target && battleManager.IsAuto && skillTimer > SkillData.Cooldown)
+        if (target && battleManager.IsAuto && skillTimer > SkillData.Cooldown)
         {
             AutoUseSkill();
         }
@@ -136,21 +137,25 @@ public class Player : LivingEntity
         animator.SetTrigger(isAttack);
         if (target != null)
             target.OnDamage(AttackDamage);
-        
+
     }
     public void UseSkill()
     {
 
+        FindSkillTarget();
+
         animator.SetTrigger(isSkill);
-        target.OnDamage(SkillDamage);
+        skillTarget.OnDamage(SkillDamage);
         DamageTextSpawner.Instance.SpawnDamageText(SkillData.Skill_Name, transform.position + Vector3.up * 1.2f);
 
         if (SkillEffect != null)
         {
-            
-            target.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(SkillData.Effect_1_Duration) / 1000);
+
+            skillTarget.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(SkillData.Effect_1_Duration) / 1000);
         }
         skillTimer = 0;
+
+
     }
     public void AutoUseSkill()
     {
@@ -158,7 +163,7 @@ public class Player : LivingEntity
         int idx = -1;
 
         idx = battleManager.Players[FormationRow.Front].IndexOf(this);
-        if(idx == -1)
+        if (idx == -1)
         {
             idx = battleManager.Players[FormationRow.Rear].IndexOf(this);
         }
@@ -171,10 +176,10 @@ public class Player : LivingEntity
 
     private void FindTarget()
     {
-        FormationRow priorityRow = FormationRow.Front ;
-        FormationRow backupRow =  FormationRow.Rear ;
+        FormationRow priorityRow = FormationRow.Front;
+        FormationRow backupRow = FormationRow.Rear;
 
-        
+
         if (battleManager.AliveEnemies.ContainsKey(priorityRow))
         {
             foreach (var enemy in battleManager.AliveEnemies[priorityRow])
@@ -186,8 +191,6 @@ public class Player : LivingEntity
                 }
             }
         }
-
-        
         if (battleManager.AliveEnemies.ContainsKey(backupRow))
         {
             foreach (var enemy in battleManager.AliveEnemies[backupRow])
@@ -199,9 +202,26 @@ public class Player : LivingEntity
                 }
             }
         }
-
-        
         target = null;
+    }
+    private void FindSkillTarget()
+    {
+        if (SkillData.Effect_1_Target == "1")
+        {
+            skillTarget = null;
+            foreach (var player in battleManager.Players[FormationRow.Front])
+            {
+                if (player != null && !player.IsDead) { skillTarget = player; return; }
+            }
+            foreach (var player in battleManager.Players[FormationRow.Rear])
+            {
+                if (player != null && !player.IsDead) { skillTarget = player; return; }
+            }
+
+        }
+
+        skillTarget = target;
+
     }
     public override void OnDamage(int damage)
     {

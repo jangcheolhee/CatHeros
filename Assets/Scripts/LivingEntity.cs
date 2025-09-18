@@ -77,7 +77,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
                 StartCoroutine(DoTCoroutine(5, 1f, effect));
                 break;
             case StatusEffect.Heal:
-                Debug.Log("Heal");
+                Debug.Log($"Heal {duration}");
                 StartCoroutine(HotCoroutine(500, 1f, effect));
        
                 break;
