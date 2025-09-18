@@ -15,35 +15,35 @@ public class BattleManager : MonoBehaviour
     public GameObject PlayerPrefab;
     public GameObject Enemy;
 
- 
+
     public Transform playerFront;
     public Transform playerBack;// BattleWorld
     public Transform enemyFront;  // BattleWorld
-    public Transform enemyBack ;
-    
-    
+    public Transform enemyBack;
+
+
     public List<Player> Players { get; private set; } = new List<Player>();
 
     public int currentWave = 0;
-    private int totalWave ;
+    private int totalWave;
     public List<Enemy> AliveEnemies { get; private set; } = new List<Enemy>();
     public List<WaveData> Waves { get; private set; }
     private bool spawningWave = false;
 
     public BattleUIManager battleUIManager;
     public UIManager uiManager;
-    public bool IsAuto {  get; private set; }
+    public bool IsAuto { get; private set; }
     private void Start()
     {
         Time.timeScale = 1f;
-        
+
 
         var stageData = DataTableManger.StageTable.Get(3801);
         totalWave = stageData.MaxWaveCount;
         Waves = DataTableManger.WaveTable.Get(stageData.StageID);
         remainTime = battleDuration;
         SpawnParty();
-        
+
     }
     private void Update()
     {
@@ -54,6 +54,17 @@ public class BattleManager : MonoBehaviour
 
             OnTimeChanged?.Invoke(remainTime);
         }
+        else
+        {
+            uiManager.ShowPanel("DefeatPanel", true);
+            return;
+        }
+        if (Players.TrueForAll(p => p.IsDead))
+        {
+            Debug.Log("전투 패배...");
+            uiManager.ShowPanel("DefeatPanel", true);
+            return;
+        }
         if (spawningWave || AliveEnemies.Count > 0) return;
 
         if (AliveEnemies.Count == 0)
@@ -61,19 +72,14 @@ public class BattleManager : MonoBehaviour
             if (currentWave >= totalWave)
             {
                 Debug.Log("전투 승리!");
-                uiManager.ShowPanel("EndPanel", true);
+                uiManager.ShowPanel("VictoryPanel", true);
                 return;
             }
-            if (Players.TrueForAll(p => p.IsDead))
-            {
-                Debug.Log("전투 패배...");
-                uiManager?.ShowPanel("EndPanel", true);
-                return;
-            }
+            
             StartCoroutine(SpawnWaveWithDelay(currentWave, Waves[currentWave].Spawn_Delay * 0.001f));
         }
-
         
+
     }
 
 
@@ -132,18 +138,18 @@ public class BattleManager : MonoBehaviour
 
 
                 }
-                else 
+                else
                 {
                     slot = enemyBack.GetChild(b++);
                     obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyBack);
                 }
-                    
+
                 Enemy enemy = obj.GetComponent<Enemy>();
                 enemy.Setup(enemys.Monster_ID);
                 AliveEnemies.Add(enemy);
                 enemy.battleManager = this;
                 enemy.OnDeath += () => AliveEnemies.Remove(enemy);
-                enemy.OnDeath += () => Destroy(enemy.gameObject,1);
+                enemy.OnDeath += () => Destroy(enemy.gameObject, 1);
             }
 
             currentWave++;
@@ -154,7 +160,7 @@ public class BattleManager : MonoBehaviour
     {
         IsAuto = !IsAuto;
     }
-    
+
 
 }
 

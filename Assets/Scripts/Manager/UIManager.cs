@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
             if (entry.panel != null)
             {
                 panelDict[entry.name] = entry.panel;
-                entry.panel.SetActive(false); // Ω√¿€ Ω√ º˚±Ë
+                entry.panel.SetActive(false); 
             }
         }
     }
@@ -95,6 +95,10 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         Application.Quit();
-        Debug.Log("∞‘¿” ¡æ∑·");
+    }
+    public void ExitGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("CharacterSelect");
     }
 }

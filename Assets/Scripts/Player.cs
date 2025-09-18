@@ -122,7 +122,7 @@ public class Player : LivingEntity
             attackTimer = 0;
             Attack();
         }
-        if(battleManager.IsAuto && skillTimer > SkillData.Cooldown)
+        if(target && battleManager.IsAuto && skillTimer > SkillData.Cooldown)
         {
             AutoUseSkill();
         }
