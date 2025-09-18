@@ -173,6 +173,7 @@ public class BattleManager : MonoBehaviour
     public void OnAuto()
     {
         IsAuto = !IsAuto;
+        uiManager.ChageAutoText(IsAuto);
     }
 
 

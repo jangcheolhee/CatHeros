@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
 
+    public TextMeshProUGUI speed;
+    public TextMeshProUGUI autoText;
     [System.Serializable]
     public class PanelEntry
     {
@@ -77,10 +80,23 @@ public class UIManager : MonoBehaviour
         if(timeSpeed)
         {
             Time.timeScale = 2f;
+            speed.text = "2배속";
         }
         else
         {
             Time.timeScale = 1f;
+            speed.text = "1배속";
+        }
+    }
+    public void ChageAutoText(bool auto)
+    {
+        if(auto)
+        {
+            autoText.text = "자동";
+        }
+        else
+        {
+            autoText.text = "수동";
         }
     }
 
