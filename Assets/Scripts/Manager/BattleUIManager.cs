@@ -10,6 +10,7 @@ public class BattleUIManager : MonoBehaviour
     public BattleManager battleManager;
     public TextMeshProUGUI waveText;
     public TextMeshProUGUI timerText;
+    private Sprite spriteIcon;
 
     public void UpdateWaveText(int current, int total)
     {
@@ -31,8 +32,9 @@ public class BattleUIManager : MonoBehaviour
 
                 float skillCooldown = player.SkillData.Cooldown;
                 skillButtons[index].Setup(player, skillCooldown);
-
-
+                spriteIcon = Resources.Load<Sprite>($"Icon/{player.characterData.Character_ID}");
+                skillButtons[index].skillText.text = $"{player.characterData.Name}\n{player.SkillData.Skill_Name}";
+                skillButtons[index].icon.sprite = spriteIcon;
                 player.OnHealthChanged += (current, max) =>
                 {
                     playerHpSliders[index].value = current / max;

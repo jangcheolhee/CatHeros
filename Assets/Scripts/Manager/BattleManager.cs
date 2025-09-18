@@ -80,30 +80,6 @@ public class BattleManager : MonoBehaviour
     private void SpawnParty()
     {
 
-        //for (int i = 0; i < characterFrontIds.Length; i++)
-        //{
-        //    Transform slot = playerFront.GetChild(i);
-
-        //    GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerFront.parent);
-        //    Player player = obj.GetComponent<Player>();
-
-        //    player.Setup(characterFrontIds[i]);
-        //    player.battleManager = this;
-        //    player.OnDeath += () => Players.Remove(player);
-        //    player.OnDeath += () => Destroy(player.gameObject, 1);
-
-        //    Players.Add(player);
-        //}
-        //for (int i = 0; i < characterBackIds.Length; i++)
-        //{
-        //    Transform slot = playerBack.GetChild(i);
-
-        //    GameObject obj = Instantiate(Prefab, slot.position, Quaternion.identity, playerBack.parent);
-        //    Player player = obj.GetComponent<Player>();
-
-        //    player.Setup(characterBackIds[i]);
-            
-        //}
         foreach (var slot in GameManager.Instance.PartySlots)
         {
             Vector3 pos = GetSlotPosition(slot.row, slot.index);
@@ -116,7 +92,6 @@ public class BattleManager : MonoBehaviour
             player.OnDeath += () => Destroy(player.gameObject, 1);
 
             Players.Add(player);
-            Debug.Log($"{slot.characterId} → {slot.row} {slot.index} 위치 배치");
         }
     }
     private Vector3 GetSlotPosition(FormationRow row, int index)
@@ -174,6 +149,10 @@ public class BattleManager : MonoBehaviour
             currentWave++;
         }
 
+    }
+    public void OnAuto()
+    {
+        IsAuto = !IsAuto;
     }
 
 }

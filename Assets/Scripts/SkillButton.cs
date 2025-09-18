@@ -7,8 +7,10 @@ public class SkillButton : MonoBehaviour
 {
     
     public Button button;
+    public Image icon;
     public Image cooldownOverlay;        
-    public TextMeshProUGUI cooldownText; 
+    public TextMeshProUGUI cooldownText;
+    public TextMeshProUGUI skillText;
 
     private Player player;  
     private float cooldown;

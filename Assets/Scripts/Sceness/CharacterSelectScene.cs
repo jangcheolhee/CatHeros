@@ -9,6 +9,7 @@ public class CharacterSelectScene : MonoBehaviour
     private int[] charIds = new int[] { 10101, 10102, 10103, 10104, 10105, 10101, 10102, 10103, 10104, 10105 };
     public GameObject iconPrefab;
     public Transform scrollViewContent;
+    public Sprite spriteIcon;
 
     private void Start()
     {
@@ -18,7 +19,9 @@ public class CharacterSelectScene : MonoBehaviour
             GameObject icon = Instantiate(iconPrefab, scrollViewContent);
             CharacterSlot charSlot = icon.GetComponent<CharacterSlot>();
             charSlot.characterID = charId;
-
+            spriteIcon = Resources.Load<Sprite>($"icon/{charId}");
+           
+            charSlot.icon.sprite = spriteIcon;
             icon.GetComponentInChildren<TextMeshProUGUI>().text = DataTableManger.CharacterTable.Get(charId).Name;
         }
     }

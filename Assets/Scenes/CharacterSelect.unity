@@ -450,6 +450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconPrefab: {fileID: 1261993827700550058, guid: aa8ce01f94c3a6942ab40092a490227d, type: 3}
   scrollViewContent: {fileID: 1286491255}
+  spriteIcon: {fileID: 0}
 --- !u!1001 &230278472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1682,6 +1683,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713110208}
   m_CullTransparentMesh: 1
+--- !u!1 &837376269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 837376271}
+  - component: {fileID: 837376270}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &837376270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837376269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2134a9000503f0444b8d01120c1c19d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PartySlots: []
+--- !u!4 &837376271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837376269}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 97.559, y: 373.4871, z: 0.008855015}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &853148744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3543,3 +3589,4 @@ SceneRoots:
   - {fileID: 613993241}
   - {fileID: 96664144}
   - {fileID: 407895355}
+  - {fileID: 837376271}

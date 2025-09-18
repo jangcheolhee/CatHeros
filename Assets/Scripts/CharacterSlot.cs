@@ -10,6 +10,7 @@ public class CharacterSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private GameObject draggingIcon;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
+    public Image icon;
     public int characterID;
 
     public bool IsAssigned { get; private set; } = false; 

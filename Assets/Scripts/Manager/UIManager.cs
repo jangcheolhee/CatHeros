@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
 
     private Dictionary<string, GameObject> panelDict = new Dictionary<string, GameObject>();
     private bool timeSpeed = false;
+
     private void Awake()
     {
         foreach (var entry in panels)
@@ -82,6 +83,7 @@ public class UIManager : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
+
 
     public void RestartGame()
     {

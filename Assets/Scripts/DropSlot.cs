@@ -20,7 +20,7 @@ public class DropSlot : MonoBehaviour, IDropHandler
                 var oldIcon = currentIcon.GetComponent<SlotIcon>();
                 if (oldIcon != null)
                 {
-                    oldIcon.Source.SetAssigned(false); // 인벤토리 다시 활성화
+                    oldIcon.Source.SetAssigned(false); 
                 }
                 Destroy(currentIcon);
             }
@@ -44,8 +44,8 @@ public class DropSlot : MonoBehaviour, IDropHandler
                 index = index,
                 characterId = icon.characterID
             };
+            Debug.Log($"{slotInfo.row} {slotInfo.index} {slotInfo.characterId}");
 
-            
             GameManager.Instance.PartySlots.RemoveAll(s => s.row == row && s.index == index);
             GameManager.Instance.PartySlots.Add(slotInfo);
 
