@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BattleManager : MonoBehaviour
 {
@@ -20,13 +21,14 @@ public class BattleManager : MonoBehaviour
     public Transform playerBack;// BattleWorld
     public Transform enemyFront;  // BattleWorld
     public Transform enemyBack;
+    private int enemyCount;
+    public int PlayerCount {  get; private set; }   
 
-
-    public List<Player> Players { get; private set; } = new List<Player>();
+    public Dictionary<FormationRow,List<Player>> Players { get; private set; } = new ();
 
     public int currentWave = 0;
     private int totalWave;
-    public List<Enemy> AliveEnemies { get; private set; } = new List<Enemy>();
+    public Dictionary<FormationRow, List<Enemy>> AliveEnemies { get; private set; } = new Dictionary<FormationRow, List<Enemy>>();
     public List<WaveData> Waves { get; private set; }
     private bool spawningWave = false;
 
@@ -57,17 +59,12 @@ public class BattleManager : MonoBehaviour
         else
         {
             uiManager.ShowPanel("DefeatPanel", true);
-            return;
         }
-        if (Players.TrueForAll(p => p.IsDead))
-        {
-            Debug.Log("전투 패배...");
-            uiManager.ShowPanel("DefeatPanel", true);
-            return;
-        }
-        if (spawningWave || AliveEnemies.Count > 0) return;
 
-        if (AliveEnemies.Count == 0)
+        
+        if (spawningWave || enemyCount > 0) return;
+
+        if (enemyCount == 0)
         {
             if (currentWave >= totalWave)
             {
@@ -75,17 +72,21 @@ public class BattleManager : MonoBehaviour
                 uiManager.ShowPanel("VictoryPanel", true);
                 return;
             }
-            
+            if (PlayerCount == 0)
+            {
+                Debug.Log("전투 패배...");
+                uiManager?.ShowPanel("DefeatPanel", true);
+                return;
+            }
             StartCoroutine(SpawnWaveWithDelay(currentWave, Waves[currentWave].Spawn_Delay * 0.001f));
         }
-        
 
     }
 
 
     private void SpawnParty()
     {
-
+        PlayerCount = GameManager.Instance.PartySlots.Count;
         foreach (var slot in GameManager.Instance.PartySlots)
         {
             Vector3 pos = GetSlotPosition(slot.row, slot.index);
@@ -94,10 +95,16 @@ public class BattleManager : MonoBehaviour
             Player player = obj.GetComponent<Player>();
             player.Setup(slot.characterId);
             player.battleManager = this;
-            player.OnDeath += () => Players.Remove(player);
+            if (!Players.ContainsKey(slot.row))
+            {
+                Players[slot.row] = new List<Player>();
+            }
+            
+            player.OnDeath += () => Players[slot.row].Remove(player);
+            player.OnDeath += () => PlayerCount--;
             player.OnDeath += () => Destroy(player.gameObject, 1);
 
-            Players.Add(player);
+            Players[slot.row].Add(player);
         }
     }
     private Vector3 GetSlotPosition(FormationRow row, int index)
@@ -127,28 +134,35 @@ public class BattleManager : MonoBehaviour
             var waveq = Waves[wave];
             int f = 0;
             int b = 0;
+            enemyCount= waveq.Enemies.Count;
             foreach (var enemys in waveq.Enemies)
             {
                 Transform slot;
                 GameObject obj;
+                FormationRow row;
                 if (enemys.Position == "Front")
                 {
                     slot = enemyFront.GetChild(f++);
                     obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyFront);
-
+                    row = FormationRow.Front;
 
                 }
                 else
                 {
                     slot = enemyBack.GetChild(b++);
                     obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyBack);
+                    row = FormationRow.Rear;
                 }
-
+                if(!AliveEnemies.ContainsKey(row))
+                {
+                    AliveEnemies[row] = new List<Enemy>();
+                }
                 Enemy enemy = obj.GetComponent<Enemy>();
                 enemy.Setup(enemys.Monster_ID);
-                AliveEnemies.Add(enemy);
+                AliveEnemies[row].Add(enemy);
                 enemy.battleManager = this;
-                enemy.OnDeath += () => AliveEnemies.Remove(enemy);
+                enemy.OnDeath += () => AliveEnemies[row].Remove(enemy);
+                enemy.OnDeath += () => enemyCount--;
                 enemy.OnDeath += () => Destroy(enemy.gameObject, 1);
             }
 

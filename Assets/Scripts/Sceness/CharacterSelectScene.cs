@@ -6,14 +6,14 @@ public class CharacterSelectScene : MonoBehaviour
 {
 
 
-    private int[] charIds = new int[] { 10101, 10102, 10103, 10104, 10105, 10101, 10102, 10103, 10104, 10105 };
+    private int[] charIds = new int[] { 10101, 10102, 10103, 10104, 10105 };
     public GameObject iconPrefab;
     public Transform scrollViewContent;
     public Sprite spriteIcon;
 
     private void Start()
     {
-
+        GameManager.Instance.PartySlots.Clear();
         foreach (int charId in charIds)
         {
             GameObject icon = Instantiate(iconPrefab, scrollViewContent);

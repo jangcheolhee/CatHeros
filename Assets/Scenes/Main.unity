@@ -1939,6 +1939,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 624208678}
     m_Modifications:
+    - target: {fileID: 4446616309009335223, guid: 563cddedb11514948afd7e4eeb1de71c, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7914401728186341352, guid: 563cddedb11514948afd7e4eeb1de71c, type: 3}
       propertyPath: m_Name
       value: CharacterInfo

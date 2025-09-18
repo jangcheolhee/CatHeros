@@ -21,16 +21,26 @@ public class BattleUIManager : MonoBehaviour
     private void Start()
     {
         battleManager.OnTimeChanged += UpdateTimerUI;
-        
+        int f = 0;
+        int r = 0;
         for (int i = 0; i < playerHpSliders.Count; i++)
         {
-            if (i < battleManager.Players.Count)
+            if (i < battleManager.PlayerCount)
             {
-                var player = battleManager.Players[i];
                 int index = i;
+                Player player;
+                if(f < battleManager.Players[FormationRow.Front].Count)
+                {
+                    player = battleManager.Players[FormationRow.Front][f++];
+                }
+                else
+                {
+                    player = battleManager.Players[FormationRow.Rear][r++];
+                }
 
 
-                float skillCooldown = player.SkillData.Cooldown;
+
+                    float skillCooldown = player.SkillData.Cooldown;
                 skillButtons[index].Setup(player, skillCooldown);
                 spriteIcon = Resources.Load<Sprite>($"Icon/{player.characterData.Character_ID}");
                 skillButtons[index].skillText.text = $"{player.characterData.Name}\n{player.SkillData.Skill_Name}";

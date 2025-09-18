@@ -44,7 +44,6 @@ public class DropSlot : MonoBehaviour, IDropHandler
                 index = index,
                 characterId = icon.characterID
             };
-            Debug.Log($"{slotInfo.row} {slotInfo.index} {slotInfo.characterId}");
 
             GameManager.Instance.PartySlots.RemoveAll(s => s.row == row && s.index == index);
             GameManager.Instance.PartySlots.Add(slotInfo);

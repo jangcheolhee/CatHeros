@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -139,10 +139,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 33
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -159,20 +159,20 @@ TextureImporter:
       name: Rat-DarkGrey-Attack_1
       rect:
         serializedVersion: 2
-        x: 31
+        x: 32
         y: 0
-        width: 33
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 930f49af0d477f290800000000000000
-      internalID: -7856682584018456519
+      spriteID: dfd868310cce0b14fac90ef7150e845e
+      internalID: 1020837043
       vertices: []
       indices: 
       edges: []
@@ -181,20 +181,20 @@ TextureImporter:
       name: Rat-DarkGrey-Attack_2
       rect:
         serializedVersion: 2
-        x: 63
+        x: 64
         y: 0
-        width: 31
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3fe3c41a83d250c30800000000000000
-      internalID: 4324912738406776563
+      spriteID: b2403e33a2b4eb149af9d014e24e1770
+      internalID: -139387930
       vertices: []
       indices: 
       edges: []
@@ -203,20 +203,20 @@ TextureImporter:
       name: Rat-DarkGrey-Attack_3
       rect:
         serializedVersion: 2
-        x: 95
+        x: 96
         y: 0
-        width: 31
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ee5e05af8ad6e3a40800000000000000
-      internalID: 5349833979884266990
+      spriteID: 6cf218590359c504a962df71e0980cec
+      internalID: -994748030
       vertices: []
       indices: 
       edges: []
@@ -225,20 +225,20 @@ TextureImporter:
       name: Rat-DarkGrey-Attack_4
       rect:
         serializedVersion: 2
-        x: 127
+        x: 128
         y: 0
         width: 32
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 73a0278baa5bb6c20800000000000000
-      internalID: 3200851705020418615
+      spriteID: 32093fff8f8996d4ea1d1111d06e32a6
+      internalID: 1444872308
       vertices: []
       indices: 
       edges: []
@@ -247,20 +247,20 @@ TextureImporter:
       name: Rat-DarkGrey-Attack_5
       rect:
         serializedVersion: 2
-        x: 159
+        x: 160
         y: 0
-        width: 34
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 95c3dadd676effec0800000000000000
-      internalID: -3530850184635532199
+      spriteID: 71e6022b439538a4f93aad18eadc8ecc
+      internalID: -1230778830
       vertices: []
       indices: 
       edges: []
@@ -269,20 +269,20 @@ TextureImporter:
       name: Rat-DarkGrey-Attack_6
       rect:
         serializedVersion: 2
-        x: 191
+        x: 192
         y: 0
-        width: 34
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1c575698ae3696570800000000000000
-      internalID: 8460403233970812353
+      spriteID: 01adb3cb91bd0c64d9085a8045172b2a
+      internalID: 2113950556
       vertices: []
       indices: 
       edges: []
@@ -291,20 +291,20 @@ TextureImporter:
       name: Rat-DarkGrey-Attack_7
       rect:
         serializedVersion: 2
-        x: 223
+        x: 224
         y: 0
-        width: 33
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b4b538783c05a0e10800000000000000
-      internalID: 2164631371627322187
+      spriteID: 11f218c535129f644bce16054642c63f
+      internalID: 1339058302
       vertices: []
       indices: 
       edges: []
@@ -313,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 989783ecf2cc1be48a4b89d43eb44bd2
     internalID: 0
     vertices: []
     indices: 
@@ -324,13 +324,13 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Rat-DarkGrey-Attack_0: 3648737946486558376
-      Rat-DarkGrey-Attack_1: -7856682584018456519
-      Rat-DarkGrey-Attack_2: 4324912738406776563
-      Rat-DarkGrey-Attack_3: 5349833979884266990
-      Rat-DarkGrey-Attack_4: 3200851705020418615
-      Rat-DarkGrey-Attack_5: -3530850184635532199
-      Rat-DarkGrey-Attack_6: 8460403233970812353
-      Rat-DarkGrey-Attack_7: 2164631371627322187
+      Rat-DarkGrey-Attack_1: 1020837043
+      Rat-DarkGrey-Attack_2: -139387930
+      Rat-DarkGrey-Attack_3: -994748030
+      Rat-DarkGrey-Attack_4: 1444872308
+      Rat-DarkGrey-Attack_5: -1230778830
+      Rat-DarkGrey-Attack_6: 2113950556
+      Rat-DarkGrey-Attack_7: 1339058302
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -74,7 +74,10 @@ public class Enemy : LivingEntity
         monsterData = DataTableManger.MonsterTable.Get(monster_ID);
         basicAttack = DataTableManger.SkillTable.Get(monsterData.M_Basic_attack_ID);
         skillData = DataTableManger.SkillTable.Get(monsterData.M_Skill_Set_ID);
-
+        AnimatorOverrideController overrideCtrl =
+            Resources.Load<AnimatorOverrideController>($"Overrides/{monster_ID}");
+        Debug.Log($"Overrides/{monster_ID}");
+        animator.runtimeAnimatorController = overrideCtrl;
         MaxHP = Max_HP;
 
         var health = GetComponent<EnemyHealth>();
@@ -127,10 +130,37 @@ public class Enemy : LivingEntity
 
     private void FindTarget()
     {
-        if (battleManager.Players.Count > 0)
+        FormationRow priorityRow = FormationRow.Front;
+        FormationRow backupRow = FormationRow.Rear;
+
+
+        if (battleManager.Players.ContainsKey(priorityRow))
         {
-            target = battleManager.Players[0]; // 가장 앞의 플레이어를 기본 타겟
+            foreach (var player in battleManager.Players[priorityRow])
+            {
+                if (player != null && !player.IsDead)
+                {
+                    target = player;
+                    return;
+                }
+            }
         }
+
+
+        if (battleManager.Players.ContainsKey(backupRow))
+        {
+            foreach (var player in battleManager.Players[backupRow])
+            {
+                if (player != null && !player.IsDead)
+                {
+                    target = player;
+                    return;
+                }
+            }
+        }
+
+
+        target = null;
     }
 
     protected override void Die()

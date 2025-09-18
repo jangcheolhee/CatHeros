@@ -26,7 +26,7 @@ public class Player : LivingEntity
     public SkillData SkillData { get; private set; }
     public EffectData SkillEffect { get; private set; } = null;
 
-
+    
     public int Max_HP
     {
         get
@@ -79,13 +79,14 @@ public class Player : LivingEntity
 
     public BattleManager battleManager;
 
-
+    
     private void Awake()
     {
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
+
     }
     public void Setup(int character_ID)
     {
@@ -93,6 +94,9 @@ public class Player : LivingEntity
         characterData = DataTableManger.CharacterTable.Get(character_ID);
         BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
         SkillData = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
+        AnimatorOverrideController overrideCtrl =
+            Resources.Load<AnimatorOverrideController>($"Overrides/{character_ID}");
+        animator.runtimeAnimatorController = overrideCtrl;
         if (int.TryParse(SkillData.Effect_1_ID, out int id))
         {
             SkillEffect = DataTableManger.EffectTable.Get(id);
@@ -150,8 +154,14 @@ public class Player : LivingEntity
     }
     public void AutoUseSkill()
     {
-        
-        int idx = battleManager.Players.IndexOf(this);
+
+        int idx = -1;
+
+        idx = battleManager.Players[FormationRow.Front].IndexOf(this);
+        if(idx == -1)
+        {
+            idx = battleManager.Players[FormationRow.Rear].IndexOf(this);
+        }
         if (idx >= 0 && idx < battleManager.battleUIManager.skillButtons.Count)
         {
             var btn = battleManager.battleUIManager.skillButtons[idx];
@@ -161,10 +171,37 @@ public class Player : LivingEntity
 
     private void FindTarget()
     {
-        if (battleManager.AliveEnemies.Count > 0)
+        FormationRow priorityRow = FormationRow.Front ;
+        FormationRow backupRow =  FormationRow.Rear ;
+
+        
+        if (battleManager.AliveEnemies.ContainsKey(priorityRow))
         {
-            target = battleManager.AliveEnemies[0];
+            foreach (var enemy in battleManager.AliveEnemies[priorityRow])
+            {
+                if (enemy != null && !enemy.IsDead)
+                {
+                    target = enemy;
+                    return;
+                }
+            }
         }
+
+        
+        if (battleManager.AliveEnemies.ContainsKey(backupRow))
+        {
+            foreach (var enemy in battleManager.AliveEnemies[backupRow])
+            {
+                if (enemy != null && !enemy.IsDead)
+                {
+                    target = enemy;
+                    return;
+                }
+            }
+        }
+
+        
+        target = null;
     }
     public override void OnDamage(int damage)
     {
