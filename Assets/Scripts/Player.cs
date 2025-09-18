@@ -124,7 +124,7 @@ public class Player : LivingEntity
         }
         if(battleManager.IsAuto && skillTimer > SkillData.Cooldown)
         {
-            UseSkill();
+            AutoUseSkill();
         }
     }
     private void Attack()
@@ -148,7 +148,16 @@ public class Player : LivingEntity
         }
         skillTimer = 0;
     }
-    
+    public void AutoUseSkill()
+    {
+        
+        int idx = battleManager.Players.IndexOf(this);
+        if (idx >= 0 && idx < battleManager.battleUIManager.skillButtons.Count)
+        {
+            var btn = battleManager.battleUIManager.skillButtons[idx];
+            btn.button.onClick.Invoke(); // 클릭 이벤트 강제 호출
+        }
+    }
 
     private void FindTarget()
     {

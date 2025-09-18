@@ -154,6 +154,7 @@ public class BattleManager : MonoBehaviour
     {
         IsAuto = !IsAuto;
     }
+    
 
 }
 
