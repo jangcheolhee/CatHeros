@@ -129,6 +129,7 @@ public class Player : LivingEntity
         }
         if (target && battleManager.IsAuto && skillTimer > SkillData.Cooldown)
         {
+            
             AutoUseSkill();
         }
     }
@@ -165,12 +166,13 @@ public class Player : LivingEntity
         idx = battleManager.Players[FormationRow.Front].IndexOf(this);
         if (idx == -1)
         {
-            idx = battleManager.Players[FormationRow.Rear].IndexOf(this);
+            idx = battleManager.Players[FormationRow.Rear].IndexOf(this) + battleManager.Players[FormationRow.Front].Count;
         }
+        
         if (idx >= 0 && idx < battleManager.battleUIManager.skillButtons.Count)
         {
             var btn = battleManager.battleUIManager.skillButtons[idx];
-            btn.button.onClick.Invoke(); // 클릭 이벤트 강제 호출
+            btn.button.onClick.Invoke(); 
         }
     }
 
@@ -184,7 +186,7 @@ public class Player : LivingEntity
         {
             foreach (var enemy in battleManager.AliveEnemies[priorityRow])
             {
-                if (enemy != null && !enemy.IsDead)
+                if ( !enemy.IsDead)
                 {
                     target = enemy;
                     return;
@@ -195,7 +197,7 @@ public class Player : LivingEntity
         {
             foreach (var enemy in battleManager.AliveEnemies[backupRow])
             {
-                if (enemy != null && !enemy.IsDead)
+                if ( !enemy.IsDead)
                 {
                     target = enemy;
                     return;
@@ -206,21 +208,23 @@ public class Player : LivingEntity
     }
     private void FindSkillTarget()
     {
+        skillTarget = null;
         if (SkillData.Effect_1_Target == "1")
         {
-            skillTarget = null;
+            
             foreach (var player in battleManager.Players[FormationRow.Front])
             {
-                if (player != null && !player.IsDead) { skillTarget = player; return; }
+                if (!player.IsDead) { skillTarget = player; return; }
             }
             foreach (var player in battleManager.Players[FormationRow.Rear])
             {
-                if (player != null && !player.IsDead) { skillTarget = player; return; }
+                if (!player.IsDead) { skillTarget = player; return; }
             }
 
         }
 
         skillTarget = target;
+       
 
     }
     public override void OnDamage(int damage)

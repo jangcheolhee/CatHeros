@@ -11,7 +11,7 @@ public class DropSlot : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHan
     private GameObject currentIcon;
     public void OnBeginDrag(PointerEventData eventData)
     {
-        
+
         if (currentIcon != null)
         {
             var oldIcon = currentIcon.GetComponent<SlotIcon>();
@@ -27,14 +27,13 @@ public class DropSlot : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHan
         }
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-    }
+
 
 
     public void OnDrop(PointerEventData eventData)
     {
-        
+        if (GameManager.Instance.PartySlots.Count == 5 && currentIcon == null) return;
+
         var icon = eventData.pointerDrag.GetComponent<CharacterSlot>();
         if (icon != null && !icon.IsAssigned)
         {
@@ -68,19 +67,17 @@ public class DropSlot : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHan
                 index = index,
                 characterId = icon.characterID
             };
-            if(GameManager.Instance.PartySlots.Count < 5)
-            {
-                GameManager.Instance.PartySlots.RemoveAll(s => s.row == row && s.index == index);
-                GameManager.Instance.PartySlots.Add(slotInfo);
-            }
-            
 
-
-
+            GameManager.Instance.PartySlots.RemoveAll(s => s.row == row && s.index == index);
+            GameManager.Instance.PartySlots.Add(slotInfo);
 
         }
+
     }
 
+    public void OnDrag(PointerEventData eventData)
+    {
+    }
     public void OnEndDrag(PointerEventData eventData)
     {
     }

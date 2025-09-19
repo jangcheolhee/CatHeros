@@ -29,18 +29,20 @@ public class BattleUIManager : MonoBehaviour
             {
                 int index = i;
                 Player player;
-                if(f < battleManager.Players[FormationRow.Front].Count)
+                if (f < battleManager.Players[FormationRow.Front].Count)
                 {
-                    player = battleManager.Players[FormationRow.Front][f++];
+                    player = battleManager.Players[FormationRow.Front][f];
+                    f++;
                 }
                 else
                 {
-                    player = battleManager.Players[FormationRow.Rear][r++];
+                    player = battleManager.Players[FormationRow.Rear][r];
+                    r++;
                 }
 
 
 
-                    float skillCooldown = player.SkillData.Cooldown;
+                float skillCooldown = player.SkillData.Cooldown;
                 skillButtons[index].Setup(player, skillCooldown);
                 spriteIcon = Resources.Load<Sprite>($"Icon/{player.characterData.Character_ID}");
                 skillButtons[index].skillText.text = $"{player.characterData.Name}\n{player.SkillData.Skill_Name}";

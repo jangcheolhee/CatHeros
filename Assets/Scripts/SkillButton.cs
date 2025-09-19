@@ -37,6 +37,7 @@ public class SkillButton : MonoBehaviour
 
         player.UseSkill();
         StartCoroutine(CooldownRoutine());
+        
     }
 
     private IEnumerator CooldownRoutine()
@@ -71,5 +72,7 @@ public class SkillButton : MonoBehaviour
 
         if (cooldownText != null)
             cooldownText.text = "";
+        if (player.IsDead) button.interactable = false;
     }
+
 }

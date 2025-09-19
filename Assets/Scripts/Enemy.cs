@@ -76,7 +76,7 @@ public class Enemy : LivingEntity
         skillData = DataTableManger.SkillTable.Get(monsterData.M_Skill_Set_ID);
         AnimatorOverrideController overrideCtrl =
             Resources.Load<AnimatorOverrideController>($"Overrides/{monster_ID}");
-        Debug.Log($"Overrides/{monster_ID}");
+        
         animator.runtimeAnimatorController = overrideCtrl;
         MaxHP = Max_HP;
 

@@ -6726,6 +6726,10 @@ PrefabInstance:
       value: NextStageButton
       objectReference: {fileID: 0}
     - target: {fileID: 6351809197052154175, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6351809197052154175, guid: dfc20ab6c302d7a48b3f4a4ec5334a33, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}

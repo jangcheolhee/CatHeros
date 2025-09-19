@@ -44,6 +44,10 @@ public class BattleManager : MonoBehaviour
         totalWave = stageData.MaxWaveCount;
         Waves = DataTableManger.WaveTable.Get(stageData.StageID);
         remainTime = battleDuration;
+        Players[FormationRow.Front] = new List<Player>();
+        Players[FormationRow.Rear] = new List<Player>();
+        AliveEnemies[FormationRow.Front] = new List<Enemy>();
+        AliveEnemies[FormationRow.Rear] = new List<Enemy>();
         SpawnParty();
 
     }
@@ -60,8 +64,13 @@ public class BattleManager : MonoBehaviour
         {
             uiManager.ShowPanel("DefeatPanel", true);
         }
+        if (PlayerCount == 0)
+        {
+            Debug.Log("전투 패배...");
+            uiManager?.ShowPanel("DefeatPanel", true);
+            return;
+        }
 
-        
         if (spawningWave || enemyCount > 0) return;
 
         if (enemyCount == 0)
@@ -72,12 +81,7 @@ public class BattleManager : MonoBehaviour
                 uiManager.ShowPanel("VictoryPanel", true);
                 return;
             }
-            if (PlayerCount == 0)
-            {
-                Debug.Log("전투 패배...");
-                uiManager?.ShowPanel("DefeatPanel", true);
-                return;
-            }
+            
             StartCoroutine(SpawnWaveWithDelay(currentWave, Waves[currentWave].Spawn_Delay * 0.001f));
         }
 
@@ -95,12 +99,9 @@ public class BattleManager : MonoBehaviour
             Player player = obj.GetComponent<Player>();
             player.Setup(slot.characterId);
             player.battleManager = this;
-            if (!Players.ContainsKey(slot.row))
-            {
-                Players[slot.row] = new List<Player>();
-            }
+          
             
-            player.OnDeath += () => Players[slot.row].Remove(player);
+            //player.OnDeath += () => Players[slot.row].Remove(player);
             player.OnDeath += () => PlayerCount--;
             player.OnDeath += () => Destroy(player.gameObject, 1);
 
@@ -117,7 +118,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator SpawnWaveWithDelay(int waveIndex, float delay)
     {
         spawningWave = true;
-        Debug.Log($"웨이브 {waveIndex + 1} 준비 중...");
+        //Debug.Log($"웨이브 {waveIndex + 1} 준비 중...");
 
         yield return new WaitForSeconds(delay);
 
@@ -129,7 +130,7 @@ public class BattleManager : MonoBehaviour
     {
         if (currentWave < totalWave)
         {
-            Debug.Log($"웨이브 {currentWave + 1} 시작!");
+            //Debug.Log($"웨이브 {currentWave + 1} 시작!");
             battleUIManager.UpdateWaveText(currentWave + 1, totalWave);
             var waveq = Waves[wave];
             int f = 0;
@@ -153,10 +154,7 @@ public class BattleManager : MonoBehaviour
                     obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyBack);
                     row = FormationRow.Rear;
                 }
-                if(!AliveEnemies.ContainsKey(row))
-                {
-                    AliveEnemies[row] = new List<Enemy>();
-                }
+                
                 Enemy enemy = obj.GetComponent<Enemy>();
                 enemy.Setup(enemys.Monster_ID);
                 AliveEnemies[row].Add(enemy);
