@@ -10,6 +10,10 @@ public class CharacterSelectScene : MonoBehaviour
     public GameObject iconPrefab;
     public Transform scrollViewContent;
     public Sprite spriteIcon;
+    public EnemyInfoPanel enemyInfoPanel;
+    public CharacterInfoPanel characterInfoPanel;
+    public bool isDrop = false;
+    public CharacterSlot characterSlot;
 
     private void Start()
     {
@@ -18,6 +22,7 @@ public class CharacterSelectScene : MonoBehaviour
         {
             GameObject icon = Instantiate(iconPrefab, scrollViewContent);
             CharacterSlot charSlot = icon.GetComponent<CharacterSlot>();
+            charSlot.characterSelectScene = this;
             charSlot.characterID = charId;
             spriteIcon = Resources.Load<Sprite>($"icon/{charId}");
            
@@ -36,7 +41,30 @@ public class CharacterSelectScene : MonoBehaviour
     }
     public void OnClickBack()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("StageSelect");
+    }
+    public void OnClickEnemy()
+    {
+        enemyInfoPanel.Show();
+    }
+    public void OnClickCharacter(int id, string name, string desc)
+    {
+        characterInfoPanel.SetData(id, name,desc);
+    }
+    public void OnClickClear()
+    {
+        var slots = GetComponentsInChildren<DropSlot>();
+        foreach (DropSlot slot in slots)
+        {
+            slot.Clear();
+        }
+    }
+    public void Select(CharacterSlot slot)
+    {
+        if(!isDrop )
+        {
+            isDrop = true;
+        }
     }
 
 }

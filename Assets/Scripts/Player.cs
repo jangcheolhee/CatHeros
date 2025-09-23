@@ -147,7 +147,6 @@ public class Player : LivingEntity
 
         animator.SetTrigger(isSkill);
         skillTarget.OnDamage(SkillDamage);
-        DamageTextSpawner.Instance.SpawnDamageText(SkillData.Skill_Name, transform.position + Vector3.up * 1.2f);
 
         if (SkillEffect != null)
         {

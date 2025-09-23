@@ -40,8 +40,8 @@ public class BattleManager : MonoBehaviour
         Time.timeScale = 1f;
 
 
-        var stageData = DataTableManger.StageTable.Get(3801);
-        totalWave = stageData.MaxWaveCount;
+        var stageData = DataTableManger.StageTable.Get(GameManager.Instance.SelectedStageId);
+        totalWave = stageData.SpecialCondition;
         Waves = DataTableManger.WaveTable.Get(stageData.StageID);
         remainTime = battleDuration;
         Players[FormationRow.Front] = new List<Player>();
@@ -66,7 +66,7 @@ public class BattleManager : MonoBehaviour
         }
         if (PlayerCount == 0)
         {
-            Debug.Log("전투 패배...");
+            //Debug.Log("전투 패배...");
             uiManager?.ShowPanel("DefeatPanel", true);
             return;
         }
@@ -77,7 +77,7 @@ public class BattleManager : MonoBehaviour
         {
             if (currentWave >= totalWave)
             {
-                Debug.Log("전투 승리!");
+                //Debug.Log("전투 승리!");
                 uiManager.ShowPanel("VictoryPanel", true);
                 return;
             }

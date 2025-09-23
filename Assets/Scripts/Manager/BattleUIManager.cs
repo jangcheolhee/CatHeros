@@ -15,7 +15,7 @@ public class BattleUIManager : MonoBehaviour
     public void UpdateWaveText(int current, int total)
     {
         if (waveText != null)
-            waveText.text = $"Wave {current}/{total}";
+            waveText.text = $"WAVE {current}/{total}";
     }
 
     private void Start()
@@ -45,7 +45,7 @@ public class BattleUIManager : MonoBehaviour
                 float skillCooldown = player.SkillData.Cooldown;
                 skillButtons[index].Setup(player, skillCooldown);
                 spriteIcon = Resources.Load<Sprite>($"Icon/{player.characterData.Character_ID}");
-                skillButtons[index].skillText.text = $"{player.characterData.Name}\n{player.SkillData.Skill_Name}";
+               
                 skillButtons[index].icon.sprite = spriteIcon;
                 player.OnHealthChanged += (current, max) =>
                 {

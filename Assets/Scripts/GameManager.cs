@@ -6,15 +6,16 @@ public enum FormationRow { Front, Rear }
 [System.Serializable]
 public class SlotInfo
 {
-    public FormationRow row;     
-    public int index;            
-    public int characterId;  
+    public FormationRow row;
+    public int index;
+    public int characterId;
 }
 
 public class GameManager : MonoBehaviour
 {
+    
     public static GameManager Instance;
-
+    public int SelectedStageId = -1;
     public List<SlotInfo> PartySlots = new List<SlotInfo>();
 
     private void Awake()
@@ -22,7 +23,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
         else
         {

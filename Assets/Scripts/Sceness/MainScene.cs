@@ -5,6 +5,6 @@ public class MainScene : MonoBehaviour
 {
     public void OnClickBattle()
     {
-        SceneManager.LoadScene("CharacterSelect");
+        SceneManager.LoadScene("StageSelect");
     }
 }

@@ -10,7 +10,7 @@ public class SkillButton : MonoBehaviour
     public Image icon;
     public Image cooldownOverlay;        
     public TextMeshProUGUI cooldownText;
-    public TextMeshProUGUI skillText;
+    
 
     private Player player;  
     private float cooldown;
@@ -19,7 +19,7 @@ public class SkillButton : MonoBehaviour
     private void Awake()
     {
         if (button == null) button = GetComponent<Button>();
-        ResetCooldownUI();
+        
     }
 
     public void Setup(Player p, float skillCooldown)
@@ -29,6 +29,7 @@ public class SkillButton : MonoBehaviour
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClickSkill);
+        ResetCooldownUI();
     }
 
     private void OnClickSkill()

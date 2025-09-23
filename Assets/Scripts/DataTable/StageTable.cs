@@ -6,9 +6,9 @@ public class StageData
     public int StageID {  get; set; }
     public string StageName { get; set; } 
     public string BossID {  get; set; }
-    public int RewardExp {  get; set; }
+    public string RewardExp {  get; set; }
     public int MaxWaveCount{get; set; }
-    public string SpecialCondition {  get; set; }
+    public int SpecialCondition {  get; set; }
     public string Story_Link_ID {  get; set; }
     public string Description {  get; set; }
 
@@ -45,4 +45,6 @@ public class StageTable : DataTable
         }
         return table[id];
     }
+    public Dictionary<int, StageData> Table
+    { get { return table; } }   
 }

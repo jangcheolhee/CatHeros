@@ -1,6 +1,11 @@
-StageID,StageName,BossID,RewardExp,MaxWaveCount,SpecialCondition,Story_Link_ID,Description
-3801,1-1,,100,3,-,-,가장 첫 스테이지이자 튜토리얼
-3802,1-2,,150,3,-,-,
-3803,1-3,,180,3,-,-,
-3804,1-4,,210,3,-,-,
-4805,1-5,2205,240,4,-,-,첫 보스전을 하는 스테이지
+StageID,StageName,BossID,RewardExp,MaxWaveCount,SpecialCondition,Story_Link_ID,Description,
+3801,1-1,FALSE,,500,3,-,-,가장 첫 스테이지이자 튜토리얼
+3802,1-2,FALSE,,750,3,-,-,
+3803,1-3,FALSE,,1000,3,-,-,
+3804,1-4,FALSE,,1250,3,-,-,
+4805,1-5,TRUE,2205,1500,4,-,-,첫 보스전을 하는 스테이지
+3806,1-6,FALSE,,1750,3,,,
+3807,1-7,FALSE,,2000,3,,,
+3808,1-8,FALSE,,2250,3,,,
+3809,1-9,FALSE,,2500,3,,,
+4810,1-10,TRUE,,2750,4,,,
