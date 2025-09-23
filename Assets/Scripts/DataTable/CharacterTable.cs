@@ -1,5 +1,6 @@
 using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 public class CharacterData
 {
@@ -47,4 +48,5 @@ public class CharacterTable : DataTable
         }
         return table[Character_ID];
     }
+    public List< CharacterData> Table {  get { return table.Values.ToList(); } }
 }

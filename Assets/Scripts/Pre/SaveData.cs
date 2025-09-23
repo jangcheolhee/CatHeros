@@ -1,7 +1,6 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+
 
 [Serializable]
 public abstract class SaveData
@@ -13,7 +12,14 @@ public abstract class SaveData
 public class SaveDataV1 : SaveData
 {
     public string PlayerName { get; set; } = string.Empty;
-    public List<CharacterInfo> CharacterInfos { get; protected set; } = new List<CharacterInfo>();
+
+    public List<CharacterInfo> CharacterInfos { get; set; } = new List<CharacterInfo>();
+    //public List<PartySlot> PartySlots { get; set; } = new List<PartySlot>();
+
+    // ¿Á»≠
+    public int Gold { get; set; }
+    public int Crystal { get; set; }
+    
     public SaveDataV1()
     {
         Version = 1;

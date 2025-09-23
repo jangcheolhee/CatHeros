@@ -47,7 +47,7 @@ public class DropSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
                 var slotIcon = currentIcon.AddComponent<SlotIcon>();
                 slotIcon.Source = icon;
                 icon.SetAssigned(true);
-
+                di.canvasGroup.blocksRaycasts = false;
                 var slotInfo = new SlotInfo
                 {
                     row = row,

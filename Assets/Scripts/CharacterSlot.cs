@@ -8,6 +8,7 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     
     public CharacterSelectScene characterSelectScene;
     private GameObject draggingIcon;
+    public CanvasGroup canvasGroup;
     private Canvas canvas;
     public Image icon;
     public int characterID;
@@ -27,14 +28,18 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         canvas = GetComponentInParent<Canvas>();
         image = GetComponent<Image>();
-        
+        canvasGroup = GetComponentInParent<CanvasGroup>();
     }
 
     public void SetAssigned(bool assigned)
     {
         IsAssigned = assigned;
         if (image != null)
-            image.color = assigned ? new Color(1, 1, 1, 0.5f) : Color.white; 
+        {
+
+            image.color = assigned ? new Color(1, 1, 1, 0.5f) : Color.white;
+            
+        }
     }
     void Update()
     {
@@ -45,6 +50,7 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             {
                 Debug.Log("Long Press (hold detected in Update)");
                 isPointerDown = false; // 한 번만 실행되게
+                OnLongPress();
             }
         }
     }
@@ -98,7 +104,7 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             float heldTime = Time.time - pointerDownTime;
             if (heldTime >= longPressThreshold)
             {
-                OnLongPress();
+                
                 Debug.Log("Long Press");
             }
             else

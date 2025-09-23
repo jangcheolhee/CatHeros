@@ -4,7 +4,7 @@ using UnityEngine;
 using SaveDataVC = SaveDataV1;
 public  class SaveLoadManager
 {
-    public static int SaveDataVersion { get; } = 4;
+    public static int SaveDataVersion { get; } = 1;
     static SaveLoadManager()
     {
         Load();

@@ -103,10 +103,7 @@ public class Enemy : LivingEntity
             attackTimer = 0f;
             Attack();
         }
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            Attack();
-        }
+       
     }
 
     private void Attack()

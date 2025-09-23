@@ -66,7 +66,7 @@ public class BattleManager : MonoBehaviour
         }
         if (PlayerCount == 0)
         {
-            //Debug.Log("전투 패배...");
+            
             uiManager?.ShowPanel("DefeatPanel", true);
             return;
         }
@@ -77,7 +77,7 @@ public class BattleManager : MonoBehaviour
         {
             if (currentWave >= totalWave)
             {
-                //Debug.Log("전투 승리!");
+                
                 uiManager.ShowPanel("VictoryPanel", true);
                 return;
             }
