@@ -7,7 +7,7 @@ public class CharacterSelectScene : MonoBehaviour
 {
 
 
-    private List<int> charIds ;
+    private List<int> charIds = new List<int>();
     public GameObject iconPrefab;
     public Transform scrollViewContent;
     public Sprite spriteIcon;
@@ -18,10 +18,12 @@ public class CharacterSelectScene : MonoBehaviour
 
     private void Start()
     {
+
         foreach(var cha in GameManager.Instance.saveCharacterList)
         {
             if(cha.IsGet)
             {
+                Debug.Log(cha.Character_ID.Character_ID);
                 charIds.Add(cha.Character_ID.Character_ID);
             }
         }
