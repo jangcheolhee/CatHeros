@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,7 +7,7 @@ public class CharacterSelectScene : MonoBehaviour
 {
 
 
-    private int[] charIds = new int[] { 10101, 10102, 10103, 10104, 10105, 10101, 10102, 10103, 10104, 10105 };
+    private List<int> charIds ;
     public GameObject iconPrefab;
     public Transform scrollViewContent;
     public Sprite spriteIcon;
@@ -17,6 +18,13 @@ public class CharacterSelectScene : MonoBehaviour
 
     private void Start()
     {
+        foreach(var cha in GameManager.Instance.saveCharacterList)
+        {
+            if(cha.IsGet)
+            {
+                charIds.Add(cha.Character_ID.Character_ID);
+            }
+        }
         GameManager.Instance.PartySlots.Clear();
         foreach (int charId in charIds)
         {

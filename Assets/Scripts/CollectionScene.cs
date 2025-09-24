@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class CollectionScene : MonoBehaviour
 {
+    
     public void OnClickHome()
     {
         SceneManager.LoadScene("Main");

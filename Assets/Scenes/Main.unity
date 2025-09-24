@@ -908,6 +908,22 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1050819391308381316, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050819391308381316, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050819391308381316, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050819391308381316, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5046751610379685296, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1953,6 +1969,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8111bace03e0449779f3a71602f0e935, type: 3}
     - target: {fileID: 5121824636145500309, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_text
+      value: "\uBF51\uAE30\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5121824636145500309, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
       propertyPath: m_fontSize
       value: 30
       objectReference: {fileID: 0}
@@ -2904,7 +2924,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
