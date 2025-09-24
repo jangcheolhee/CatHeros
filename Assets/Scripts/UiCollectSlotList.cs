@@ -8,7 +8,8 @@ public class UiCollectSlotList : MonoBehaviour
     public int SlotIndex { get; set; }
 
     public UiCollectionSlot prefab;
-    public ScrollRect scrollRect;
+    public ScrollRect getRect;
+    public ScrollRect lockRect;
     private List<UiCollectionSlot> slotList = new List<UiCollectionSlot>();
     private List<CharacterData> allData;
 
@@ -22,9 +23,7 @@ public class UiCollectSlotList : MonoBehaviour
         SaveLoadManager.Data.CharacterInfos = saveCharacterList;
         SaveLoadManager.Save();
 
-        Debug.Log("Save");
     }
-
 
     public void Load()
     {
@@ -32,13 +31,12 @@ public class UiCollectSlotList : MonoBehaviour
         {
             allData = DataTableManger.CharacterTable.Table; ;
             saveCharacterList = SaveLoadManager.Data.CharacterInfos;
-           
+
         }
         UpdateSlots(saveCharacterList);
     }
 
 
-    //}
     private void OnEnable()
     {
         Load();
@@ -52,24 +50,32 @@ public class UiCollectSlotList : MonoBehaviour
         //var list = itemList.Where(filterings[(int)Filtering]).ToList();
         //list.Sort(comparison[(int)sorting]);
 
-        if (saveCharacterList.Count > slotList.Count)
-        {
-            for (int i = slotList.Count; i < saveCharacterList.Count; ++i)
-            {
-                var newSlot = Instantiate(prefab, scrollRect.content);
-                newSlot.SetEmpty();
-                newSlot.slotIdx = i;
-                slotList.Add(newSlot);
 
-                var button = newSlot.GetComponent<Button>();
-                button.onClick.AddListener(() =>
-                {
-                    selectedSlotIndex = newSlot.slotIdx;
-                    //onSelectSlot?.Invoke(newSlot.itemData);
-                });
-                slotList[i].gameObject.SetActive(false);
+        for (int i = slotList.Count; i < saveCharacterList.Count; ++i)
+        {
+            UiCollectionSlot newSlot;
+            if (saveCharacterList[i].IsGet)
+            {
+                newSlot = Instantiate(prefab, getRect.content);
+
             }
+            else
+            {
+                newSlot = Instantiate(prefab, lockRect.content);
+            }
+            newSlot.SetEmpty();
+            newSlot.slotIdx = i;
+            slotList.Add(newSlot);
+
+            var button = newSlot.GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                selectedSlotIndex = newSlot.slotIdx;
+                //onSelectSlot?.Invoke(newSlot.itemData);
+            });
+            slotList[i].gameObject.SetActive(false);
         }
+
 
         for (int i = 0; i < slotList.Count; i++)
         {

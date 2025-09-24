@@ -18,7 +18,7 @@ public class DropSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         if (characterSelectScene.isDrop)
         {
             characterSelectScene.isDrop = false;
-            
+
             if (GameManager.Instance.PartySlots.Count == 5 && currentIcon == null) return;
 
             var icon = characterSelectScene.characterSlot;
@@ -61,25 +61,21 @@ public class DropSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
             }
         }
-        //if (currentIcon != null)
-        //{
-        //    var oldIcon = currentIcon.GetComponent<SlotIcon>();
-        //    if (oldIcon != null)
-        //    {
-        //        oldIcon.Source.SetAssigned(false);
-        //    }
-        //    Destroy(currentIcon);
-        //    currentIcon = null;
+        else if (currentIcon != null)
+        {
+            var oldIcon = currentIcon.GetComponent<SlotIcon>();
+            if (oldIcon != null)
+            {
+                oldIcon.Source.SetAssigned(false);
+            }
+            Destroy(currentIcon);
+            currentIcon = null;
 
-        //    // GameManager에서도 제거
-        //    GameManager.Instance.PartySlots.RemoveAll(s => s.row == row && s.index == index);
-        //}
+            // GameManager에서도 제거
+            GameManager.Instance.PartySlots.RemoveAll(s => s.row == row && s.index == index);
+        }
     }
-    public void Drop()
-    {
-        
 
-    }
 
 
 
@@ -104,12 +100,12 @@ public class DropSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
             currentIcon = Instantiate(eventData.pointerDrag.gameObject, transform);
             currentIcon.transform.localPosition = Vector3.zero;
-            
+
 
             var di = currentIcon.GetComponent<CharacterSlot>();
             if (di != null) Destroy(di);
 
-
+            di.canvasGroup.blocksRaycasts = false;
             var slotIcon = currentIcon.AddComponent<SlotIcon>();
             slotIcon.Source = icon;
             icon.SetAssigned(true);
@@ -123,7 +119,7 @@ public class DropSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
             GameManager.Instance.PartySlots.RemoveAll(s => s.row == row && s.index == index);
             GameManager.Instance.PartySlots.Add(slotInfo);
-           
+
         }
 
     }
@@ -139,7 +135,7 @@ public class DropSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
             Destroy(currentIcon);
         }
         GameManager.Instance.PartySlots.RemoveAll(s => s.row == row && s.index == index);
-       
+
     }
 
 

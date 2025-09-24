@@ -50,17 +50,21 @@ public class StageSelectManager : MonoBehaviour
     void OnClickStage(int id)
     {
         selectedStageId = (selectedStageId == id) ? -1 : id;
-        GameManager.Instance.SelectedStageId = selectedStageId;   // 전역 저장
+        GameManager.Instance.SelectedStageId = selectedStageId;   
         SceneManager.LoadScene("CharacterSelect");
-        Debug.Log($"Stage selected: {selectedStageId}");
+       
     }
 
-   
-    public void OnClickStart()
+
+ 
+    public void OnClickCollection()
     {
-        if (selectedStageId < 0) return;
-        Debug.Log(123435);
-        GameManager.Instance.SelectedStageId = selectedStageId;   // 전역 저장
-        SceneManager.LoadScene("CharacterSelect");           // 다음 씬으로
+        SceneManager.LoadScene("Collection");
+    }
+    public void OnClickHome()
+    {
+        
+        
+        SceneManager.LoadScene("Main");           
     }
 }

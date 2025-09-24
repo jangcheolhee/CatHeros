@@ -825,6 +825,14 @@ PrefabInstance:
     - target: {fileID: 5046751610379685296, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 2007025334}
+    - target: {fileID: 5046751610379685296, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickHome
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046751610379685296, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StageSelectManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5075610525631657659, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
       propertyPath: m_Sprite
@@ -2418,11 +2426,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5046751610379685296, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
       propertyPath: m_Interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5046751610379685296, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 2007025334}
+    - target: {fileID: 5046751610379685296, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickCollection
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046751610379685296, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StageSelectManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5075610525631657659, guid: 8dc60a97bf762534c8d9b45744e2ac39, type: 3}
       propertyPath: m_Sprite

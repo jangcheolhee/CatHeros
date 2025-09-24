@@ -1,12 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainScene : MonoBehaviour
+public class CollectionScene : MonoBehaviour
 {
-    public void OnClickBattle()
-    {
-        SceneManager.LoadScene("StageSelect");
-    }
     public void OnClickHome()
     {
         SceneManager.LoadScene("Main");

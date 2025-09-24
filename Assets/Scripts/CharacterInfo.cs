@@ -13,6 +13,7 @@ public class
     public CharacterData Character_ID;
     public int Level;
     public int Exp;
+    public bool IsGet;
     public CharacterInfo()
     {
         instanceId = new Guid();
