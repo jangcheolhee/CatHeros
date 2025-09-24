@@ -1,10 +1,55 @@
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class UiCollectSlotList : MonoBehaviour
 {
+    public enum SortingOption
+    {
+
+        NameAcceding,
+        NameDeccending,
+        RarityAccending,
+        RarityDeccending,
+        LevelAccending,
+        LevelDeccending,
+        PossitionAccending,
+        PossitionDeccending,
+
+    }
+    // (lhs, rhs) => { return lhs.creationTime.CompareTo(rhs.creationTime);},
+    //(lhs, rhs) => { return rhs.creationTime.CompareTo(lhs.creationTime);},
+    public readonly System.Comparison<CharacterInfo>[] comparison = {
+
+        (lhs, rhs) => { return lhs.Character_ID.Name.CompareTo(rhs.Character_ID.Name);},
+        (lhs, rhs) => { return rhs.Character_ID.Name.CompareTo(lhs.Character_ID.Name);},
+        (lhs, rhs) => { return lhs.Character_ID.Rarity.CompareTo(rhs.Character_ID.Rarity);},
+        (lhs, rhs) => { return rhs.Character_ID.Rarity.CompareTo(lhs.Character_ID.Rarity);},
+        (lhs, rhs) => { return lhs.Level.CompareTo(rhs.Level);},
+        (lhs, rhs) => { return rhs.Level.CompareTo(lhs.Level);},
+        (lhs, rhs) => { return lhs.Character_ID.Position.CompareTo(rhs.Character_ID.Position);},
+        (lhs, rhs) => { return rhs.Character_ID.Position.CompareTo(lhs.Character_ID.Position);},
+
+    };
+
+    private SortingOption sorting = SortingOption.NameAcceding;
+    public SortingOption Sorting
+    {
+        get => sorting;
+        set
+        {
+            sorting = value;
+            UpdateSlots(saveCharacterList);
+        }
+    }
+    //public UnityEvent onUpdateSlots;
+    //public UnityEvent<CharacterInfo> onSelectSlot;
     public int SlotIndex { get; set; }
 
     public UiCollectionSlot prefab;
@@ -20,6 +65,8 @@ public class UiCollectSlotList : MonoBehaviour
     private int selectedSlotIndex = -1;
     public void Save()
     {
+       
+
         SaveLoadManager.Data.CharacterInfos = saveCharacterList;
         SaveLoadManager.Save();
 
@@ -47,17 +94,22 @@ public class UiCollectSlotList : MonoBehaviour
     }
     private void UpdateSlots(List<CharacterInfo> saveCharacterList)
     {
-        //var list = itemList.Where(filterings[(int)Filtering]).ToList();
-        //list.Sort(comparison[(int)sorting]);
 
 
-        for (int i = slotList.Count; i < saveCharacterList.Count; ++i)
+        var list = saveCharacterList.Where(x => true).ToList();
+
+        list.Sort(comparison[(int)sorting]);
+        int count = 0;
+        foreach (var item in saveCharacterList)
+        {
+            if (item.IsGet) count++;
+        }
+        for (int i = 0; i < list.Count; ++i)
         {
             UiCollectionSlot newSlot;
-            if (saveCharacterList[i].IsGet)
-            {
-                newSlot = Instantiate(prefab, getRect.content);
-
+            if (i < count)
+            { 
+                newSlot = Instantiate(prefab, getRect.content); 
             }
             else
             {
@@ -71,18 +123,30 @@ public class UiCollectSlotList : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 selectedSlotIndex = newSlot.slotIdx;
-                //onSelectSlot?.Invoke(newSlot.itemData);
             });
             slotList[i].gameObject.SetActive(false);
         }
 
-
+        int up = 0;
+        int down = count;
         for (int i = 0; i < slotList.Count; i++)
         {
-            if (i < saveCharacterList.Count)
+            if (i < list.Count)
             {
-                slotList[i].SetItem(saveCharacterList[i].Character_ID);
-                slotList[i].gameObject.SetActive(true);
+                if (list[i].IsGet)
+                {
+                    slotList[up].SetItem(list[i].Character_ID);
+                    slotList[up].gameObject.SetActive(true);
+                    up++;
+                }
+                else
+                {
+                    slotList[down].SetItem(list[i].Character_ID);
+                    slotList[down].gameObject.SetActive(true);
+                    down++;
+                }
+
+
             }
             else
             {
@@ -90,7 +154,7 @@ public class UiCollectSlotList : MonoBehaviour
                 slotList[i].gameObject.SetActive(false);
             }
         }
-
+        saveCharacterList = list;
         selectedSlotIndex = -1;
         //onUpdateSlots?.Invoke();
     }
