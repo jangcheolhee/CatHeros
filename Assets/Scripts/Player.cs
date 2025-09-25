@@ -1,9 +1,10 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
-
 
 
 public class Player : LivingEntity
@@ -11,16 +12,44 @@ public class Player : LivingEntity
     private readonly int isDie = Animator.StringToHash("IsDie");
     private readonly int isAttack = Animator.StringToHash("IsAttack");
     private readonly int isSkill = Animator.StringToHash("IsSkill");
+    private readonly int IsWalk = Animator.StringToHash("IsWalk");
     private int level;
-
-
+    private bool IsAttack = true;
+    public enum Status
+    {
+        Idle,
+        Trace,
+        Back,
+    }
+    GameObject effectPrefab;
     private Animator animator;
     private AudioSource audioSource;
     private SpriteRenderer spriteRenderer;
     private Color originColor;
+    private Vector3 InitPosition;
 
+    private Status currentStatus;
+    public Status CurrentStatus
+    {
+        get { return currentStatus; }
+        set
+        {
+            var prevStatus = currentStatus;
+            currentStatus = value;
+            switch (CurrentStatus)
+            {
+                case Status.Idle:
+                    animator.SetBool(IsWalk, false);
+                    IsAttack = true;
 
+                    break;
+                case Status.Trace:
+                    animator.SetBool(IsWalk, true);
 
+                    break;
+            }
+        }
+    }
     public CharacterData characterData;
     public SkillData BasicAttack { get; private set; }
     public SkillData SkillData { get; private set; }
@@ -64,7 +93,7 @@ public class Player : LivingEntity
             return characterData.Position;
         }
     }  // Tanker¿Œ¡ˆ   
-
+    public float speed = 0.5f;
     private LivingEntity target;
     private LivingEntity skillTarget;
 
@@ -107,39 +136,96 @@ public class Player : LivingEntity
 
         var health = GetComponent<PlayerHealth>();
         if (health != null) health.Refresh();
+        effectPrefab = Resources.Load<GameObject>($"Effects/{characterData.Skill_Set_ID}");
+        InitPosition = transform.position;
     }
 
 
     protected override void Update()
     {
         base.Update();
+
         if (IsDead) return;
         if (target == null || target.IsDead)
         {
             target = null;
             FindTarget();
         }
+        switch (CurrentStatus)
+        {
+            case Status.Idle:
+                UpdateIdle();
+                break;
+
+            case Status.Trace:
+                UpdateTrace();
+                break;
+            case Status.Back:
+                UpdateBack();
+                break;
+
+        }
+
+    }
+
+    private void UpdateBack()
+    {
+        transform.position = Vector3.Lerp(
+        transform.position,
+        InitPosition,
+        speed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, InitPosition) < 0.01f)
+        {
+            CurrentStatus = Status.Idle;
+        }
+    }
+    private void UpdateTrace()
+    {
+        if (IsAttack)
+        {
+            transform.position = Vector3.Lerp(
+             transform.position,
+          target.transform.position,
+             speed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, target.transform.position) < 1f)
+            {
+                IsAttack = false;
+                StartCoroutine(Attack());
+            }
+        }
+
+    }
+
+    private IEnumerator Attack()
+    {
+        animator.SetTrigger(isAttack);
+        if (target != null)
+            target.OnDamage(AttackDamage);
+        yield return new WaitForSeconds(0.5f);
+        CurrentStatus = Status.Back;
+
+
+
+    }
+
+    private void UpdateIdle()
+    {
         attackTimer += Time.deltaTime;
         skillTimer += Time.deltaTime;
 
         if (target && attackTimer > AttackInterval)
         {
             attackTimer = 0;
-            Attack();
+            //Attack();
+            CurrentStatus = Status.Trace;
         }
         if (target && battleManager.IsAuto && skillTimer > SkillData.Cooldown)
         {
-            
             AutoUseSkill();
         }
     }
-    private void Attack()
-    {
-        animator.SetTrigger(isAttack);
-        if (target != null)
-            target.OnDamage(AttackDamage);
 
-    }
+
     public void UseSkill()
     {
 
@@ -147,11 +233,13 @@ public class Player : LivingEntity
 
         animator.SetTrigger(isSkill);
         skillTarget.OnDamage(SkillDamage);
-
+        var effect = Instantiate(effectPrefab, skillTarget.transform.position, Quaternion.identity);
+        Destroy(effect, 1);
         if (SkillEffect != null)
         {
+            skillTarget.AddStatus(SkillEffect.Effect_Type, 100, 1);
 
-            skillTarget.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(SkillData.Effect_1_Duration) / 1000);
+            //skillTarget.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(SkillData.Effect_1_Duration) / 1000);
         }
         skillTimer = 0;
 
@@ -167,11 +255,11 @@ public class Player : LivingEntity
         {
             idx = battleManager.Players[FormationRow.Rear].IndexOf(this) + battleManager.Players[FormationRow.Front].Count;
         }
-        
+
         if (idx >= 0 && idx < battleManager.battleUIManager.skillButtons.Count)
         {
             var btn = battleManager.battleUIManager.skillButtons[idx];
-            btn.button.onClick.Invoke(); 
+            btn.button.onClick.Invoke();
         }
     }
 
@@ -185,7 +273,7 @@ public class Player : LivingEntity
         {
             foreach (var enemy in battleManager.AliveEnemies[priorityRow])
             {
-                if ( !enemy.IsDead)
+                if (!enemy.IsDead)
                 {
                     target = enemy;
                     return;
@@ -196,7 +284,7 @@ public class Player : LivingEntity
         {
             foreach (var enemy in battleManager.AliveEnemies[backupRow])
             {
-                if ( !enemy.IsDead)
+                if (!enemy.IsDead)
                 {
                     target = enemy;
                     return;
@@ -210,7 +298,7 @@ public class Player : LivingEntity
         skillTarget = null;
         if (SkillData.Effect_1_Target == "1")
         {
-            
+
             foreach (var player in battleManager.Players[FormationRow.Front])
             {
                 if (!player.IsDead) { skillTarget = player; return; }
@@ -223,7 +311,7 @@ public class Player : LivingEntity
         }
 
         skillTarget = target;
-       
+
 
     }
     public override void OnDamage(int damage)

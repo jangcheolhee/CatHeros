@@ -10,6 +10,8 @@ public class CollectionScene : MonoBehaviour
     }
     public void OnClickCollection()
     {
-        SceneManager.LoadScene("Collection");
+        SceneManager.LoadScene("StageSelect");
     }
+    
+
 }

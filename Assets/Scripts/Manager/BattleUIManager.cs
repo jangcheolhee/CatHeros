@@ -44,7 +44,7 @@ public class BattleUIManager : MonoBehaviour
 
                 float skillCooldown = player.SkillData.Cooldown;
                 skillButtons[index].Setup(player, skillCooldown);
-                spriteIcon = Resources.Load<Sprite>($"Icon/{player.characterData.Character_ID}");
+                spriteIcon = Resources.Load<Sprite>($"Skills/{player.characterData.Skill_Set_ID}");
                
                 skillButtons[index].icon.sprite = spriteIcon;
                 player.OnHealthChanged += (current, max) =>
