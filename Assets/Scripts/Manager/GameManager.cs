@@ -19,10 +19,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int SelectedStageId = -1;
     public List<SlotInfo> PartySlots = new List<SlotInfo>();
+    public int ClearStage {  get; set; }
 
     public List<CharacterInfo> saveCharacterList = new List<CharacterInfo>();
     private List<CharacterData> allData;
     private int[] initIds = new int[] { 10101,10102,10103,10104,10105};
+    
     private void Awake()
     {
         if (Instance == null)
@@ -36,12 +38,17 @@ public class GameManager : MonoBehaviour
         }
         Load();
     }
+    private void OnDisable()
+    {
+        Save();
+    }
     public void Load()
     {
         if (SaveLoadManager.Load())
         {
             
             saveCharacterList = SaveLoadManager.Data.CharacterInfos;
+            ClearStage = SaveLoadManager.Data.ClearStage;
 
         }
         else
@@ -63,7 +70,11 @@ public class GameManager : MonoBehaviour
         SaveLoadManager.Save();
 
     }
-
+    private void Save()
+    {
+        SaveLoadManager.Data.ClearStage = ClearStage;
+        SaveLoadManager.Save();
+    }
 
 
 }

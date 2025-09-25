@@ -15,6 +15,7 @@ public class BattleManager : MonoBehaviour
 
     public GameObject PlayerPrefab;
     public GameObject Enemy;
+    private bool end;
 
 
     public Transform playerFront;
@@ -49,6 +50,7 @@ public class BattleManager : MonoBehaviour
         AliveEnemies[FormationRow.Front] = new List<Enemy>();
         AliveEnemies[FormationRow.Rear] = new List<Enemy>();
         SpawnParty();
+        end = false; 
 
     }
     private void Update()
@@ -75,8 +77,10 @@ public class BattleManager : MonoBehaviour
 
         if (enemyCount == 0)
         {
-            if (currentWave >= totalWave)
+            if (currentWave >= totalWave && ! end)
             {
+                end = true;
+                GameManager.Instance.ClearStage++;
                 
                 uiManager.ShowPanel("VictoryPanel", true);
                 return;

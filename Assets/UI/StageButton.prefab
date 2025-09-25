@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0138f4ee15afc834c87993e484b67fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 0}
+  thumbnail: {fileID: 8047391246070120412}
   nameText: {fileID: 8638366141859907944}
   stageId: 0
 --- !u!1 &7841037904705326250

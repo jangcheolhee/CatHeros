@@ -214,7 +214,7 @@ public class Player : LivingEntity
 
     private IEnumerator Attack()
     {
-        
+
         if (target != null)
         {
             if (characterData.Basic_attack_ID == 11308)
@@ -248,7 +248,7 @@ public class Player : LivingEntity
             //Attack();
             CurrentStatus = Status.Trace;
         }
-        
+
     }
 
 
@@ -308,7 +308,7 @@ public class Player : LivingEntity
             if (battleManager.Players.ContainsKey(priorityRow))
             {
 
-                foreach (var player in battleManager.AliveEnemies[priorityRow])
+                foreach (var player in battleManager.Players[priorityRow])
                 {
                     if (!player.IsDead)
                     {
@@ -324,7 +324,7 @@ public class Player : LivingEntity
             }
             if (battleManager.Players.ContainsKey(backupRow))
             {
-                foreach (var player in battleManager.AliveEnemies[backupRow])
+                foreach (var player in battleManager.Players[backupRow])
                 {
                     if (player.CurrentHP < minHp)
                     {
@@ -366,8 +366,36 @@ public class Player : LivingEntity
         if (SkillData.Effect_1_Target == "1")
         {
 
-            FindTarget();
-            skillTarget = target;
+            FormationRow priorityRow = FormationRow.Front;
+            FormationRow backupRow = FormationRow.Rear;
+
+            float minHp = 1000000f;
+            if (battleManager.Players.ContainsKey(priorityRow))
+            {
+                foreach (var player in battleManager.Players[priorityRow])
+                {
+                    if (!player.IsDead)
+                    {
+                        if (player.CurrentHP < minHp)
+                        {
+                            skillTarget = player;
+                            minHp = player.CurrentHP;
+                        }
+                    }
+                }
+            }
+            if (battleManager.Players.ContainsKey(backupRow))
+            {
+                foreach (var player in battleManager.Players[backupRow])
+                {
+                    if (player.CurrentHP < minHp)
+                    {
+                        skillTarget = player;
+                        minHp = player.CurrentHP;
+                    }
+                }
+            }
+
             return;
 
         }

@@ -12,7 +12,7 @@ public abstract class SaveData
 public class SaveDataV1 : SaveData
 {
     public string PlayerName { get; set; } = string.Empty;
-
+    public int ClearStage {  get; set; }
     public List<CharacterInfo> CharacterInfos { get; set; } = new List<CharacterInfo>();
     //public List<PartySlot> PartySlots { get; set; } = new List<PartySlot>();
 
