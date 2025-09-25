@@ -1,8 +1,14 @@
 using System.Collections;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public class Enemy : LivingEntity
 {
+    private readonly int isDie = Animator.StringToHash("IsDie");
+    private readonly int isAttack = Animator.StringToHash("IsAttack");
+    private readonly int isSkill = Animator.StringToHash("IsSkill");
+    private readonly int IsWalk = Animator.StringToHash("IsWalk");
+
     private Animator animator;
 
     public MonsterData monsterData;
@@ -10,7 +16,35 @@ public class Enemy : LivingEntity
     public SkillData skillData { get; private set; }
     private SpriteRenderer spriteRenderer;
     private Color originColor;
+    private bool IsAttack = true;
+    public enum Status
+    {
+        Idle,
+        Trace,
+        Back,
+    }
+    private Status currentStatus;
+    public Status CurrentStatus
+    {
+        get { return currentStatus; }
+        set
+        {
+            var prevStatus = currentStatus;
+            currentStatus = value;
+            switch (CurrentStatus)
+            {
+                case Status.Idle:
+                    animator.SetBool(IsWalk, false);
+                    IsAttack = true;
 
+                    break;
+                case Status.Trace:
+                    animator.SetBool(IsWalk, true);
+
+                    break;
+            }
+        }
+    }
     public int Max_HP
     {
         get
@@ -62,6 +96,11 @@ public class Enemy : LivingEntity
     private Player target;
     private LivingEntity skillTarget;
     public BattleManager battleManager;
+    private float attackRange;
+    private Vector2 InitPosition;
+    private float speed = 3f;
+    private float skillTimer;
+
 
     private void Awake()
     {
@@ -82,7 +121,19 @@ public class Enemy : LivingEntity
 
         var health = GetComponent<EnemyHealth>();
         if (health != null) health.Refresh();
-
+        InitPosition = transform.position;
+        switch (monsterData.M_Basic_attack_ID)
+        {
+            case 11306:
+                attackRange = 1f;
+                break;
+            case 11307:
+                attackRange = 2f;
+                break;
+            case 11308:
+                attackRange = 4f;
+                break;
+        }
     }
 
     protected override void Update()
@@ -92,12 +143,22 @@ public class Enemy : LivingEntity
 
         if (target == null || target.IsDead)
             FindTarget();
-        if(!IsStunned)
-        {
-            attackTimer += Time.deltaTime;
-            
-        }
         
+        switch (CurrentStatus)
+        {
+            case Status.Idle:
+                UpdateIdle();
+                break;
+
+            case Status.Trace:
+                UpdateTrace();
+                break;
+            case Status.Back:
+                UpdateBack();
+                break;
+
+        }
+
         if (target && attackTimer > AttackInterval)
         {
             attackTimer = 0f;
@@ -105,13 +166,70 @@ public class Enemy : LivingEntity
         }
        
     }
-
-    private void Attack()
+    private void UpdateBack()
     {
-        animator.SetTrigger("IsAttack");
-        if (target != null)
-            target.OnDamage(AttackDamage);
+        transform.position = Vector3.Lerp(
+        transform.position,
+        InitPosition,
+        speed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, InitPosition) < 0.01f)
+        {
+            CurrentStatus = Status.Idle;
+        }
     }
+    private void UpdateTrace()
+    {
+        if (IsAttack)
+        {
+            transform.position = Vector3.Lerp(
+            transform.position,
+            target.transform.position,
+            speed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, target.transform.position) < attackRange)
+            {
+                IsAttack = false;
+                StartCoroutine(Attack());
+            }
+        }
+
+    }
+
+    private IEnumerator Attack()
+    {
+        animator.SetTrigger(isAttack);
+        if (target != null)
+        {
+            if (monsterData.M_Basic_attack_ID == 11308)
+                target.OnDamage(-AttackDamage);
+            else
+                target.OnDamage(AttackDamage);
+        }
+        yield return new WaitForSeconds(0.5f);
+        CurrentStatus = Status.Back;
+
+
+
+    }
+
+    private void UpdateIdle()
+    {
+        if (!IsStunned)
+        {
+            attackTimer += Time.deltaTime;
+
+        }
+        attackTimer += Time.deltaTime;
+        skillTimer += Time.deltaTime;
+
+        if (target && attackTimer > AttackInterval)
+        {
+            attackTimer = 0;
+            
+            CurrentStatus = Status.Trace;
+        }
+       
+    }
+    
     public void UseSkill()
     {
         //animator.SetBool("IsSkill", true);

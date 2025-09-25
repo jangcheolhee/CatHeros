@@ -93,7 +93,7 @@ public class Player : LivingEntity
             return characterData.Position;
         }
     }  // Tanker¿Œ¡ˆ   
-    public float speed = 0.5f;
+    private float speed = 3f;
     private LivingEntity target;
     private LivingEntity skillTarget;
 
@@ -141,13 +141,13 @@ public class Player : LivingEntity
         switch (characterData.Basic_attack_ID)
         {
             case 11306:
-                attackRange = 1f;
+                attackRange = 0.5f;
                 break;
             case 11307:
-                attackRange = 2f;
+                attackRange = 1.5f;
                 break;
             case 11308:
-                attackRange = 4f;
+                attackRange = 2f;
                 break;
         }
     }
@@ -163,6 +163,7 @@ public class Player : LivingEntity
             target = null;
             FindTarget();
         }
+        
         switch (CurrentStatus)
         {
             case Status.Idle:
@@ -227,6 +228,11 @@ public class Player : LivingEntity
 
     private void UpdateIdle()
     {
+        if (!IsStunned)
+        {
+            attackTimer += Time.deltaTime;
+
+        }
         attackTimer += Time.deltaTime;
         skillTimer += Time.deltaTime;
 
@@ -353,10 +359,7 @@ public class Player : LivingEntity
             return;
 
         }
-
         skillTarget = target;
-
-
     }
     public override void OnDamage(int damage)
     {
