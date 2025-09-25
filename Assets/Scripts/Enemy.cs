@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public class Enemy : LivingEntity
@@ -10,7 +9,7 @@ public class Enemy : LivingEntity
     private readonly int IsWalk = Animator.StringToHash("IsWalk");
 
     private Animator animator;
-
+    public GameObject bulletPrefab;
     public MonsterData monsterData;
     public SkillData basicAttack { get; private set; }
     public SkillData skillData { get; private set; }
@@ -187,7 +186,9 @@ public class Enemy : LivingEntity
             speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, target.transform.position) < attackRange)
             {
+                animator.SetTrigger(isAttack);
                 IsAttack = false;
+                Shoot();
                 StartCoroutine(Attack());
             }
         }
@@ -196,7 +197,7 @@ public class Enemy : LivingEntity
 
     private IEnumerator Attack()
     {
-        animator.SetTrigger(isAttack);
+        
         if (target != null)
         {
             if (monsterData.M_Basic_attack_ID == 11308)
@@ -229,7 +230,15 @@ public class Enemy : LivingEntity
         }
        
     }
-    
+    public void Shoot()
+    {
+        if (target != null)
+        {
+
+            GameObject proj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            proj.GetComponent<Bullet>().Init(target);
+        }
+    }
     public void UseSkill()
     {
         //animator.SetBool("IsSkill", true);

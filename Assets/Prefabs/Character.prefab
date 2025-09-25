@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStatus: 0
+  bulletPrefab: {fileID: 4605551391893779245, guid: 661f736af901783418af09c315f15043, type: 3}
   battleManager: {fileID: 0}
 --- !u!50 &8749790222617992401
 Rigidbody2D:

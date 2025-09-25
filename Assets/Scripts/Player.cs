@@ -15,6 +15,7 @@ public class Player : LivingEntity
     private readonly int IsWalk = Animator.StringToHash("IsWalk");
     private int level;
     private bool IsAttack = true;
+    public GameObject bulletPrefab;
     public enum Status
     {
         Idle,
@@ -163,7 +164,7 @@ public class Player : LivingEntity
             target = null;
             FindTarget();
         }
-        
+
         switch (CurrentStatus)
         {
             case Status.Idle:
@@ -187,7 +188,7 @@ public class Player : LivingEntity
         transform.position,
         InitPosition,
         speed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, InitPosition) < 0.01f)
+        if (Vector3.Distance(transform.position, InitPosition) < 0.2f)
         {
             CurrentStatus = Status.Idle;
         }
@@ -202,8 +203,10 @@ public class Player : LivingEntity
             speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, target.transform.position) < attackRange)
             {
+                animator.SetTrigger(isAttack);
                 IsAttack = false;
                 StartCoroutine(Attack());
+                if (attackRange > 1) Shoot();
             }
         }
 
@@ -211,7 +214,7 @@ public class Player : LivingEntity
 
     private IEnumerator Attack()
     {
-        animator.SetTrigger(isAttack);
+        
         if (target != null)
         {
             if (characterData.Basic_attack_ID == 11308)
@@ -235,17 +238,17 @@ public class Player : LivingEntity
         }
         attackTimer += Time.deltaTime;
         skillTimer += Time.deltaTime;
-
+        if (target && battleManager.IsAuto && skillTimer > SkillData.Cooldown)
+        {
+            AutoUseSkill();
+        }
         if (target && attackTimer > AttackInterval)
         {
             attackTimer = 0;
             //Attack();
             CurrentStatus = Status.Trace;
         }
-        if (target && battleManager.IsAuto && skillTimer > SkillData.Cooldown)
-        {
-            AutoUseSkill();
-        }
+        
     }
 
 
@@ -283,6 +286,15 @@ public class Player : LivingEntity
         {
             var btn = battleManager.battleUIManager.skillButtons[idx];
             btn.button.onClick.Invoke();
+        }
+    }
+    public void Shoot()
+    {
+        if (target != null)
+        {
+
+            GameObject proj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            proj.GetComponent<Bullet>().Init(target);
         }
     }
 
