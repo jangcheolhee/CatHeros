@@ -27,7 +27,7 @@ public class Player : LivingEntity
     private SpriteRenderer spriteRenderer;
     private Color originColor;
     private Vector3 InitPosition;
-
+    private float attackRange;
     private Status currentStatus;
     public Status CurrentStatus
     {
@@ -138,6 +138,18 @@ public class Player : LivingEntity
         if (health != null) health.Refresh();
         effectPrefab = Resources.Load<GameObject>($"Effects/{characterData.Skill_Set_ID}");
         InitPosition = transform.position;
+        switch (characterData.Basic_attack_ID)
+        {
+            case 11306:
+                attackRange = 1f;
+                break;
+            case 11307:
+                attackRange = 2f;
+                break;
+            case 11308:
+                attackRange = 4f;
+                break;
+        }
     }
 
 
@@ -184,10 +196,10 @@ public class Player : LivingEntity
         if (IsAttack)
         {
             transform.position = Vector3.Lerp(
-             transform.position,
-          target.transform.position,
-             speed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, target.transform.position) < 1f)
+            transform.position,
+            target.transform.position,
+            speed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, target.transform.position) < attackRange)
             {
                 IsAttack = false;
                 StartCoroutine(Attack());
@@ -200,7 +212,12 @@ public class Player : LivingEntity
     {
         animator.SetTrigger(isAttack);
         if (target != null)
-            target.OnDamage(AttackDamage);
+        {
+            if (characterData.Basic_attack_ID == 11308)
+                target.OnDamage(-AttackDamage);
+            else
+                target.OnDamage(AttackDamage);
+        }
         yield return new WaitForSeconds(0.5f);
         CurrentStatus = Status.Back;
 
@@ -267,8 +284,40 @@ public class Player : LivingEntity
     {
         FormationRow priorityRow = FormationRow.Front;
         FormationRow backupRow = FormationRow.Rear;
+        if (characterData.Basic_attack_ID == 11308)
+        {
+            float minHp = 1000000f;
+            if (battleManager.Players.ContainsKey(priorityRow))
+            {
+
+                foreach (var player in battleManager.AliveEnemies[priorityRow])
+                {
+                    if (!player.IsDead)
+                    {
+                        if (player.CurrentHP < minHp)
+                        {
+                            target = player;
+                            minHp = player.CurrentHP;
+                        }
 
 
+                    }
+                }
+            }
+            if (battleManager.Players.ContainsKey(backupRow))
+            {
+                foreach (var player in battleManager.AliveEnemies[backupRow])
+                {
+                    if (player.CurrentHP < minHp)
+                    {
+                        target = player;
+                        minHp = player.CurrentHP;
+                    }
+                }
+            }
+            return;
+
+        }
         if (battleManager.AliveEnemies.ContainsKey(priorityRow))
         {
             foreach (var enemy in battleManager.AliveEnemies[priorityRow])
@@ -299,14 +348,9 @@ public class Player : LivingEntity
         if (SkillData.Effect_1_Target == "1")
         {
 
-            foreach (var player in battleManager.Players[FormationRow.Front])
-            {
-                if (!player.IsDead) { skillTarget = player; return; }
-            }
-            foreach (var player in battleManager.Players[FormationRow.Rear])
-            {
-                if (!player.IsDead) { skillTarget = player; return; }
-            }
+            FindTarget();
+            skillTarget = target;
+            return;
 
         }
 

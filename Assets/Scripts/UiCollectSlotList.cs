@@ -133,13 +133,13 @@ public class UiCollectSlotList : MonoBehaviour
             {
                 if (list[i].IsGet)
                 {
-                    slotList[up].SetItem(list[i].Character_ID);
+                    slotList[up].SetItem(list[i].Character_ID, list[i].IsGet);
                     slotList[up].gameObject.SetActive(true);
                     up++;
                 }
                 else
                 {
-                    slotList[down].SetItem(list[i].Character_ID);
+                    slotList[down].SetItem(list[i].Character_ID, list[i].IsGet);
                     slotList[down].gameObject.SetActive(true);
                     down++;
                 }

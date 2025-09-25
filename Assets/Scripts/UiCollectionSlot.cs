@@ -15,11 +15,19 @@ public class UiCollectionSlot : MonoBehaviour
         textMeshProUGUI.text = string.Empty;
     }
 
-    public void SetItem(CharacterData data)
+    public void SetItem(CharacterData data, bool isGet)
     {
         this.characterData = data;
+        if (isGet)
+        {
+            icon.sprite = Resources.Load<Sprite>($"icon/{data.Character_ID}");
+        }else
+        {
+            icon.sprite = Resources.Load<Sprite>($"icon/No");
+        }
 
-        icon.sprite = Resources.Load<Sprite>($"icon/{data.Character_ID}" );
+
+            
         textMeshProUGUI.text = data.Name;
     }
 }
