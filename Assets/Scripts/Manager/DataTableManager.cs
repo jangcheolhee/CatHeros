@@ -34,6 +34,13 @@ public static class DataTableManger
         var effectTable = new EffectTable();
         effectTable.Load(DataTableIds.Effect);
         tables.Add (DataTableIds.Effect, effectTable);
+        var rewardTable = new RewardTable();
+        rewardTable.Load(DataTableIds.Reward);
+        tables.Add(DataTableIds.Reward, rewardTable);
+
+        var itemTable = new ItemTable();
+        itemTable.Load(DataTableIds.Item);
+        tables.Add(DataTableIds.Item, itemTable);
 #if UNITY_EDITOR
 
 
@@ -84,6 +91,21 @@ public static class DataTableManger
         get
         {
             return Get<EffectTable>(DataTableIds.Effect);
+        }
+    }
+    public static RewardTable RewardTable
+    {
+        get
+        {
+            return Get<RewardTable>(DataTableIds.Reward);
+        }
+    }
+
+    public static ItemTable ItemTable
+    {
+        get
+        {
+            return Get<ItemTable>(DataTableIds.Item);
         }
     }
     public static T Get<T>(string id) where T : DataTable

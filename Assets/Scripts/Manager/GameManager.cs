@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     public int SelectedStageId = -1;
     public List<SlotInfo> PartySlots = new List<SlotInfo>();
     public int ClearStage {  get; set; }
+    public int Gold {  get; set; }
+    public int Chur {  get; set; }
+    public int Exp {  get; set; }
+    public int Yarn {  get; set; }
 
     public List<CharacterInfo> saveCharacterList = new List<CharacterInfo>();
     private List<CharacterData> allData;
@@ -40,6 +44,7 @@ public class GameManager : MonoBehaviour
     }
     private void OnDisable()
     {
+        
         Save();
     }
     public void Load()
@@ -49,6 +54,10 @@ public class GameManager : MonoBehaviour
             
             saveCharacterList = SaveLoadManager.Data.CharacterInfos;
             ClearStage = SaveLoadManager.Data.ClearStage;
+            Gold = SaveLoadManager.Data.Gold;
+            Chur = SaveLoadManager.Data.Chur;
+            Exp = SaveLoadManager.Data.Exp;
+            Yarn = SaveLoadManager.Data.Yarn;
 
         }
         else
@@ -73,6 +82,11 @@ public class GameManager : MonoBehaviour
     private void Save()
     {
         SaveLoadManager.Data.ClearStage = ClearStage;
+        SaveLoadManager.Data.CharacterInfos = saveCharacterList;
+        SaveLoadManager.Data.Yarn = Yarn;
+        SaveLoadManager.Data.Exp = Exp;
+        SaveLoadManager.Data.Gold = Gold;
+        SaveLoadManager.Data.Chur = Chur;
         SaveLoadManager.Save();
     }
 

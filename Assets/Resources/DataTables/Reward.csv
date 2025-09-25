@@ -1,0 +1,5 @@
+reward_id,reward_type,RewardTarget_id,RewardTarget_Name,condition,R_item_type,R_item_id,R_item_Name,quantity,probability,description
+31001,스테이지 클리어,3801,1-1 스테이지,스테이지 최초 클리어,3,40501,Chur,2,100,이후 재도전에서는 수급이 불가능한 보상.
+31002,스테이지 클리어,3801,1-1 스테이지,스테이지 최초 클리어,3,20503,Yahn,5,100,이후 재도전에서는 수급이 불가능한 보상.
+11003,스테이지 클리어,3801,1-1 스테이지,스테이지 클리어,1,40502,Gold,2700,100,
+31004,스테이지 클리어,3801,1-1 스테이지,스테이지 클리어,3,40504,Exp,2000,100,

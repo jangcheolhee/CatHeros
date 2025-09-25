@@ -4,30 +4,29 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class StageSelectManager : MonoBehaviour
+public class StageSelectScene : GenericWindow
 {
-  
-    public ScrollRect scrollRect;       
-    public Transform content;          
+
+    public StageCheckPanel checkPanel;
+    public ScrollRect scrollRect;
+    public Transform content;
     public GameObject stageButtonPrefab;
     public Button startButton;
     public TextMeshProUGUI titleText;
 
-         
+
 
     private readonly List<StageButton> items = new();
     private int selectedStageId = -1;
 
-    void Start()
+    public override void Open()
     {
         titleText?.SetText("Stage Select");
         Populate();
-        
+        base.Open();
+
     }
-    private void OnDisable()
-    {
-        SaveLoadManager.Save();
-    }
+
 
     void Populate()
     {
@@ -50,7 +49,7 @@ public class StageSelectManager : MonoBehaviour
                 view.Init(s.Value, false);
             }
 
-                var btn = go.GetComponent<Button>();
+            var btn = go.GetComponent<Button>();
 
             int id = s.Key;
             btn.onClick.AddListener(() => OnClickStage(id));
@@ -66,21 +65,31 @@ public class StageSelectManager : MonoBehaviour
     void OnClickStage(int id)
     {
         selectedStageId = (selectedStageId == id) ? -1 : id;
-        GameManager.Instance.SelectedStageId = selectedStageId;   
-        SceneManager.LoadScene("CharacterSelect");
-       
+        GameManager.Instance.SelectedStageId = selectedStageId;
+        //manager.Open(Windows.Character);
+        checkPanel.Show();
+
     }
 
 
- 
     public void OnClickCollection()
     {
-        SceneManager.LoadScene("Collection");
+        manager.Open(Windows.Collection);
     }
     public void OnClickHome()
     {
-        
-        
-        SceneManager.LoadScene("Main");           
+
+
+        manager.Open(Windows.Main);
+    }
+    public void OnClickBack()
+    {
+        checkPanel.Hide();
+        selectedStageId = -1;
+
+    }
+    public void OnClickStart()
+    {
+        manager.Open(Windows.Character);
     }
 }

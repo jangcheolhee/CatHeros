@@ -1,16 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CollectionScene : MonoBehaviour
+public class CollectionScene : GenericWindow
 {
     
     public void OnClickHome()
     {
-        SceneManager.LoadScene("Main");
+        manager.Open(Windows.Main);
     }
-    public void OnClickCollection()
+    public void OnClickStage()
     {
-        SceneManager.LoadScene("StageSelect");
+        manager.Open(Windows.Stage);
     }
     
 

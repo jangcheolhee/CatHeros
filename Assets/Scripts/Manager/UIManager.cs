@@ -115,6 +115,6 @@ public class UIManager : MonoBehaviour
     public void ExitGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("CharacterSelect");
+        SceneManager.LoadScene("Main");
     }
 }

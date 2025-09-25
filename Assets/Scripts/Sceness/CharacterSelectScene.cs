@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CharacterSelectScene : MonoBehaviour
+public class CharacterSelectScene : GenericWindow
 {
 
 
@@ -16,14 +16,15 @@ public class CharacterSelectScene : MonoBehaviour
     public bool isDrop = false;
     public CharacterSlot characterSlot;
 
-    private void Start()
+    public override void Open()
     {
 
         foreach(var cha in GameManager.Instance.saveCharacterList)
         {
+            Debug.Log(cha);
             if(cha.IsGet)
             {
-                Debug.Log(cha.Character_ID.Character_ID);
+               
                 charIds.Add(cha.Character_ID.Character_ID);
             }
         }
@@ -32,13 +33,14 @@ public class CharacterSelectScene : MonoBehaviour
         {
             GameObject icon = Instantiate(iconPrefab, scrollViewContent);
             CharacterSlot charSlot = icon.GetComponent<CharacterSlot>();
-            charSlot.characterSelectScene = this;
+           
             charSlot.characterID = charId;
             spriteIcon = Resources.Load<Sprite>($"icon/{charId}");
            
             charSlot.icon.sprite = spriteIcon;
             icon.GetComponentInChildren<TextMeshProUGUI>().text = DataTableManger.CharacterTable.Get(charId).Name;
         }
+        base.Open();
     }
     public void OnClickConfirm()
     {
@@ -51,7 +53,7 @@ public class CharacterSelectScene : MonoBehaviour
     }
     public void OnClickBack()
     {
-        SceneManager.LoadScene("StageSelect");
+        manager.Open(Windows.Stage);
     }
     public void OnClickEnemy()
     {

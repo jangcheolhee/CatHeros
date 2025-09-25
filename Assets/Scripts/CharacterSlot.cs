@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     
-    public CharacterSelectScene characterSelectScene;
+    private CharacterSelectScene characterSelectScene;
     private GameObject draggingIcon;
     public CanvasGroup canvasGroup;
     private Canvas canvas;
@@ -24,11 +24,12 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private bool isPointerDown = false;
     private Vector2 startPos;
 
-    private void Awake()
+    private void Start()
     {
         canvas = GetComponentInParent<Canvas>();
         image = GetComponent<Image>();
         canvasGroup = GetComponentInParent<CanvasGroup>();
+        characterSelectScene = GetComponentInParent<CharacterSelectScene>();
     }
 
     public void SetAssigned(bool assigned)

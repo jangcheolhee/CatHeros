@@ -1,18 +1,26 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainScene : MonoBehaviour
+public class MainScene : GenericWindow
 {
+    public TextMeshProUGUI gold;
+    public TextMeshProUGUI yarn;
+    private void Start()
+    {
+        gold.text = GameManager.Instance.Gold.ToString();
+        yarn.text = GameManager.Instance.Yarn.ToString();
+    }
     public void OnClickBattle()
     {
-        SceneManager.LoadScene("StageSelect");
+        manager.Open(Windows.Stage);
     }
     public void OnClickHome()
     {
-        SceneManager.LoadScene("Main");
+        manager.Open(Windows.Main);
     }
     public void OnClickCollection()
     {
-        SceneManager.LoadScene("Collection");
+        manager.Open(Windows.Collection);
     }
 }

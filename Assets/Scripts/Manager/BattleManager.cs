@@ -22,10 +22,11 @@ public class BattleManager : MonoBehaviour
     public Transform playerBack;// BattleWorld
     public Transform enemyFront;  // BattleWorld
     public Transform enemyBack;
+    public StageCheckPanel checkPanel;
     private int enemyCount;
-    public int PlayerCount {  get; private set; }   
+    public int PlayerCount { get; private set; }
 
-    public Dictionary<FormationRow,List<Player>> Players { get; private set; } = new ();
+    public Dictionary<FormationRow, List<Player>> Players { get; private set; } = new();
 
     public int currentWave = 0;
     private int totalWave;
@@ -50,7 +51,7 @@ public class BattleManager : MonoBehaviour
         AliveEnemies[FormationRow.Front] = new List<Enemy>();
         AliveEnemies[FormationRow.Rear] = new List<Enemy>();
         SpawnParty();
-        end = false; 
+        end = false;
 
     }
     private void Update()
@@ -68,7 +69,7 @@ public class BattleManager : MonoBehaviour
         }
         if (PlayerCount == 0)
         {
-            
+
             uiManager?.ShowPanel("DefeatPanel", true);
             return;
         }
@@ -77,15 +78,46 @@ public class BattleManager : MonoBehaviour
 
         if (enemyCount == 0)
         {
-            if (currentWave >= totalWave && ! end)
+            if (currentWave >= totalWave && !end)
             {
                 end = true;
+                uiManager.ShowPanel("VictoryPanel", true);
+                    checkPanel.UpdatePanel();
                 GameManager.Instance.ClearStage++;
                 
-                uiManager.ShowPanel("VictoryPanel", true);
+                var rewardDatas = DataTableManger.RewardTable.Get(GameManager.Instance.SelectedStageId);
+                foreach (var data in rewardDatas)
+                {
+                    switch(data.R_item_id)
+                    {
+                        case 40501:
+
+                            GameManager.Instance.Chur += data.quantity;
+                            
+                            break;
+                        case 40502:
+
+                            GameManager.Instance.Gold += data.quantity;
+                            break;
+
+                        case 20503:
+
+                            GameManager.Instance.Yarn += data.quantity;
+
+                            break;
+                        case 40504:
+
+                            GameManager.Instance.Exp += data.quantity;
+
+                            break;
+                            
+                    }
+                }
+
+                
                 return;
             }
-            
+
             StartCoroutine(SpawnWaveWithDelay(currentWave, Waves[currentWave].Spawn_Delay * 0.001f));
         }
 
@@ -103,8 +135,8 @@ public class BattleManager : MonoBehaviour
             Player player = obj.GetComponent<Player>();
             player.Setup(slot.characterId);
             player.battleManager = this;
-          
-            
+
+
             //player.OnDeath += () => Players[slot.row].Remove(player);
             player.OnDeath += () => PlayerCount--;
             player.OnDeath += () => Destroy(player.gameObject, 1);
@@ -139,7 +171,7 @@ public class BattleManager : MonoBehaviour
             var waveq = Waves[wave];
             int f = 0;
             int b = 0;
-            enemyCount= waveq.Enemies.Count;
+            enemyCount = waveq.Enemies.Count;
             foreach (var enemys in waveq.Enemies)
             {
                 Transform slot;
@@ -158,7 +190,7 @@ public class BattleManager : MonoBehaviour
                     obj = Instantiate(Enemy, slot.position, Quaternion.identity, enemyBack);
                     row = FormationRow.Rear;
                 }
-                
+
                 Enemy enemy = obj.GetComponent<Enemy>();
                 enemy.Setup(enemys.Monster_ID);
                 AliveEnemies[row].Add(enemy);
