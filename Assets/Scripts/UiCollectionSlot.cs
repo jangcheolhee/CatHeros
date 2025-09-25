@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,14 @@ public class UiCollectionSlot : MonoBehaviour
     public TextMeshProUGUI textMeshProUGUI;
     public int slotIdx;
     public CharacterData characterData;
+    private CollectionScene scene;
+    private Button button;
+    private void Awake()
+    {
+        button = GetComponent<Button>();
+        scene = GetComponentInParent<CollectionScene>();
+     
+    }
 
     public void SetEmpty()
     {
@@ -25,9 +34,11 @@ public class UiCollectionSlot : MonoBehaviour
         {
             icon.sprite = Resources.Load<Sprite>($"icon/No");
         }
-
-
-            
+        
         textMeshProUGUI.text = data.Name;
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(() => scene.OnClickPanel(SaveLoadManager.Data.CharacterInfos.FirstOrDefault(c => characterData.Character_ID == c.Character_ID.Character_ID)));
+
     }
+   
 }

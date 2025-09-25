@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -61,7 +62,7 @@ public class CharacterSelectScene : GenericWindow
     }
     public void OnClickCharacter(int id, string name, string desc)
     {
-        characterInfoPanel.SetData(id, name,desc);
+        characterInfoPanel.SetCharacter(SaveLoadManager.Data.CharacterInfos.FirstOrDefault(c => c.Character_ID.Character_ID == id));
     }
     public void OnClickClear()
     {

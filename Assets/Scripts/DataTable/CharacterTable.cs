@@ -14,6 +14,7 @@ public class CharacterData
     public int Base_SPD {  get; set; }
     public int Skill_Set_ID {  get; set; }
     public int Basic_attack_ID {  get; set; }
+    public string Description { get; set; }
 
 }
 public class CharacterTable : DataTable

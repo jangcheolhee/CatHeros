@@ -123,7 +123,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4612789114647292714}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2949117586210345372}
+        m_TargetAssemblyTypeName: UiCollectionSlot, Assembly-CSharp
+        m_MethodName: OnClickButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!225 &7091657708122130432
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -151,6 +163,7 @@ MonoBehaviour:
   icon: {fileID: 2539012986281815036}
   textMeshProUGUI: {fileID: 1785963129347983984}
   slotIdx: 0
+  characterInfoPanel: {fileID: 8847950283129579050, guid: 241f8659c6106384aa22a38fe7c79113, type: 3}
 --- !u!1 &3352090481739958660
 GameObject:
   m_ObjectHideFlags: 0

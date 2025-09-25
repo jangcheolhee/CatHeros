@@ -113,7 +113,7 @@ public class BattleManager : MonoBehaviour
                             
                     }
                 }
-
+                GameManager.Instance.Save();
                 
                 return;
             }

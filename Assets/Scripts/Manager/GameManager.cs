@@ -42,11 +42,7 @@ public class GameManager : MonoBehaviour
         }
         Load();
     }
-    private void OnDisable()
-    {
-        
-        Save();
-    }
+   
     public void Load()
     {
         if (SaveLoadManager.Load())
@@ -70,6 +66,7 @@ public class GameManager : MonoBehaviour
                 if(initIds.Contains(character.Character_ID))
                 {
                     CharacterInfo.IsGet = true;
+                    CharacterInfo.Level = 1;
                 }
                 saveCharacterList.Add(CharacterInfo);
             }
@@ -79,7 +76,7 @@ public class GameManager : MonoBehaviour
         SaveLoadManager.Save();
 
     }
-    private void Save()
+    public void Save()
     {
         SaveLoadManager.Data.ClearStage = ClearStage;
         SaveLoadManager.Data.CharacterInfos = saveCharacterList;
