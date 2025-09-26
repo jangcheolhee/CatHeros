@@ -10,33 +10,33 @@ public class StageCheckPanel : MonoBehaviour
     public GameObject rewardPrefab;
     public Transform contentParent;
 
-    
+
     public void Show()
     {
         gameObject.SetActive(true);
         UpdatePanel();
-       
+
     }
- public void UpdatePanel()
+    public void UpdatePanel()
     {
-         foreach (Transform child in contentParent)
+        foreach (Transform child in contentParent)
             Destroy(child.gameObject);
-    var rewardDatas = DataTableManger.RewardTable.Get(GameManager.Instance.SelectedStageId);
-        
+        var rewardDatas = DataTableManger.RewardTable.Get(GameManager.Instance.SelectedStageId);
+
 
 
 
         foreach (var data in rewardDatas)
         {
-            
+
             GameObject item = Instantiate(rewardPrefab, contentParent);
-    Image[] images = item.GetComponentsInChildren<Image>(true);
-    var image = images[0];
+            Image[] images = item.GetComponentsInChildren<Image>(true);
+            var image = images[0];
             foreach (var img in images)
             {
-          
 
-               
+
+
                 if (img.gameObject.name == "Icon")
                 {
                     img.sprite = Resources.Load<Sprite>($"icon/{data.R_item_id}");
@@ -45,15 +45,14 @@ public class StageCheckPanel : MonoBehaviour
                     break;
                 }
             }
-            
-            var text = item.GetComponentInChildren<TextMeshProUGUI>();
-text.text = data.quantity.ToString();
-            //text.text = DataTableManger.ItemTable.Get(data.R_item_id).Item_Name;
 
+            var text = item.GetComponentInChildren<TextMeshProUGUI>();
+            text.text = data.quantity.ToString();
+            //text.text = DataTableManger.ItemTable.Get(data.R_item_id).Item_Name;
 
         }
     }
-    
+
     public void Hide()
     {
         gameObject.SetActive(false);

@@ -43,7 +43,7 @@ public class BattleManager : MonoBehaviour
 
 
         var stageData = DataTableManger.StageTable.Get(GameManager.Instance.SelectedStageId);
-        totalWave = stageData.SpecialCondition;
+        totalWave = stageData.MaxWaveCount;
         Waves = DataTableManger.WaveTable.Get(stageData.StageID);
         remainTime = battleDuration;
         Players[FormationRow.Front] = new List<Player>();

@@ -11,7 +11,10 @@ public class WindowManager : MonoBehaviour
     public Button button2;
     public Button button3;
     public Button button4;
-
+    public Image Image1;
+    public Image Image2;
+    public Image Image3;
+    public Image Image4;
 
     public Windows CurrentWindow { get; private set; }
     private void Start()
@@ -43,9 +46,12 @@ public class WindowManager : MonoBehaviour
                     button1.onClick.AddListener(() => Open(Windows.Stage));
 
                     var text = button1.GetComponentInChildren<TextMeshProUGUI>();
-                    text.text = "배틀";
+                    text.text = "전투";
+                    Image1.sprite = Resources.Load<Sprite>("icon/Battle");
                     button2.onClick.AddListener(() => Open(Windows.Collection));
-
+                    text = button2.GetComponentInChildren<TextMeshProUGUI>();
+                    text.text = "도감";
+                    Image2.sprite = Resources.Load<Sprite>("icon/Book");
                 }
                 break;
             case Windows.Stage:
@@ -54,6 +60,8 @@ public class WindowManager : MonoBehaviour
 
                     var text = button1.GetComponentInChildren<TextMeshProUGUI>();
                     text.text = "홈";
+                    Image1.sprite = Resources.Load<Sprite>("icon/Home");
+                    
                     button2.onClick.AddListener(() => Open(Windows.Collection));
 
                 }
@@ -63,8 +71,11 @@ public class WindowManager : MonoBehaviour
                     button1.onClick.AddListener(() => Open(Windows.Main));
                     var text = button1.GetComponentInChildren<TextMeshProUGUI>();
                     text.text = "홈";
+                    Image1.sprite = Resources.Load<Sprite>("icon/Home");
                     button2.onClick.AddListener(() => Open(Windows.Stage));
-
+                     text = button2.GetComponentInChildren<TextMeshProUGUI>();
+                    text.text = "전투";
+                    Image2.sprite = Resources.Load<Sprite>("icon/Battle");
                 }
                 break;
             case Windows.Character:
@@ -72,6 +83,7 @@ public class WindowManager : MonoBehaviour
                     button1.onClick.AddListener(() => Open(Windows.Stage));
                     var text = button1.GetComponentInChildren<TextMeshProUGUI>();
                     text.text = "홈";
+                    Image1.sprite = Resources.Load<Sprite>("icon/Home");
                     button2.onClick.AddListener(() => Open(Windows.Collection));
 
                 }

@@ -74,12 +74,13 @@ public class StageSelectScene : GenericWindow
 
     public void OnClickCollection()
     {
+        
         manager.Open(Windows.Collection);
     }
     public void OnClickHome()
     {
 
-
+       
         manager.Open(Windows.Main);
     }
     public void OnClickBack()
@@ -90,6 +91,7 @@ public class StageSelectScene : GenericWindow
     }
     public void OnClickStart()
     {
+        
         manager.Open(Windows.Character);
     }
 }

@@ -61,6 +61,7 @@ public class CharacterInfoPanel : MonoBehaviour
         gameObject.SetActive(true);
         currentCharacter = data.Character_ID;
         titleText.text = currentCharacter.Name;
+        Debug.Log(currentCharacter.Character_ID);
         portraitImage.sprite = Resources.Load<Sprite>($"icon/{currentCharacter.Character_ID}");
         descriptionText.text = currentCharacter.Description;
 

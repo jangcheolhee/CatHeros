@@ -8,7 +8,7 @@ public class StageData
     public string BossID {  get; set; }
     public string RewardExp {  get; set; }
     public int MaxWaveCount{get; set; }
-    public int SpecialCondition {  get; set; }
+    public string SpecialCondition {  get; set; }
     public string Story_Link_ID {  get; set; }
     public string Description {  get; set; }
 
