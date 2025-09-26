@@ -23,6 +23,7 @@ public class StageSelectScene : GenericWindow
     {
         titleText?.SetText("Stage Select");
         Populate();
+        OnClickBack();
         base.Open();
 
     }

@@ -12,7 +12,9 @@ public class DropSlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     private void Awake()
     {
         characterSelectScene = GetComponentInParent<CharacterSelectScene>();
+        
     }
+    
     public void OnPointerClick(PointerEventData eventData)
     {
         if (characterSelectScene.isDrop)

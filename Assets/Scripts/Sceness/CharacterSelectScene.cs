@@ -22,6 +22,7 @@ public class CharacterSelectScene : GenericWindow
         foreach (Transform child in scrollViewContent)
             Destroy(child.gameObject);
         charIds.Clear();
+        OnClickClear();
         foreach (var cha in GameManager.Instance.saveCharacterList)
         {
             if(cha.IsGet)
@@ -30,7 +31,8 @@ public class CharacterSelectScene : GenericWindow
                 charIds.Add(cha.Character_ID.Character_ID);
             }
         }
-        GameManager.Instance.PartySlots.Clear();
+        
+       GameManager.Instance.PartySlots.Clear();
         foreach (int charId in charIds)
         {
             GameObject icon = Instantiate(iconPrefab, scrollViewContent);

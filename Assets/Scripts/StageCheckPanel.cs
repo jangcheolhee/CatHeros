@@ -9,6 +9,7 @@ public class StageCheckPanel : MonoBehaviour
     public TextMeshProUGUI stage;
     public GameObject rewardPrefab;
     public Transform contentParent;
+    public TextMeshProUGUI text;
 
 
     public void Show()
@@ -22,7 +23,7 @@ public class StageCheckPanel : MonoBehaviour
         foreach (Transform child in contentParent)
             Destroy(child.gameObject);
         var rewardDatas = DataTableManger.RewardTable.Get(GameManager.Instance.SelectedStageId);
-
+        text.text = $"Stage {DataTableManger.StageTable.Get(GameManager.Instance.SelectedStageId).StageName}";
 
 
 

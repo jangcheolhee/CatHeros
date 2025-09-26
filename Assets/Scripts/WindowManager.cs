@@ -43,6 +43,7 @@ public class WindowManager : MonoBehaviour
 
             case Windows.Main:
                 {
+
                     button1.onClick.AddListener(() => Open(Windows.Stage));
 
                     var text = button1.GetComponentInChildren<TextMeshProUGUI>();
@@ -80,6 +81,7 @@ public class WindowManager : MonoBehaviour
                 break;
             case Windows.Character:
                 {
+                    GameManager.Instance.PartySlots.Clear();
                     button1.onClick.AddListener(() => Open(Windows.Stage));
                     var text = button1.GetComponentInChildren<TextMeshProUGUI>();
                     text.text = "Ȩ";
