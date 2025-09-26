@@ -32,7 +32,7 @@ public class UiCollectionSlot : MonoBehaviour
             icon.sprite = Resources.Load<Sprite>($"icon/{data.Character_ID}");
         }else
         {
-            icon.sprite = Resources.Load<Sprite>($"icon/No");
+            icon.sprite = Resources.Load<Sprite>($"icon/Lock");
         }
         
         textMeshProUGUI.text = data.Name;

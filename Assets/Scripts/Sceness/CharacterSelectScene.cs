@@ -19,10 +19,11 @@ public class CharacterSelectScene : GenericWindow
 
     public override void Open()
     {
-
-        foreach(var cha in GameManager.Instance.saveCharacterList)
+        foreach (Transform child in scrollViewContent)
+            Destroy(child.gameObject);
+        charIds.Clear();
+        foreach (var cha in GameManager.Instance.saveCharacterList)
         {
-            Debug.Log(cha);
             if(cha.IsGet)
             {
                

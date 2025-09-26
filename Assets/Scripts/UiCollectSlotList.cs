@@ -123,6 +123,7 @@ public class UiCollectSlotList : MonoBehaviour
                 selectedSlotIndex = newSlot.slotIdx;
             });
             slotList[i].gameObject.SetActive(false);
+            
         }
 
         int up = 0;
@@ -135,12 +136,14 @@ public class UiCollectSlotList : MonoBehaviour
                 {
                     slotList[up].SetItem(list[i].Character_ID, list[i].IsGet);
                     slotList[up].gameObject.SetActive(true);
+                    slotList[up].GetComponent<Button>().interactable = true;
                     up++;
                 }
                 else
                 {
                     slotList[down].SetItem(list[i].Character_ID, list[i].IsGet);
                     slotList[down].gameObject.SetActive(true);
+                    slotList[down].GetComponent<Button>().interactable = false;
                     down++;
                 }
 

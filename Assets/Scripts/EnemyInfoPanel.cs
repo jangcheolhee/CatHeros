@@ -26,6 +26,7 @@ public class EnemyInfoPanel : MonoBehaviour
         
         foreach (Transform child in contentParent)
             Destroy(child.gameObject);
+        
         var stageData = DataTableManger.StageTable.Get(GameManager.Instance.SelectedStageId);
         
         var Waves = DataTableManger.WaveTable.Get(stageData.StageID);
