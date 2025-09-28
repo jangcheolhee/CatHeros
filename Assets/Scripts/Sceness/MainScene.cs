@@ -23,4 +23,8 @@ public class MainScene : GenericWindow
     {
         manager.Open(Windows.Collection);
     }
+    public void OnClickGacha()
+    {
+        manager.Open(Windows.Gacha);
+    }
 }

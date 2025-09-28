@@ -4,6 +4,6 @@ public enum Windows
     Collection,
     Stage,
     Character,
-
+    Gacha,
 
 }

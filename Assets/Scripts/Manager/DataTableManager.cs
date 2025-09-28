@@ -41,6 +41,13 @@ public static class DataTableManger
         var itemTable = new ItemTable();
         itemTable.Load(DataTableIds.Item);
         tables.Add(DataTableIds.Item, itemTable);
+        var levelUpTable = new LevelUpTable();
+        levelUpTable.Load(DataTableIds.LevelUp);
+        tables.Add(DataTableIds.LevelUp, levelUpTable);
+
+        var gachaTable = new GachaTable();
+        gachaTable.Load(DataTableIds.Gacha);
+        tables.Add(DataTableIds.Gacha, gachaTable);
 #if UNITY_EDITOR
 
 
@@ -106,6 +113,22 @@ public static class DataTableManger
         get
         {
             return Get<ItemTable>(DataTableIds.Item);
+        }
+    }
+
+    public static LevelUpTable LevelUpTable
+    {
+        get
+        {
+            return Get<LevelUpTable>(DataTableIds.LevelUp);
+        }
+    }
+
+    public static GachaTable GachaTable
+    {
+        get
+        {
+            return Get<GachaTable>(DataTableIds.Gacha);
         }
     }
     public static T Get<T>(string id) where T : DataTable

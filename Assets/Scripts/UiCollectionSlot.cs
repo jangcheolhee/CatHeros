@@ -37,7 +37,7 @@ public class UiCollectionSlot : MonoBehaviour
         
         textMeshProUGUI.text = data.Name;
         button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(() => scene.OnClickPanel(SaveLoadManager.Data.CharacterInfos.FirstOrDefault(c => characterData.Character_ID == c.Character_ID.Character_ID)));
+        button.onClick.AddListener(() => scene.OnClickPanel(GameManager.Instance.saveCharacterList.FirstOrDefault(c => characterData.Character_ID == c.Character_ID.Character_ID)));
 
     }
    

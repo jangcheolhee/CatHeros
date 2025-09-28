@@ -56,7 +56,7 @@ public class UiCollectSlotList : MonoBehaviour
     private List<UiCollectionSlot> slotList = new List<UiCollectionSlot>();
     private List<CharacterData> allData;
 
-    private List<CharacterInfo> saveCharacterList = new List<CharacterInfo>();
+    private List<CharacterInfo> saveCharacterList => GameManager.Instance.saveCharacterList;
 
     public int maxCount = 30;
     private int itemCount = 0;
@@ -75,7 +75,7 @@ public class UiCollectSlotList : MonoBehaviour
         if (SaveLoadManager.Load())
         {
             allData = DataTableManger.CharacterTable.Table; ;
-            saveCharacterList = SaveLoadManager.Data.CharacterInfos;
+            
 
         }
         UpdateSlots(saveCharacterList);

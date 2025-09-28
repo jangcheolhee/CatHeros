@@ -25,6 +25,8 @@ public static class DataTableIds
     public static readonly string Effect = "Effect";
     public static readonly string Reward = "Reward";
     public static readonly string Item = "Item";
+    public static readonly string LevelUp = "LevelUp";
+    public static readonly string Gacha = "Gacha";
 }
 
 

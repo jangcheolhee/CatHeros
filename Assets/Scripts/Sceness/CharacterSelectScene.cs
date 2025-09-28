@@ -65,7 +65,7 @@ public class CharacterSelectScene : GenericWindow
     }
     public void OnClickCharacter(int id, string name, string desc)
     {
-        characterInfoPanel.SetCharacter(SaveLoadManager.Data.CharacterInfos.FirstOrDefault(c => c.Character_ID.Character_ID == id));
+        characterInfoPanel.SetCharacter(GameManager.Instance.saveCharacterList.FirstOrDefault(c => c.Character_ID.Character_ID == id));
     }
     public void OnClickClear()
     {

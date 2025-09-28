@@ -1,4 +1,5 @@
 
+using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,9 +13,9 @@ public class CharacterInfoPanel : MonoBehaviour
 
     [Header("Character Section")]
     public Image portraitImage;
-    public Button tankerButton;
-    public Button normalButton;
-    public Button specialButton;
+    public GameObject tankerButton;
+    public GameObject normalButton;
+    public GameObject specialButton;
 
     [Header("Description")]
     public TextMeshProUGUI descriptionText;
@@ -32,6 +33,10 @@ public class CharacterInfoPanel : MonoBehaviour
     [Header("Stat Content UI")]
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI atkText;
+    public TextMeshProUGUI defText;
+    public TextMeshProUGUI spdText;
+
+
 
     [Header("Skill Content UI")]
     public TextMeshProUGUI skillListText;
@@ -42,7 +47,7 @@ public class CharacterInfoPanel : MonoBehaviour
     [Header("Footer")]
     public Button levelUpButton;
 
-    private CharacterData currentCharacter;
+    private CharacterInfo currentCharacter;
 
     void Start()
     {
@@ -52,21 +57,30 @@ public class CharacterInfoPanel : MonoBehaviour
         pairBonusTab.onClick.AddListener(() => ShowTab("pair"));
 
         backButton.onClick.AddListener(() => ClosePanel());
-        //levelUpButton.onClick.AddListener(() => LevelUp());
+        levelUpButton.onClick.AddListener(() => LevelUp());
     }
+
+
 
     // 캐릭터 데이터 표시
     public void SetCharacter(CharacterInfo data)
     {
         gameObject.SetActive(true);
-        currentCharacter = data.Character_ID;
-        titleText.text = currentCharacter.Name;
-        Debug.Log(currentCharacter.Character_ID);
-        portraitImage.sprite = Resources.Load<Sprite>($"icon/{currentCharacter.Character_ID}");
-        descriptionText.text = currentCharacter.Description;
+        currentCharacter = data;
+        titleText.text = currentCharacter.Character_ID.Name;
+        tankerButton.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>($"icon/{currentCharacter.Character_ID.Position}");
+        tankerButton.GetComponentInChildren<TextMeshProUGUI>().text = currentCharacter.Character_ID.Position;
 
-        //hpText.text = $"HP: {data.hp}";
-        //atkText.text = $"ATK: {data.atk}";
+       normalButton.GetComponentInChildren<TextMeshProUGUI>().text = currentCharacter.Character_ID.Position;
+
+        Debug.Log(currentCharacter.Character_ID.Character_ID);
+        portraitImage.sprite = Resources.Load<Sprite>($"icon/{currentCharacter.Character_ID.Character_ID}");
+        descriptionText.text = currentCharacter.Character_ID.Description;
+
+        hpText.text = $"HP: {currentCharacter.Hp}";
+        atkText.text = $"ATK: {currentCharacter.Atk}";
+        defText.text = $"DEF: {currentCharacter.Def}";
+        spdText.text = $"SPD: {currentCharacter.Spd}";
 
         //skillListText.text = string.Join("\n", data.skills);
         //pairBonusText.text = data.pairBonus;
@@ -86,15 +100,23 @@ public class CharacterInfoPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    //private void LevelUp()
-    //{
-    //    if (currentCharacter != null)
-    //    {
-    //        currentCharacter.hp += 10;
-    //        currentCharacter.atk += 2;
-    //        hpText.text = $"HP: {currentCharacter.hp}";
-    //        atkText.text = $"ATK: {currentCharacter.atk}";
-    //        Debug.Log($"{currentCharacter.name} 레벨 업!");
-    //    }
-    //}
+    private void LevelUp()
+    {
+
+        var data = DataTableManger.LevelUpTable.Get(currentCharacter.Character_ID.Growth_Curve_ID);
+        currentCharacter.Level += 1;
+        currentCharacter.Hp = currentCharacter.Character_ID.Base_HP + data.HP * (currentCharacter.Level - 1);
+        currentCharacter.Atk = currentCharacter.Character_ID.Base_ATK + data.ATK * (currentCharacter.Level - 1);
+
+        currentCharacter.Def = currentCharacter.Character_ID.Base_DEF + data.DEF * (currentCharacter.Level - 1);
+        currentCharacter.Spd = currentCharacter.Character_ID.Base_SPD + (int)(data.SPD * (currentCharacter.Level - 1));
+
+        hpText.text = $"HP: {currentCharacter.Hp}";
+        atkText.text = $"ATK: {currentCharacter.Atk}";
+        defText.text = $"DEF: {currentCharacter.Def}";
+        spdText.text = $"SPD: {currentCharacter.Spd}";
+
+
+        GameManager.Instance.Save();
+    }
 }

@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class CollectionScene : GenericWindow
 {
-    
+
     public CharacterInfoPanel characterInfoPanel;
     public void OnClickHome()
     {
@@ -15,7 +15,9 @@ public class CollectionScene : GenericWindow
     }
     public void OnClickPanel(CharacterInfo character)
     {
-        characterInfoPanel.SetCharacter(character);   
+
+        characterInfoPanel.SetCharacter(character);
+
     }
 
 }

@@ -58,15 +58,15 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            allData = DataTableManger.CharacterTable.Table; ;
+            allData = DataTableManger.CharacterTable.Table; 
             foreach (var character in allData)
             {
                 var CharacterInfo = new CharacterInfo();
                 CharacterInfo.Character_ID = DataTableManger.CharacterTable.Get(character.Character_ID);
                 if(initIds.Contains(character.Character_ID))
                 {
-                    CharacterInfo.IsGet = true;
-                    CharacterInfo.Level = 1;
+                    UpdateCharacter(CharacterInfo);
+                    
                 }
                 saveCharacterList.Add(CharacterInfo);
             }
@@ -86,6 +86,15 @@ public class GameManager : MonoBehaviour
         SaveLoadManager.Data.Chur = Chur;
         SaveLoadManager.Save();
     }
-
+    public void UpdateCharacter(CharacterInfo characterInfo)
+    {
+        characterInfo.IsGet = true;
+        characterInfo.Level = 1;
+        characterInfo.Hp = characterInfo.Character_ID.Base_HP;
+        characterInfo.Atk = characterInfo.Character_ID.Base_ATK;
+        characterInfo.Def = characterInfo.Character_ID.Base_DEF;
+        characterInfo.Spd = characterInfo.Character_ID.Base_SPD;
+    }
+    
 
 }
