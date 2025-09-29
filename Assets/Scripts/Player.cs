@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
@@ -61,32 +62,56 @@ public class Player : LivingEntity
     {
         get
         {
-            return characterData.Base_HP;
+            var character = GameManager.Instance.saveCharacterList
+           .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
+            return character.Hp;
         }
     }
     public int AttackDamage
     {
         get
         {
-            return (int)((characterData.Base_ATK + AddAttack) * BasicAttack.Power_Coeff_ATK);
+            return (int)((AttackD + AddAttack) * BasicAttack.Power_Coeff_ATK);
         }
     }
     public int SkillDamage
     {
         get
         {
-            return (int)((SkillData.Base_Power + (characterData.Base_ATK + AddAttack) * SkillData.Power_Coeff_ATK));
+            return (int)((SkillData.Base_Power + (AttackD + AddAttack) * SkillData.Power_Coeff_ATK));
         }
     }
     public int Speed
     {
         get
         {
-            return characterData.Base_SPD;
+            var character = GameManager.Instance.saveCharacterList
+            .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
+            return character.Spd;
+
         }
     }
-    public int Defence { get; private set; }
+    public int Defence
+    {
+        get
+        {
+            var character = GameManager.Instance.saveCharacterList
+            .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
+            return character.Def;
 
+        }
+    }
+        
+    public int AttackD
+    {
+        get
+        {
+            var character = GameManager.Instance.saveCharacterList
+            .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
+            return character.Atk;
+
+        }
+    }
     public string Position
     {
         get

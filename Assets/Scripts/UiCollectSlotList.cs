@@ -52,7 +52,6 @@ public class UiCollectSlotList : MonoBehaviour
 
     public UiCollectionSlot prefab;
     public ScrollRect getRect;
-    public ScrollRect lockRect;
     private List<UiCollectionSlot> slotList = new List<UiCollectionSlot>();
     private List<CharacterData> allData;
 
@@ -63,7 +62,7 @@ public class UiCollectSlotList : MonoBehaviour
     private int selectedSlotIndex = -1;
     public void Save()
     {
-       
+
 
         SaveLoadManager.Data.CharacterInfos = saveCharacterList;
         SaveLoadManager.Save();
@@ -75,7 +74,7 @@ public class UiCollectSlotList : MonoBehaviour
         if (SaveLoadManager.Load())
         {
             allData = DataTableManger.CharacterTable.Table; ;
-            
+
 
         }
         UpdateSlots(saveCharacterList);
@@ -105,14 +104,9 @@ public class UiCollectSlotList : MonoBehaviour
         for (int i = 0; i < list.Count; ++i)
         {
             UiCollectionSlot newSlot;
-            if (i < count)
-            { 
-                newSlot = Instantiate(prefab, getRect.content); 
-            }
-            else
-            {
-                newSlot = Instantiate(prefab, lockRect.content);
-            }
+
+            newSlot = Instantiate(prefab, getRect.content);
+
             newSlot.SetEmpty();
             newSlot.slotIdx = i;
             slotList.Add(newSlot);
@@ -123,7 +117,7 @@ public class UiCollectSlotList : MonoBehaviour
                 selectedSlotIndex = newSlot.slotIdx;
             });
             slotList[i].gameObject.SetActive(false);
-            
+
         }
 
         int up = 0;

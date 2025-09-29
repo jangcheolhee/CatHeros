@@ -69,9 +69,9 @@ public class CharacterInfoPanel : MonoBehaviour
         currentCharacter = data;
         titleText.text = currentCharacter.Character_ID.Name;
         tankerButton.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>($"icon/{currentCharacter.Character_ID.Position}");
-        tankerButton.GetComponentInChildren<TextMeshProUGUI>().text = currentCharacter.Character_ID.Position;
+        tankerButton.GetComponentInChildren<TextMeshProUGUI>().text = currentCharacter.Character_ID.Position.ToString();
 
-       normalButton.GetComponentInChildren<TextMeshProUGUI>().text = currentCharacter.Character_ID.Position;
+        normalButton.GetComponentInChildren<TextMeshProUGUI>().text = currentCharacter.Character_ID.Position.ToString();
 
         Debug.Log(currentCharacter.Character_ID.Character_ID);
         portraitImage.sprite = Resources.Load<Sprite>($"icon/{currentCharacter.Character_ID.Character_ID}");
@@ -102,21 +102,25 @@ public class CharacterInfoPanel : MonoBehaviour
 
     private void LevelUp()
     {
+        if (GameManager.Instance.Exp >= currentCharacter.Exp)
+        {
+            GameManager.Instance.Exp -= currentCharacter.Exp;
+            var data = DataTableManger.LevelUpTable.Get(currentCharacter.Character_ID.Growth_Curve_ID);
+            currentCharacter.Level += 1;
+            currentCharacter.Hp = currentCharacter.Character_ID.Base_HP + data.HP * (currentCharacter.Level - 1);
+            currentCharacter.Atk = currentCharacter.Character_ID.Base_ATK + data.ATK * (currentCharacter.Level - 1);
 
-        var data = DataTableManger.LevelUpTable.Get(currentCharacter.Character_ID.Growth_Curve_ID);
-        currentCharacter.Level += 1;
-        currentCharacter.Hp = currentCharacter.Character_ID.Base_HP + data.HP * (currentCharacter.Level - 1);
-        currentCharacter.Atk = currentCharacter.Character_ID.Base_ATK + data.ATK * (currentCharacter.Level - 1);
+            currentCharacter.Def = currentCharacter.Character_ID.Base_DEF + data.DEF * (currentCharacter.Level - 1);
+            currentCharacter.Spd = currentCharacter.Character_ID.Base_SPD + (int)(data.SPD * (currentCharacter.Level - 1));
 
-        currentCharacter.Def = currentCharacter.Character_ID.Base_DEF + data.DEF * (currentCharacter.Level - 1);
-        currentCharacter.Spd = currentCharacter.Character_ID.Base_SPD + (int)(data.SPD * (currentCharacter.Level - 1));
-
-        hpText.text = $"HP: {currentCharacter.Hp}";
-        atkText.text = $"ATK: {currentCharacter.Atk}";
-        defText.text = $"DEF: {currentCharacter.Def}";
-        spdText.text = $"SPD: {currentCharacter.Spd}";
+            hpText.text = $"HP: {currentCharacter.Hp}";
+            atkText.text = $"ATK: {currentCharacter.Atk}";
+            defText.text = $"DEF: {currentCharacter.Def}";
+            spdText.text = $"SPD: {currentCharacter.Spd}";
 
 
-        GameManager.Instance.Save();
+            GameManager.Instance.Save();
+        }
+
     }
 }
