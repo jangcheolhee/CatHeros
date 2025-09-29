@@ -82,18 +82,18 @@ public class BattleManager : MonoBehaviour
             {
                 end = true;
                 uiManager.ShowPanel("VictoryPanel", true);
-                    checkPanel.UpdatePanel();
-                GameManager.Instance.ClearStage++;
-                
+                checkPanel.UpdatePanel();
+
+                Debug.Log(GameManager.Instance.SelectedStageId);
                 var rewardDatas = DataTableManger.RewardTable.Get(GameManager.Instance.SelectedStageId);
                 foreach (var data in rewardDatas)
                 {
-                    switch(data.R_item_id)
+                    switch (data.R_item_id)
                     {
                         case 40501:
 
                             GameManager.Instance.Chur += data.quantity;
-                            
+
                             break;
                         case 40502:
 
@@ -110,15 +110,24 @@ public class BattleManager : MonoBehaviour
                             GameManager.Instance.Exp += data.quantity;
 
                             break;
-                            
+
                     }
                 }
-                GameManager.Instance.Save();
+                if(GameManager.Instance.SelectedStageId == int.Parse($"{totalWave}8{GameManager.Instance.ClearStage + 1:D2}"))
+                {
+                    GameManager.Instance.ClearStage++;
+                }
                 
+                GameManager.Instance.Save();
+
                 return;
             }
+            else if (currentWave < totalWave)
+            {
+                StartCoroutine(SpawnWaveWithDelay(currentWave, Waves[currentWave].Spawn_Delay * 0.001f));
 
-            StartCoroutine(SpawnWaveWithDelay(currentWave, Waves[currentWave].Spawn_Delay * 0.001f));
+            }
+
         }
 
     }

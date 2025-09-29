@@ -8,14 +8,7 @@ public class WindowManager : MonoBehaviour
     public List<GenericWindow> windows;
     public Windows defaultWindow;
     public Windows prevWindow;
-    public Button button1;
-    public Button button2;
-    public Button button3;
-    public Button button4;
-    public Image Image1;
-    public Image Image2;
-    public Image Image3;
-    public Image Image4;
+    
 
     public Windows CurrentWindow { get; private set; }
     private void Start()

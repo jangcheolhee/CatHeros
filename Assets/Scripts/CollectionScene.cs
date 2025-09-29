@@ -5,6 +5,12 @@ public class CollectionScene : GenericWindow
 {
 
     public CharacterInfoPanel characterInfoPanel;
+    public override void Open()
+    {
+        characterInfoPanel.gameObject.SetActive(false);
+        base.Open();
+
+    }
     public void OnClickHome()
     {
         manager.Open(Windows.Main);

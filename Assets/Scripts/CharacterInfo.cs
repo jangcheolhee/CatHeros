@@ -15,6 +15,7 @@ public class
     
     public int Level;
     public int Exp;
+    public int Gold;
     public bool IsGet;
     public int Hp;
     public int Atk;

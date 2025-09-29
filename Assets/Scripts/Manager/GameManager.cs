@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,15 +21,39 @@ public class GameManager : MonoBehaviour
     public int SelectedStageId = -1;
     public List<SlotInfo> PartySlots = new List<SlotInfo>();
     public int ClearStage {  get; set; }
-    public int Gold {  get; set; }
+    public event Action OnCurrencyChanged;
+
+    public int Exp
+    {
+        get => exp;
+        set
+        {
+            exp = value;
+            OnCurrencyChanged?.Invoke();
+        }
+    }
+    private int exp;
+
+    public int Gold
+    {
+        get => gold;
+        set
+        {
+            gold = value;
+            OnCurrencyChanged?.Invoke();
+        }
+    }
+    private int gold;
     public int Chur {  get; set; }
-    public int Exp {  get; set; }
+    
     public int Yarn {  get; set; }
 
     public List<CharacterInfo> saveCharacterList = new List<CharacterInfo>();
     private List<CharacterData> allData;
     private int[] initIds = new int[] { 10101,10102,10103,10104,10105};
-    
+
+    public Windows WindowToOpenOnReturn = Windows.Main;
+
     private void Awake()
     {
         if (Instance == null)
@@ -93,7 +118,30 @@ public class GameManager : MonoBehaviour
         characterInfo.Hp = characterInfo.Character_ID.Base_HP;
         characterInfo.Atk = characterInfo.Character_ID.Base_ATK;
         characterInfo.Def = characterInfo.Character_ID.Base_DEF;
-        characterInfo.Spd = characterInfo.Character_ID.Base_SPD;
+        characterInfo.Spd = characterInfo.Character_ID.Base_SPD; 
+        switch (characterInfo.Character_ID.Rarity)
+        {
+            case 1:
+                characterInfo.Exp = (int)(100 * Math.Pow(characterInfo.Level, 1.2) * 1.0);
+                characterInfo.Gold = (int)(100 * Math.Pow(characterInfo.Level, 1.3) * 1.0);
+
+                break;
+            case 2:
+                characterInfo.Exp = (int)(100 * Math.Pow(characterInfo.Level, 1.2) * 1.2);
+                characterInfo.Gold = (int)(100 * Math.Pow(characterInfo.Level, 1.3) * 1.2);
+
+                break;
+            case 3:
+                characterInfo.Exp = (int)(100 * Math.Pow(characterInfo.Level, 1.2) * 1.5);
+                characterInfo.Gold = (int)(100 * Math.Pow(characterInfo.Level, 1.3) * 1.5);
+
+                break;
+            case 4:
+                characterInfo.Exp = (int)(100 * Math.Pow(characterInfo.Level, 1.2) * 2.0);
+                characterInfo.Gold = (int)(100 * Math.Pow(characterInfo.Level, 1.3) * 2.0);
+
+                break;
+        }
     }
     
 

@@ -23,6 +23,7 @@ public class CharacterSelectScene : GenericWindow
             Destroy(child.gameObject);
         charIds.Clear();
         OnClickClear();
+        characterInfoPanel.gameObject.SetActive(false);
         foreach (var cha in GameManager.Instance.saveCharacterList)
         {
             if(cha.IsGet)

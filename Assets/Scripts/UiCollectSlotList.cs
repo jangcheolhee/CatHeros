@@ -101,25 +101,28 @@ public class UiCollectSlotList : MonoBehaviour
         {
             if (item.IsGet) count++;
         }
-        for (int i = 0; i < list.Count; ++i)
+        if (saveCharacterList.Count > slotList.Count)
         {
-            UiCollectionSlot newSlot;
-
-            newSlot = Instantiate(prefab, getRect.content);
-
-            newSlot.SetEmpty();
-            newSlot.slotIdx = i;
-            slotList.Add(newSlot);
-
-            var button = newSlot.GetComponent<Button>();
-            button.onClick.AddListener(() =>
+            for (int i = 0; i < list.Count; ++i)
             {
-                selectedSlotIndex = newSlot.slotIdx;
-            });
-            slotList[i].gameObject.SetActive(false);
 
+                UiCollectionSlot newSlot;
+
+                newSlot = Instantiate(prefab, getRect.content);
+
+                newSlot.SetEmpty();
+                newSlot.slotIdx = i;
+                slotList.Add(newSlot);
+
+                var button = newSlot.GetComponent<Button>();
+                button.onClick.AddListener(() =>
+                {
+                    selectedSlotIndex = newSlot.slotIdx;
+                });
+                slotList[i].gameObject.SetActive(false);
+
+            }
         }
-
         int up = 0;
         int down = count;
         for (int i = 0; i < slotList.Count; i++)

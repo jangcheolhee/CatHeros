@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
         public GameObject panel;
     }
 
-   
+
     public List<PanelEntry> panels;
 
     private Dictionary<string, GameObject> panelDict = new Dictionary<string, GameObject>();
@@ -28,21 +28,21 @@ public class UIManager : MonoBehaviour
             if (entry.panel != null)
             {
                 panelDict[entry.name] = entry.panel;
-                entry.panel.SetActive(false); 
+                entry.panel.SetActive(false);
             }
         }
     }
     public void ShowPanel(string name, bool pauseGame = false)
     {
-       
+
         foreach (var p in panelDict.Values)
             p.SetActive(false);
 
-        
+
         if (panelDict.ContainsKey(name))
             panelDict[name].SetActive(true);
 
-        
+
         Time.timeScale = pauseGame ? 0f : 1f;
     }
 
@@ -77,7 +77,7 @@ public class UIManager : MonoBehaviour
     public void SpeedChange()
     {
         timeSpeed = !timeSpeed;
-        if(timeSpeed)
+        if (timeSpeed)
         {
             Time.timeScale = 2f;
             speed.text = "2배속";
@@ -90,7 +90,7 @@ public class UIManager : MonoBehaviour
     }
     public void ChageAutoText(bool auto)
     {
-        if(auto)
+        if (auto)
         {
             autoText.text = "자동";
         }
@@ -106,6 +106,15 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    public void NextStage()
+    {
+        Time.timeScale = 1f;
+
+        GameManager.Instance.WindowToOpenOnReturn = Windows.Character;
+
+        SceneManager.LoadScene("Main");
+
+    }
 
     public void QuitGame()
     {
@@ -115,6 +124,7 @@ public class UIManager : MonoBehaviour
     public void ExitGame()
     {
         Time.timeScale = 1f;
+        GameManager.Instance.WindowToOpenOnReturn = Windows.Stage;
         SceneManager.LoadScene("Main");
     }
 }
