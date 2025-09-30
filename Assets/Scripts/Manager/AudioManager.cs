@@ -17,8 +17,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip mainBgm;
     public AudioClip gachaBgm;
     public AudioClip stageSelectBgm;
-    public AudioClip BattleBgm;
-
+    public AudioClip battleBgm;
+    public AudioClip rollBgm;
     const float MIN = 0.0001f; // log10(0)은 -무한대 → 아주 작은 값으로 대체
 
     private void Awake()
@@ -100,6 +100,7 @@ public class AudioManager : MonoBehaviour
     public void PlayMainBgm() => PlayBgm(mainBgm);
     public void PlayGachaBgm() => PlayBgm(gachaBgm);
     public void PlayStageSelectBgm() => PlayBgm(stageSelectBgm);
-    public void PlayBattleBgm() => PlayBgm(BattleBgm);
+    public void PlayBattleBgm() => PlayBgm(battleBgm);
+    public void PlayRollBgm() => PlayBgm(rollBgm);
     #endregion
 }

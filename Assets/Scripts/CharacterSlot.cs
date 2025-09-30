@@ -11,6 +11,7 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public CanvasGroup canvasGroup;
     private Canvas canvas;
     public Image icon;
+    public AudioClip clip;
     public int characterID;
 
     public bool IsAssigned { get; private set; } = false; 
@@ -57,6 +58,7 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     }
     private void OnLongPress()
     {
+        SkillSfxManager.Instance.PlaySfx(clip);
         characterSelectScene.OnClickCharacter(characterID, DataTableManger.CharacterTable.Get(characterID).Name, DataTableManger.CharacterTable.Get(characterID).Name);
 
     }

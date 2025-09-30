@@ -16,12 +16,7 @@ public class Enemy : LivingEntity
     private SpriteRenderer spriteRenderer;
     private Color originColor;
     private bool IsAttack = true;
-    public enum Status
-    {
-        Idle,
-        Trace,
-        Back,
-    }
+ 
     private Status currentStatus;
     public Status CurrentStatus
     {

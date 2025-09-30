@@ -25,6 +25,8 @@ public class BattleManager : MonoBehaviour
     public StageCheckPanel checkPanel;
     private int enemyCount;
     public int PlayerCount { get; private set; }
+    public AudioClip victory;
+    public AudioClip lose;
 
     public Dictionary<FormationRow, List<Player>> Players { get; private set; } = new();
 
@@ -65,12 +67,14 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
+            SkillSfxManager.Instance.PlaySfx(lose);
             uiManager.ShowPanel("DefeatPanel", true);
         }
         if (PlayerCount == 0)
         {
 
             uiManager?.ShowPanel("DefeatPanel", true);
+            SkillSfxManager.Instance.PlaySfx(lose);
             return;
         }
 
@@ -82,6 +86,7 @@ public class BattleManager : MonoBehaviour
             {
                 end = true;
                 uiManager.ShowPanel("VictoryPanel", true);
+                SkillSfxManager.Instance.PlaySfx(victory);
                 checkPanel.UpdatePanel();
 
                 Debug.Log(GameManager.Instance.SelectedStageId);

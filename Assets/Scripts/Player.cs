@@ -17,12 +17,8 @@ public class Player : LivingEntity
     private int level;
     private bool IsAttack = true;
     public GameObject bulletPrefab;
-    public enum Status
-    {
-        Idle,
-        Trace,
-        Back,
-    }
+    public AudioClip attackClip;
+   
     GameObject effectPrefab;
     private Animator animator;
     private AudioSource audioSource;
@@ -247,6 +243,7 @@ public class Player : LivingEntity
             else
                 target.OnDamage(AttackDamage);
         }
+        SkillSfxManager.Instance.PlaySfx(attackClip);
         yield return new WaitForSeconds(0.5f);
         CurrentStatus = Status.Back;
 

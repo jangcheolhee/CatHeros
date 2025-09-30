@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum Status
+{
+
+    Idle,
+    Trace,
+    Back,
+}
+
 [Flags]
 public enum StatusEffect
 {
@@ -26,7 +34,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
     public bool IsDead { get; private set; }
     public bool IsStunned {  get; private set; }
 
-    public StatusEffect currentStatus = StatusEffect.None;
+    public StatusEffect currentStatusEffect = StatusEffect.None;
     private Dictionary<StatusEffect, float> statusTimers = new();
 
 
@@ -57,7 +65,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
     {
         StatusEffect effect = (StatusEffect)(1 << type);
 
-        currentStatus |= effect;
+        currentStatusEffect |= effect;
         if (duration > 0)
             statusTimers[effect] = duration;
 
@@ -86,7 +94,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
     public void RemoveStatus(StatusEffect effect)
     {
 
-        currentStatus &= ~effect;
+        currentStatusEffect &= ~effect;
         statusTimers.Remove(effect);
         switch (effect)
         {
@@ -104,7 +112,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
         }
     }
 
-    public bool HasStatus(StatusEffect effect) => (currentStatus & effect) != 0;
+    public bool HasStatus(StatusEffect effect) => (currentStatusEffect & effect) != 0;
     protected virtual void OnEnable()
     {
         IsDead = false;

@@ -26,7 +26,7 @@ public class GachaScene : GenericWindow
     private HashSet<int> pickedItemIds = new HashSet<int>(); // 중복 방지용
 
     private List<GachaData> gachaPool;
-    private int currency = 9999;
+    private int currency ;
     private List<GachaData> pendingResults;
 
 
@@ -41,7 +41,7 @@ public class GachaScene : GenericWindow
         rollTenButton.onClick.AddListener(() => OnRoll(10));
         gachaPool = DataTableManger.GachaTable.Table();
         AudioManager.Instance.PlayGachaBgm();
-        //currency = GameManager.Instance.Chur;
+        currency = GameManager.Instance.Chur;
         base.Open();
 
     }
@@ -153,6 +153,7 @@ public class GachaScene : GenericWindow
         }
         GameManager.Instance.Save();
         loadingPanel.SetActive(true);
+        AudioManager.Instance.PlayRollBgm();
         resultPanel.SetActive(false);
 
 

@@ -8,6 +8,7 @@ public class BattleUIManager : MonoBehaviour
     public List<Slider> playerHpSliders;
     public List<SkillButton> skillButtons;
     public BattleManager battleManager;
+    
     public TextMeshProUGUI waveText;
     public TextMeshProUGUI timerText;
     private Sprite spriteIcon;

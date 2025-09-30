@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI speed;
     public TextMeshProUGUI autoText;
+    
     [System.Serializable]
     public class PanelEntry
     {

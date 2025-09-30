@@ -10,6 +10,7 @@ public class TenResultPanel : MonoBehaviour
     public GachaResultSlot slotPrefab;     // 위에서 만든 프리팹
     public Button confirmButton;      // 확인 버튼
     public Button skipArea;           // 연출 중 스킵하고 싶으면 임의 버튼(패널 전체)
+    public AudioClip sound;
 
     [Header("Reveal Settings")]
     public float revealInterval = 0.5f; // 각 슬롯 등장 간격 (요청하신 0.5초)
@@ -68,6 +69,7 @@ public class TenResultPanel : MonoBehaviour
         for (int i = 0; i < spawned.Count; i++)
         {
             // 슬롯 개별 등장
+            SkillSfxManager.Instance.PlaySfx(sound);
             yield return spawned[i].Reveal(popAnimTime);
 
             // 다음 슬롯까지 간격
