@@ -8,6 +8,7 @@ public class RewardData
     public int reward_id { get; set; }
     public int RewardTarget_id { get; set; }
     public string R_item_Name { get; set; }
+    public string condition {  get; set; }
     public int R_item_id {  get; set; }
     public int quantity { get; set; }
 

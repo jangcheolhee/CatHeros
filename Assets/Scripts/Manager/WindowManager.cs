@@ -37,8 +37,8 @@ public class WindowManager : MonoBehaviour
 
     public void OnClickCoin()
     {
-        GameManager.Instance.Gold = 9999;
-        GameManager.Instance.Exp = 9999;
+        GameManager.Instance.Gold = 999999;
+        GameManager.Instance.Exp = 999999;
     }
 
 

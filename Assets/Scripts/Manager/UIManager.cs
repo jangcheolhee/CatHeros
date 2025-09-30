@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI speed;
     public TextMeshProUGUI autoText;
+    private float currectTimeScale = 1f;
 
     [System.Serializable]
     public class PanelEntry
@@ -44,7 +45,7 @@ public class UIManager : MonoBehaviour
             panelDict[name].SetActive(true);
 
 
-        Time.timeScale = pauseGame ? 0f : 1f;
+        Time.timeScale = pauseGame ? 0f : currectTimeScale;
     }
 
     public void HideAllPanels()
@@ -65,7 +66,9 @@ public class UIManager : MonoBehaviour
 
         if (isActive)
         {
+
             HideAllPanels();
+            Time.timeScale = currectTimeScale;
         }
         else
         {
@@ -81,11 +84,13 @@ public class UIManager : MonoBehaviour
         if (timeSpeed)
         {
             Time.timeScale = 2f;
+            currectTimeScale = 2f;
             speed.text = "2배속";
         }
         else
         {
             Time.timeScale = 1f;
+            currectTimeScale = 1f;
             speed.text = "1배속";
         }
     }

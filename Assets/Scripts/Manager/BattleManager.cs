@@ -23,6 +23,7 @@ public class BattleManager : MonoBehaviour
     public Transform enemyFront;  // BattleWorld
     public Transform enemyBack;
     public StageCheckPanel checkPanel;
+    public StageCheckPanel checkPanel1;
     private int enemyCount;
     public int PlayerCount { get; private set; }
     public AudioClip victory;
@@ -58,7 +59,7 @@ public class BattleManager : MonoBehaviour
     }
     private void Update()
     {
-        if (remainTime > 0)
+        if (remainTime > 0 )
         {
             remainTime -= Time.deltaTime;
             if (remainTime < 0) remainTime = 0;
@@ -67,14 +68,25 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            SkillSfxManager.Instance.PlaySfx(lose);
-            uiManager.ShowPanel("DefeatPanel", true);
+            if(!end)
+            {
+                end = true;
+                SkillSfxManager.Instance.PlaySfx(lose);
+                uiManager.ShowPanel("DefeatPanel", true);
+                checkPanel1.UpdateLosePanel();
+                checkPanel.GetItems(false);
+                return;
+            }
+            
         }
-        if (PlayerCount == 0)
+        if (PlayerCount == 0 && !end)
         {
 
+            end = true;
             uiManager?.ShowPanel("DefeatPanel", true);
             SkillSfxManager.Instance.PlaySfx(lose);
+            checkPanel1.UpdateLosePanel();
+            checkPanel.GetItems(false);
             return;
         }
 
@@ -90,34 +102,7 @@ public class BattleManager : MonoBehaviour
                 checkPanel.UpdatePanel();
 
                 Debug.Log(GameManager.Instance.SelectedStageId);
-                var rewardDatas = DataTableManger.RewardTable.Get(GameManager.Instance.SelectedStageId);
-                foreach (var data in rewardDatas)
-                {
-                    switch (data.R_item_id)
-                    {
-                        case 40501:
-
-                            GameManager.Instance.Chur += data.quantity;
-
-                            break;
-                        case 40502:
-
-                            GameManager.Instance.Gold += data.quantity;
-                            break;
-
-                        case 20503:
-
-                            GameManager.Instance.Yarn += data.quantity;
-
-                            break;
-                        case 40504:
-
-                            GameManager.Instance.Exp += data.quantity;
-
-                            break;
-
-                    }
-                }
+                checkPanel.GetItems(true);
                 if(GameManager.Instance.SelectedStageId == int.Parse($"{totalWave}8{GameManager.Instance.ClearStage + 1:D2}"))
                 {
                     GameManager.Instance.ClearStage++;
