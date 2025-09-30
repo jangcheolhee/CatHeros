@@ -40,6 +40,7 @@ public class GachaScene : GenericWindow
         rollOneButton.onClick.AddListener(() => OnRoll(1));
         rollTenButton.onClick.AddListener(() => OnRoll(10));
         gachaPool = DataTableManger.GachaTable.Table();
+        AudioManager.Instance.PlayGachaBgm();
         //currency = GameManager.Instance.Chur;
         base.Open();
 

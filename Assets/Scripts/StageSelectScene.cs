@@ -24,6 +24,7 @@ public class StageSelectScene : GenericWindow
         titleText?.SetText("Stage Select");
         Populate();
         OnClickBack();
+        AudioManager.Instance.PlayStageSelectBgm();
         base.Open();
 
     }

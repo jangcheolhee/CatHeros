@@ -58,7 +58,7 @@ public class UiCollectionSlot : MonoBehaviour
                 break;
         }
         position.sprite = Resources.Load<Sprite>($"icon/{data.Position}");
-        button.onClick.RemoveAllListeners();
+        //button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => scene.OnClickPanel(GameManager.Instance.saveCharacterList.FirstOrDefault(c => characterData.Character_ID == c.Character_ID.Character_ID)));
 
     }

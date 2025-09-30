@@ -7,6 +7,7 @@ public class MainScene : GenericWindow
 {
     public TextMeshProUGUI gold;
     public TextMeshProUGUI yarn;
+    public GameObject userInfo;
     private void Start()
     {
          if (GameManager.Instance.WindowToOpenOnReturn != Windows.Main)
@@ -20,7 +21,8 @@ public class MainScene : GenericWindow
     }
     public override void Open()
     {
-        
+        AudioManager.Instance.PlayMainBgm();
+        userInfo.SetActive(false);
         base.Open();
     }
     void UpdateCurrencyUI()
@@ -44,5 +46,14 @@ public class MainScene : GenericWindow
     {
         manager.Open(Windows.Gacha);
     }
-   
+    public void OpenInfo()
+    {
+        userInfo.SetActive(true);
+    }
+    public void CloseInfo()
+    {
+        userInfo.SetActive(false);
+    }
+
+
 }

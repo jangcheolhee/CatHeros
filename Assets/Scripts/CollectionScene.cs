@@ -8,6 +8,7 @@ public class CollectionScene : GenericWindow
     public override void Open()
     {
         characterInfoPanel.gameObject.SetActive(false);
+        AudioManager.Instance.PlayMainBgm();
         base.Open();
 
     }

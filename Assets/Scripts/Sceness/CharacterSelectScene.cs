@@ -45,6 +45,7 @@ public class CharacterSelectScene : GenericWindow
             charSlot.icon.sprite = spriteIcon;
             icon.GetComponentInChildren<TextMeshProUGUI>().text = DataTableManger.CharacterTable.Get(charId).Name;
         }
+        AudioManager.Instance.PlayStageSelectBgm();
         base.Open();
     }
     public void OnClickConfirm()

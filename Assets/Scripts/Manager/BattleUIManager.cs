@@ -20,6 +20,7 @@ public class BattleUIManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.PlayBattleBgm();
         battleManager.OnTimeChanged += UpdateTimerUI;
         int f = 0;
         int r = 0;

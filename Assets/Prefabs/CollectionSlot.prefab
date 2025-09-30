@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 7091657708122130432}
   - component: {fileID: 2949117586210345372}
   - component: {fileID: 2615894842150362041}
+  - component: {fileID: 3585416105927660156}
   m_Layer: 5
   m_Name: CollectionSlot
   m_TagString: Untagged
@@ -269,6 +270,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3585416105927660156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2912740255590013164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aee36833c7f69994ca930f89fba6d288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSfx: {fileID: 8300000, guid: cc6ab236fd06a244c942c4b193808dbe, type: 3}
 --- !u!1 &3352090481739958660
 GameObject:
   m_ObjectHideFlags: 0

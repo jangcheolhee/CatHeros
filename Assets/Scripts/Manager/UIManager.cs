@@ -111,7 +111,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f;
 
         GameManager.Instance.WindowToOpenOnReturn = Windows.Character;
-
+        
         SceneManager.LoadScene("Main");
 
     }

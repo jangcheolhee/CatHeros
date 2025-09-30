@@ -286,6 +286,8 @@ public class Player : LivingEntity
         skillTarget.OnDamage(SkillDamage);
         var effect = Instantiate(effectPrefab, skillTarget.transform.position, Quaternion.identity);
         Destroy(effect, 1);
+        var sound = Resources.Load<AudioClip>($"Audio/{SkillData.Skill_ID}");
+        SkillSfxManager.Instance.PlaySfx(sound);
         if (SkillEffect != null)
         {
             skillTarget.AddStatus(SkillEffect.Effect_Type, 100, 1);
