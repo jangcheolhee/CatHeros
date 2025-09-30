@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Enemy : LivingEntity
 {
@@ -11,8 +13,11 @@ public class Enemy : LivingEntity
     private Animator animator;
     public GameObject bulletPrefab;
     public MonsterData monsterData;
+    GameObject effectPrefab;
     public SkillData basicAttack { get; private set; }
     public SkillData skillData { get; private set; }
+    public EffectData SkillEffect { get; private set; } = null;
+
     private SpriteRenderer spriteRenderer;
     private Color originColor;
     private bool IsAttack = true;
@@ -67,7 +72,13 @@ public class Enemy : LivingEntity
             return monsterData.M_Base_SPD;
         }
     }
-    public int Defence { get; private set; }
+    public int Defence
+    {
+        get
+        {
+            return monsterData.M_Base_DEF;
+        }
+    }
 
     public string Position
     {
@@ -94,7 +105,14 @@ public class Enemy : LivingEntity
     private Vector2 InitPosition;
     private float speed = 3f;
     private float skillTimer;
+    private float SkillInterval
+    {
+        get
+        {
 
+            return skillData.Base_SPD / (1 + Speed / skillData.SPD_Factor);
+        }
+    }
 
     private void Awake()
     {
@@ -137,7 +155,7 @@ public class Enemy : LivingEntity
 
         if (target == null || target.IsDead)
             FindTarget();
-        
+        skillTimer += Time.deltaTime;
         switch (CurrentStatus)
         {
             case Status.Idle:
@@ -158,7 +176,12 @@ public class Enemy : LivingEntity
             attackTimer = 0f;
             Attack();
         }
-       
+        if (skillTarget && skillTimer > SkillInterval)
+        {
+            UseSkill();
+            skillTimer = 0f;
+        }
+
     }
     private void UpdateBack()
     {
@@ -236,14 +259,132 @@ public class Enemy : LivingEntity
     }
     public void UseSkill()
     {
-        //animator.SetBool("IsSkill", true);
-        //target.OnDamage(skill.damage);
+        FindSkillTarget();
 
-        Debug.Log($"스킬 사용");
+        animator.SetTrigger(isSkill);
+        skillTarget.OnDamage(SkillDamage);
+        var effect = Instantiate(effectPrefab, skillTarget.transform.position, Quaternion.identity);
+        Destroy(effect, 0.5f);
+        var sound = Resources.Load<AudioClip>($"Audio/{skillData.Skill_ID}");
+        SkillSfxManager.Instance.PlaySfx(sound);
+
+        if (SkillEffect != null)
+        {
+            //skillTarget.AddStatus(SkillEffect.Effect_Type, 100, 1);
+
+            skillTarget.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(skillData.Effect_1_Duration) / 1000);
+        }
+        skillTimer = 0;
     }
+
+    private void FindSkillTarget()
+    {
+        skillTarget = null;
+        FormationRow frontRow = FormationRow.Front;
+        FormationRow backRow = FormationRow.Rear;
+        switch (skillData.Skill_ID)
+        {
+            
+            case 31310:
+            case 31314:
+            case 32315:
+            case 33316:
+            case 32320:
+            case 32321:
+                if (battleManager.Players.ContainsKey(frontRow))
+                {
+                    foreach (var enemy in battleManager.Players[frontRow])
+                    {
+                        if (!enemy.IsDead)
+                        {
+                            skillTarget = enemy;
+                            return;
+                        }
+                    }
+                }
+                if (battleManager.Players.ContainsKey(backRow))
+                {
+                    foreach (var enemy in battleManager.Players[backRow])
+                    {
+                        if (!enemy.IsDead)
+                        {
+                            skillTarget = enemy;
+                            return;
+                        }
+                    }
+                }
+                break;
+            case 31309:
+            case 31319:
+                skillTarget = this;
+                break;
+            case 31311:
+            case 34313:
+            case 31317:
+            case 31318:
+                if (battleManager.Players.ContainsKey(backRow))
+                {
+                    foreach (var enemy in battleManager.Players[backRow])
+                    {
+                        if (!enemy.IsDead)
+                        {
+                            skillTarget = enemy;
+                            return;
+                        }
+                    }
+                }
+                if (battleManager.Players.ContainsKey(frontRow))
+                {
+                    foreach (var enemy in battleManager.Players[frontRow])
+                    {
+                        if (!enemy.IsDead)
+                        {
+                            skillTarget = enemy;
+                            return;
+                        }
+                    }
+                }
+                break;
+            
+            case 32312:
+            case 31323:
+            case 33324:
+                float minHp = 1000000f;
+                if (battleManager.AliveEnemies.ContainsKey(frontRow))
+                {
+                    foreach (var player in battleManager.AliveEnemies[frontRow])
+                    {
+                        if (!player.IsDead)
+                        {
+                            if (player.CurrentHP < minHp)
+                            {
+                                skillTarget = player;
+                                minHp = player.CurrentHP;
+                            }
+                        }
+                    }
+                }
+                if (battleManager.AliveEnemies.ContainsKey(backRow))
+                {
+                    foreach (var player in battleManager.AliveEnemies[backRow])
+                    {
+                        if (player.CurrentHP < minHp)
+                        {
+                            skillTarget = player;
+                            minHp = player.CurrentHP;
+                        }
+                    }
+                }
+
+                return;
+                break;
+        }
+    }
+
     public override void OnDamage(int damage)
     {
         StartCoroutine(CorDamage());
+        damage = Math.Clamp(damage - (int)(Defence * 0.1), 0, damage);
         base.OnDamage(damage);
     }
 

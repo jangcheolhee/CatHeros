@@ -18,7 +18,7 @@ public class Player : LivingEntity
     private bool IsAttack = true;
     public GameObject bulletPrefab;
     public AudioClip attackClip;
-   
+
     GameObject effectPrefab;
     private Animator animator;
     private AudioSource audioSource;
@@ -52,14 +52,13 @@ public class Player : LivingEntity
     public SkillData BasicAttack { get; private set; }
     public SkillData SkillData { get; private set; }
     public EffectData SkillEffect { get; private set; } = null;
+    private CharacterInfo character; 
 
 
     public int Max_HP
     {
         get
         {
-            var character = GameManager.Instance.saveCharacterList
-           .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
             return character.Hp;
         }
     }
@@ -67,22 +66,20 @@ public class Player : LivingEntity
     {
         get
         {
-            return (int)((AttackD + AddAttack) * BasicAttack.Power_Coeff_ATK);
+            return (int)(AttackD  * BasicAttack.Power_Coeff_ATK);
         }
     }
     public int SkillDamage
     {
         get
         {
-            return (int)((SkillData.Base_Power + (AttackD + AddAttack) * SkillData.Power_Coeff_ATK));
+            return (int)((SkillData.Base_Power + AttackD * SkillData.Power_Coeff_ATK));
         }
     }
     public int Speed
     {
         get
         {
-            var character = GameManager.Instance.saveCharacterList
-            .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
             return character.Spd;
 
         }
@@ -91,20 +88,16 @@ public class Player : LivingEntity
     {
         get
         {
-            var character = GameManager.Instance.saveCharacterList
-            .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
-            return character.Def;
+           return character.Def + AddDefense;
 
         }
     }
-        
+
     public int AttackD
     {
         get
         {
-            var character = GameManager.Instance.saveCharacterList
-            .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
-            return character.Atk;
+            return character.Atk + AddAttack;
 
         }
     }
@@ -143,9 +136,13 @@ public class Player : LivingEntity
     public void Setup(int character_ID)
     {
 
+        
         characterData = DataTableManger.CharacterTable.Get(character_ID);
         BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
         SkillData = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
+        character = GameManager.Instance.saveCharacterList
+           .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
+
         AnimatorOverrideController overrideCtrl =
             Resources.Load<AnimatorOverrideController>($"Overrides/{character_ID}");
         animator.runtimeAnimatorController = overrideCtrl;
@@ -172,7 +169,7 @@ public class Player : LivingEntity
                 attackRange = 2f;
                 break;
         }
-    }
+          }
 
 
     protected override void Update()
@@ -185,7 +182,7 @@ public class Player : LivingEntity
             target = null;
             FindTarget();
         }
-
+        skillTimer += Time.deltaTime;
         switch (CurrentStatus)
         {
             case Status.Idle:
@@ -238,10 +235,8 @@ public class Player : LivingEntity
 
         if (target != null)
         {
-            if (characterData.Basic_attack_ID == 11308)
-                target.OnDamage(-AttackDamage);
-            else
-                target.OnDamage(AttackDamage);
+
+            target.OnDamage(AttackDamage);
         }
         SkillSfxManager.Instance.PlaySfx(attackClip);
         yield return new WaitForSeconds(0.5f);
@@ -259,7 +254,7 @@ public class Player : LivingEntity
 
         }
         attackTimer += Time.deltaTime;
-        skillTimer += Time.deltaTime;
+
         if (target && battleManager.IsAuto && skillTimer > SkillData.Cooldown)
         {
             AutoUseSkill();
@@ -282,14 +277,34 @@ public class Player : LivingEntity
         animator.SetTrigger(isSkill);
         skillTarget.OnDamage(SkillDamage);
         var effect = Instantiate(effectPrefab, skillTarget.transform.position, Quaternion.identity);
-        Destroy(effect, 1);
+        Destroy(effect, 0.5f);
         var sound = Resources.Load<AudioClip>($"Audio/{SkillData.Skill_ID}");
         SkillSfxManager.Instance.PlaySfx(sound);
+
         if (SkillEffect != null)
         {
-            skillTarget.AddStatus(SkillEffect.Effect_Type, 100, 1);
+            switch(SkillEffect.Effect_ID)
+            {
+                case 4404:
+                    skillTarget.AddStatus(SkillEffect.Effect_Type, (int)(MaxHP * (int.Parse(SkillData.Effect_1_Value) * 0.01)), float.Parse(SkillData.Effect_1_Duration) / 1000);
+                    break;
+                case 5402:
+                    
+                    skillTarget.AddStatus(SkillEffect.Effect_Type, 0, float.Parse(SkillData.Effect_1_Duration) / 1000);
+                    
+                    break;
+                case 2410:
+                    Debug.Log($"{Defence} {AddDefense}");
+                    skillTarget.AddStatus(SkillEffect.Effect_Type, (int)(Defence * (int.Parse(SkillData.Effect_1_Value) * 0.01)), float.Parse(SkillData.Effect_1_Duration) / 1000);
+                    Debug.Log($"{Defence} {AddDefense}");
+                    break;
+                case 1403:
+                    skillTarget.AddStatus(SkillEffect.Effect_Type, (int)(AttackD  * (int.Parse(SkillData.Effect_1_Value) * 0.01)), float.Parse(SkillData.Effect_1_Duration) / 1000);
 
-            //skillTarget.AddStatus(SkillEffect.Effect_Type, 100, float.Parse(SkillData.Effect_1_Duration) / 1000);
+                    break;
+
+            }
+
         }
         skillTimer = 0;
 
@@ -297,9 +312,7 @@ public class Player : LivingEntity
     }
     public void AutoUseSkill()
     {
-
         int idx = -1;
-
         idx = battleManager.Players[FormationRow.Front].IndexOf(this);
         if (idx == -1)
         {
@@ -309,7 +322,9 @@ public class Player : LivingEntity
         if (idx >= 0 && idx < battleManager.battleUIManager.skillButtons.Count)
         {
             var btn = battleManager.battleUIManager.skillButtons[idx];
+            Debug.Log(skillTimer);
             btn.button.onClick.Invoke();
+
         }
     }
     public void Shoot()
@@ -324,45 +339,12 @@ public class Player : LivingEntity
 
     private void FindTarget()
     {
-        FormationRow priorityRow = FormationRow.Front;
-        FormationRow backupRow = FormationRow.Rear;
-        if (characterData.Basic_attack_ID == 11308)
+        FormationRow frontRow = FormationRow.Front;
+        FormationRow backRow = FormationRow.Rear;
+
+        if (battleManager.AliveEnemies.ContainsKey(frontRow))
         {
-            float minHp = 1000000f;
-            if (battleManager.Players.ContainsKey(priorityRow))
-            {
-
-                foreach (var player in battleManager.Players[priorityRow])
-                {
-                    if (!player.IsDead)
-                    {
-                        if (player.CurrentHP < minHp)
-                        {
-                            target = player;
-                            minHp = player.CurrentHP;
-                        }
-
-
-                    }
-                }
-            }
-            if (battleManager.Players.ContainsKey(backupRow))
-            {
-                foreach (var player in battleManager.Players[backupRow])
-                {
-                    if (player.CurrentHP < minHp)
-                    {
-                        target = player;
-                        minHp = player.CurrentHP;
-                    }
-                }
-            }
-            return;
-
-        }
-        if (battleManager.AliveEnemies.ContainsKey(priorityRow))
-        {
-            foreach (var enemy in battleManager.AliveEnemies[priorityRow])
+            foreach (var enemy in battleManager.AliveEnemies[frontRow])
             {
                 if (!enemy.IsDead)
                 {
@@ -371,9 +353,9 @@ public class Player : LivingEntity
                 }
             }
         }
-        if (battleManager.AliveEnemies.ContainsKey(backupRow))
+        if (battleManager.AliveEnemies.ContainsKey(backRow))
         {
-            foreach (var enemy in battleManager.AliveEnemies[backupRow])
+            foreach (var enemy in battleManager.AliveEnemies[backRow])
             {
                 if (!enemy.IsDead)
                 {
@@ -387,18 +369,88 @@ public class Player : LivingEntity
     private void FindSkillTarget()
     {
         skillTarget = null;
-        if (SkillData.Effect_1_Target == "1")
+        FormationRow frontRow = FormationRow.Front;
+        FormationRow backRow = FormationRow.Rear;
+        switch (SkillData.Skill_ID)
         {
-
-            FormationRow priorityRow = FormationRow.Front;
-            FormationRow backupRow = FormationRow.Rear;
-
-            float minHp = 1000000f;
-            if (battleManager.Players.ContainsKey(priorityRow))
-            {
-                foreach (var player in battleManager.Players[priorityRow])
+            case 32301:
+            case 31304:
+            case 32331:
+            case 31335:
+                if (battleManager.AliveEnemies.ContainsKey(frontRow))
                 {
-                    if (!player.IsDead)
+                    foreach (var enemy in battleManager.AliveEnemies[frontRow])
+                    {
+                        if (!enemy.IsDead)
+                        {
+                            skillTarget = enemy;
+                            return;
+                        }
+                    }
+                }
+                if (battleManager.AliveEnemies.ContainsKey(backRow))
+                {
+                    foreach (var enemy in battleManager.AliveEnemies[backRow])
+                    {
+                        if (!enemy.IsDead)
+                        {
+                            skillTarget = enemy;
+                            return;
+                        }
+                    }
+                }
+                break;
+            case 31302:
+            case 31330:
+                skillTarget = this;
+                break;
+            case 32303:
+            case 31328:
+            case 31329:
+            case 31334:
+                if (battleManager.AliveEnemies.ContainsKey(backRow))
+                {
+                    foreach (var enemy in battleManager.AliveEnemies[backRow])
+                    {
+                        if (!enemy.IsDead)
+                        {
+                            skillTarget = enemy;
+                            return;
+                        }
+                    }
+                }
+                if (battleManager.AliveEnemies.ContainsKey(frontRow))
+                {
+                    foreach (var enemy in battleManager.AliveEnemies[frontRow])
+                    {
+                        if (!enemy.IsDead)
+                        {
+                            skillTarget = enemy;
+                            return;
+                        }
+                    }
+                }
+                break;
+            case 32305:
+            case 33332:
+                float minHp = 1000000f;
+                if (battleManager.Players.ContainsKey(frontRow))
+                {
+                    foreach (var player in battleManager.Players[frontRow])
+                    {
+                        if (!player.IsDead)
+                        {
+                            if (player.CurrentHP < minHp)
+                            {
+                                skillTarget = player;
+                                minHp = player.CurrentHP;
+                            }
+                        }
+                    }
+                }
+                if (battleManager.Players.ContainsKey(backRow))
+                {
+                    foreach (var player in battleManager.Players[backRow])
                     {
                         if (player.CurrentHP < minHp)
                         {
@@ -407,27 +459,16 @@ public class Player : LivingEntity
                         }
                     }
                 }
-            }
-            if (battleManager.Players.ContainsKey(backupRow))
-            {
-                foreach (var player in battleManager.Players[backupRow])
-                {
-                    if (player.CurrentHP < minHp)
-                    {
-                        skillTarget = player;
-                        minHp = player.CurrentHP;
-                    }
-                }
-            }
 
-            return;
-
+                return;
+                break;
         }
-        skillTarget = target;
+
     }
     public override void OnDamage(int damage)
     {
         StartCoroutine(CorDamage());
+        damage = Math.Clamp(damage - (int)(Defence * 0.15) , 0, damage);
         base.OnDamage(damage);
     }
     protected override void Die()

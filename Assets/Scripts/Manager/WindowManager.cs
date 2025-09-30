@@ -8,7 +8,7 @@ public class WindowManager : MonoBehaviour
     public List<GenericWindow> windows;
     public Windows defaultWindow;
     public Windows prevWindow;
-    
+
 
     public Windows CurrentWindow { get; private set; }
     private void Start()
@@ -29,17 +29,18 @@ public class WindowManager : MonoBehaviour
         windows[(int)CurrentWindow].Close();
         prevWindow = CurrentWindow;
         CurrentWindow = id;
-       
+
         windows[(int)CurrentWindow].Open();
-       
-        
+
+
     }
 
     public void OnClickCoin()
     {
+#if UNITY_EDITOR
         GameManager.Instance.Gold = 999999;
         GameManager.Instance.Exp = 999999;
+#endif
     }
-
 
 }
