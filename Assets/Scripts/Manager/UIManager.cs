@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI speed;
     public TextMeshProUGUI autoText;
-    
+
     [System.Serializable]
     public class PanelEntry
     {
@@ -110,9 +110,29 @@ public class UIManager : MonoBehaviour
     public void NextStage()
     {
         Time.timeScale = 1f;
+        switch (GameManager.Instance.SelectedStageId % 100)
+        {
+            case 0:
+            case 5:
+                GameManager.Instance.SelectedStageId -= 999;
+                break;
+            case 4:
+            case 9:
+                GameManager.Instance.SelectedStageId += 1001;
+                break;
+            default:
+                if(GameManager.Instance.SelectedStageId == 4801)
+                {
+                    GameManager.Instance.SelectedStageId -= 1000;
+                }
+                GameManager.Instance.SelectedStageId += 1;
+                break;
 
-        GameManager.Instance.WindowToOpenOnReturn = Windows.Character;
+
+        }
         
+        GameManager.Instance.WindowToOpenOnReturn = Windows.Character;
+
         SceneManager.LoadScene("Main");
 
     }

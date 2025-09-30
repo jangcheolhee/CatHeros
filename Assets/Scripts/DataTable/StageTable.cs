@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class StageData
 {
@@ -47,4 +48,5 @@ public class StageTable : DataTable
     }
     public Dictionary<int, StageData> Table
     { get { return table; } }   
+    public List<StageData> TableList { get { return table.Values.ToList(); } }
 }

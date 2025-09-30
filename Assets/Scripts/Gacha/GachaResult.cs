@@ -37,11 +37,8 @@ public class GachaResult : MonoBehaviour
         else
         {
             resultPanel.SetActive(false);
-            icon.sprite = Resources.Load<Sprite>($"icon/{data.Result_ID}");
         }
-        
-
-
+            icon.sprite = Resources.Load<Sprite>($"icon/{data.Result_ID}");
             gameObject.SetActive(true);
     }
 }

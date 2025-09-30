@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainScene : GenericWindow
 {
     public TextMeshProUGUI gold;
-    public TextMeshProUGUI yarn;
+    public TextMeshProUGUI exp;
     public GameObject userInfo;
     private void Start()
     {
@@ -17,7 +17,7 @@ public class MainScene : GenericWindow
         }
         GameManager.Instance.OnCurrencyChanged += UpdateCurrencyUI;
         gold.text = GameManager.Instance.Gold.ToString();
-        yarn.text = GameManager.Instance.Yarn.ToString();
+        exp.text = GameManager.Instance.Exp.ToString();
     }
     public override void Open()
     {
@@ -29,6 +29,7 @@ public class MainScene : GenericWindow
     {
        
         gold.text = GameManager.Instance.Gold.ToString();
+        exp.text = GameManager.Instance.Exp.ToString();
     }
     public void OnClickBattle()
     {

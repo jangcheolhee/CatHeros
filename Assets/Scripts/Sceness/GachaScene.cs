@@ -42,6 +42,7 @@ public class GachaScene : GenericWindow
         gachaPool = DataTableManger.GachaTable.Table();
         AudioManager.Instance.PlayGachaBgm();
         currency = GameManager.Instance.Chur;
+        UpdateCurrencyUI();
         base.Open();
 
     }

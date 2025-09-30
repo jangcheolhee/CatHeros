@@ -16,6 +16,7 @@ public class CharacterSelectScene : GenericWindow
     public CharacterInfoPanel characterInfoPanel;
     public bool isDrop = false;
     public CharacterSlot characterSlot;
+    public TextMeshProUGUI stageText;
 
     public override void Open()
     {
@@ -26,26 +27,27 @@ public class CharacterSelectScene : GenericWindow
         characterInfoPanel.gameObject.SetActive(false);
         foreach (var cha in GameManager.Instance.saveCharacterList)
         {
-            if(cha.IsGet)
+            if (cha.IsGet)
             {
-               
+
                 charIds.Add(cha.Character_ID.Character_ID);
             }
         }
-        
-       GameManager.Instance.PartySlots.Clear();
+
+        GameManager.Instance.PartySlots.Clear();
         foreach (int charId in charIds)
         {
             GameObject icon = Instantiate(iconPrefab, scrollViewContent);
             CharacterSlot charSlot = icon.GetComponent<CharacterSlot>();
-           
+
             charSlot.characterID = charId;
             spriteIcon = Resources.Load<Sprite>($"icon/{charId}");
-           
+
             charSlot.icon.sprite = spriteIcon;
             icon.GetComponentInChildren<TextMeshProUGUI>().text = DataTableManger.CharacterTable.Get(charId).Name;
         }
         AudioManager.Instance.PlayStageSelectBgm();
+        stageText.text = $"Stage {DataTableManger.StageTable.Get(GameManager.Instance.SelectedStageId).StageName}";
         base.Open();
     }
     public void OnClickConfirm()
@@ -79,7 +81,7 @@ public class CharacterSelectScene : GenericWindow
     }
     public void Select(CharacterSlot slot)
     {
-        if(!isDrop )
+        if (!isDrop)
         {
             isDrop = true;
         }

@@ -18,6 +18,7 @@ public class SkillData
     public string Effect_1_Value {  get; set; }
     public string Effect_1_Target { get; set; }
     public string Effect_1_Duration { get; set; }
+    public string Description { get; set; }
 
 }
 public class SkillDataTable : DataTable

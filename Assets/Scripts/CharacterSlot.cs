@@ -31,6 +31,7 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         image = GetComponent<Image>();
         canvasGroup = GetComponentInParent<CanvasGroup>();
         characterSelectScene = GetComponentInParent<CharacterSelectScene>();
+        //isPointerDown = true;
     }
 
     public void SetAssigned(bool assigned)

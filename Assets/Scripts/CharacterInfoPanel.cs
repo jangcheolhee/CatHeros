@@ -71,8 +71,33 @@ public class CharacterInfoPanel : MonoBehaviour
         titleText.text = currentCharacter.Character_ID.Name;
         tankerButton.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>($"icon/{currentCharacter.Character_ID.Position}");
         tankerButton.GetComponentInChildren<TextMeshProUGUI>().text = currentCharacter.Character_ID.Position.ToString();
+        
 
-        normalButton.GetComponentInChildren<TextMeshProUGUI>().text = currentCharacter.Character_ID.Position.ToString();
+        
+        switch (currentCharacter.Character_ID.Rarity)
+        {
+            case 1:
+                normalButton.GetComponentInChildren<TextMeshProUGUI>().text = "N";
+
+
+                break;
+            case 2:
+                normalButton.GetComponentInChildren<TextMeshProUGUI>().text = "R";
+                
+                break;
+            case 3:
+                normalButton.GetComponentInChildren<TextMeshProUGUI>().text = "SR";
+
+                break;
+            case 4:
+                normalButton.GetComponentInChildren<TextMeshProUGUI>().text = "SSR";
+
+                break;
+        }
+        specialButton.GetComponentInChildren<TextMeshProUGUI>().text = "전용무기";
+        specialButton.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>($"icon/Lock");
+
+
 
         Debug.Log(currentCharacter.Character_ID.Character_ID);
         portraitImage.sprite = Resources.Load<Sprite>($"icon/{currentCharacter.Character_ID.Character_ID}");
@@ -83,8 +108,9 @@ public class CharacterInfoPanel : MonoBehaviour
         defText.text = $"DEF: {currentCharacter.Def}";
         spdText.text = $"SPD: {currentCharacter.Spd}";
 
-        skillListText.text = DataTableManger.SkillTable.Get(currentCharacter.Character_ID.Skill_Set_ID).Skill_Name;
-        pairBonusText.text = DataTableManger.SkillTable.Get(currentCharacter.Character_ID.Skill_Set_ID).Skill_Name;
+        skillListText.text = $"{DataTableManger.SkillTable.Get(currentCharacter.Character_ID.Skill_Set_ID).Skill_Name} : {DataTableManger.SkillTable.Get(currentCharacter.Character_ID.Skill_Set_ID).Description} ";
+        pairBonusText.text = "추후 추가 될 예정입니다.";
+        
         levelText.text = $"exp : {currentCharacter.Exp} / {GameManager.Instance.Exp} gold {currentCharacter.Gold} / {GameManager.Instance.Gold}";
         ShowTab("stat"); // 기본 탭
     }
@@ -144,7 +170,7 @@ public class CharacterInfoPanel : MonoBehaviour
 
 
             GameManager.Instance.Save();
-            levelText.text = $"exp : {currentCharacter.Exp} / {GameManager.Instance.Exp} gold {currentCharacter.Gold} / {GameManager.Instance.Gold}";
+            levelText.text = $"gold : {currentCharacter.Gold} / {GameManager.Instance.Gold} exp : {currentCharacter.Exp} / {GameManager.Instance.Exp} ";
 
             var slotList = FindObjectOfType<UiCollectSlotList>();
             if (slotList != null) slotList.Load();
