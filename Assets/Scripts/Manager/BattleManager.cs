@@ -165,7 +165,7 @@ public class BattleManager : MonoBehaviour
     {
         if (currentWave < totalWave)
         {
-            //Debug.Log($"웨이브 {currentWave + 1} 시작!");
+            
             battleUIManager.UpdateWaveText(currentWave + 1, totalWave);
             var waveq = Waves[wave];
             int f = 0;

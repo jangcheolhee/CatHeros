@@ -17,8 +17,9 @@ public class StageButton : MonoBehaviour
     {
 
         stageId = data.StageID;
+
         if (!clear)
-            thumbnail.sprite = Resources.Load<Sprite>("icon/Stage");
+            thumbnail.sprite = Resources.Load<Sprite>($"icon/Stage{Random.Range(0,12)}");
         else
         {
             thumbnail.sprite = Resources.Load<Sprite>("icon/Lock");

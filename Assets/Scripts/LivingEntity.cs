@@ -29,7 +29,8 @@ public enum StatusEffect
 }
 public class LivingEntity : MonoBehaviour, IDamagable
 {
-    public float MaxHP { get; protected set; } = 1000;
+    private float maxHP;
+    public float MaxHP { get { return maxHP; }  set { maxHP = value;CurrentHP = maxHP; } } 
     public float CurrentHP { get; protected set; }
     public bool IsDead { get; private set; }
     public bool IsStunned {  get; private set; }

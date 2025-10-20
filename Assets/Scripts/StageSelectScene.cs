@@ -29,10 +29,8 @@ public class StageSelectScene : GenericWindow
 
     }
 
-
     void Populate()
     {
-        // 기존 정리
         foreach (Transform child in content) Destroy(child.gameObject);
         items.Clear();
 
@@ -50,7 +48,6 @@ public class StageSelectScene : GenericWindow
             {
                 view.Init(s.Value, false);
             }
-
             var btn = go.GetComponent<Button>();
 
             int id = s.Key;
@@ -68,7 +65,6 @@ public class StageSelectScene : GenericWindow
     {
         selectedStageId = (selectedStageId == id) ? -1 : id;
         GameManager.Instance.SelectedStageId = selectedStageId;
-        //manager.Open(Windows.Character);
         checkPanel.Show();
 
     }

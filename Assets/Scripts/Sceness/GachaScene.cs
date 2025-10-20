@@ -21,9 +21,8 @@ public class GachaScene : GenericWindow
     public GameObject resultPanel;
     public TenResultPanel resultTenPanel;
 
-    private float[] cumulativeRarityRates;
-    private float totalRarityRate;
-    private HashSet<int> pickedItemIds = new HashSet<int>(); // 중복 방지용
+    
+    
 
     private List<GachaData> gachaPool;
     private int currency ;
@@ -37,6 +36,8 @@ public class GachaScene : GenericWindow
 
         backButton.onClick.AddListener(OnBack);
         probabilityButton.onClick.AddListener(OnShowProbability);
+        rollOneButton.onClick.RemoveAllListeners();
+        rollTenButton.onClick.RemoveAllListeners();
         rollOneButton.onClick.AddListener(() => OnRoll(1));
         rollTenButton.onClick.AddListener(() => OnRoll(10));
         gachaPool = DataTableManger.GachaTable.Table();
@@ -78,10 +79,6 @@ public class GachaScene : GenericWindow
             if (roll <= cumulative[i])
             {
                 var picked = gachaPool[i];
-
-
-
-                Debug.Log($"획득: {picked.Gacha_ID} (확률 {picked.Probability}%)");
                 return picked;
             }
         }
@@ -105,10 +102,10 @@ public class GachaScene : GenericWindow
     }
     private void OnRoll(int count)
     {
-        int cost = count == 1 ? 1 : 10; // 예시: 1회 300, 10회 2700
+        int cost = count == 1 ? 1 : 10; 
         if (currency < cost)
         {
-            Debug.LogWarning("재화 부족!");
+           
             return;
         }
 
@@ -150,7 +147,7 @@ public class GachaScene : GenericWindow
                     GameManager.Instance.Yarn += item.Amount;
                     break;
             }
-            Debug.Log($"획득 결과: {item.Gacha_ID} ({item.Probability})");
+            Debug.Log($"획득 결과: {item.Gacha_ID} ({item.Probability}) {item.Amount}");
         }
         GameManager.Instance.Save();
         loadingPanel.SetActive(true);
@@ -159,17 +156,12 @@ public class GachaScene : GenericWindow
 
 
 
-        // 3) 몇 초 뒤에 클릭 가능하게 전환
-        StartCoroutine(ShowResultsAfterDelay(2f, count)); // 2초 로딩
+        ShowResultsAfterDelay( count); 
     }
 
-    private IEnumerator ShowResultsAfterDelay(float delay, int count)
+    private void ShowResultsAfterDelay(int count)
     {
-        yield return new WaitForSeconds(delay);
-
-        // 로딩 패널을 "클릭 대기 상태"로 전환
-
-        // 클릭하면 결과창으로 이동
+        
         var btn = loadingPanel.GetComponentInChildren<UnityEngine.UI.Button>();
         btn.onClick.RemoveAllListeners();
         if (count == 1)
@@ -187,17 +179,9 @@ public class GachaScene : GenericWindow
         loadingPanel.SetActive(false);
         resultPanel.SetActive(true);
 
-        // 실제 결과 UI에 출력
-        //foreach (Transform child in resultPanel.transform)
-        //    Destroy(child.gameObject);
+     
         resultPanel.GetComponent<GachaResult>().ShowResult(pendingResults[0]);
-        foreach (var item in pendingResults)
-        {
-            Debug.Log($"획득 결과: {item.Gacha_ID}");
 
-            // TODO: 슬롯 Prefab을 Instantiate해서 아이콘/텍스트 표시
-            // 예: Instantiate(resultSlotPrefab, resultPanel.transform).SetData(item);
-        }
 
 
     }
@@ -206,5 +190,8 @@ public class GachaScene : GenericWindow
         if (currencyText != null)
             currencyText.text = currency.ToString();
     }
-
+    public void OnClickX()
+    {
+        probabilityPanel.SetActive(false);
+    }
 }

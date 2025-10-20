@@ -20,10 +20,10 @@ public class Bullet : MonoBehaviour
         transform.position += dir * speed * Time.deltaTime;
 
         
-        if (Vector3.Distance(transform.position, target.transform   .position) < 0.1f)
-        {
-            //target.GetComponent<Enemy>()?.OnDamage(damage);
-            Destroy(gameObject);
-        }
+        //if (Vector3.Distance(transform.position, target.transform   .position) < 0.1f)
+        //{
+        //    //target.GetComponent<Enemy>()?.OnDamage(damage);
+        //    Destroy(gameObject);
+        //}
     }
 }

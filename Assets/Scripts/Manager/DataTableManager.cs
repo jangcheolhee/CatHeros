@@ -9,7 +9,6 @@ public static class DataTableManger
     static DataTableManger()
     {
         Init();
-        
     }
 
     private static void Init()
@@ -17,6 +16,7 @@ public static class DataTableManger
         var charcterTable = new CharacterTable();
         charcterTable.Load(DataTableIds.Character);
         tables.Add(DataTableIds.Character, charcterTable);
+
         var skillTable = new SkillDataTable();
         skillTable.Load(DataTableIds.Skill);
         tables.Add(DataTableIds.Skill, skillTable);
@@ -48,14 +48,14 @@ public static class DataTableManger
         var gachaTable = new GachaTable();
         gachaTable.Load(DataTableIds.Gacha);
         tables.Add(DataTableIds.Gacha, gachaTable);
-#if UNITY_EDITOR
-
-
-#else
-        //var stringTable = new StringTable();
-        //stringTable.Load(DataTableIds.String);
-        //tables.Add(DataTableIds.String, stringTable);
-#endif
+    }
+    public static T Get<T>(string id) where T : DataTable
+    {
+        if (!tables.ContainsKey(id))
+        {
+            return null;
+        }
+        return tables[id] as T;
     }
 
     public static CharacterTable CharacterTable
@@ -131,13 +131,5 @@ public static class DataTableManger
             return Get<GachaTable>(DataTableIds.Gacha);
         }
     }
-    public static T Get<T>(string id) where T : DataTable
-    {
-        if (!tables.ContainsKey(id))
-        {
-            Debug.LogError("���̺� ����");
-            return null;
-        }
-        return tables[id] as T;
-    }
+    
 }

@@ -303,8 +303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4743ccd91b913de448ee4b6ac99fc655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStatus: 0
-  bulletPrefab: {fileID: 4605551391893779245, guid: 661f736af901783418af09c315f15043, type: 3}
+  currentStatusEffect: 0
+  bulletPrefab: {fileID: 1888313317568765855, guid: 0b93c0cbb65c0654b9a235c165212a84, type: 3}
   attackClip: {fileID: 8300000, guid: cc6ab236fd06a244c942c4b193808dbe, type: 3}
   battleManager: {fileID: 0}
 --- !u!50 &8749790222617992401

@@ -135,37 +135,38 @@ public class Player : LivingEntity
     }
     public void Setup(int character_ID)
     {
-
-        
         characterData = DataTableManger.CharacterTable.Get(character_ID);
         BasicAttack = DataTableManger.SkillTable.Get(characterData.Basic_attack_ID);
         SkillData = DataTableManger.SkillTable.Get(characterData.Skill_Set_ID);
         character = GameManager.Instance.saveCharacterList
            .FirstOrDefault(c => c.Character_ID.Character_ID == characterData.Character_ID);
-
         AnimatorOverrideController overrideCtrl =
             Resources.Load<AnimatorOverrideController>($"Overrides/{character_ID}");
         animator.runtimeAnimatorController = overrideCtrl;
+        effectPrefab = Resources.Load<GameObject>($"Effects/{characterData.Skill_Set_ID}");
+
         if (int.TryParse(SkillData.Effect_1_ID, out int id))
         {
             SkillEffect = DataTableManger.EffectTable.Get(id);
         }
-
         MaxHP = Max_HP;
-
         var health = GetComponent<PlayerHealth>();
         if (health != null) health.Refresh();
-        effectPrefab = Resources.Load<GameObject>($"Effects/{characterData.Skill_Set_ID}");
+        
         InitPosition = transform.position;
         switch (characterData.Basic_attack_ID)
         {
             case 11306:
+            case 11325:
+
                 attackRange = 0.5f;
                 break;
             case 11307:
+            case 11326:
                 attackRange = 1.5f;
                 break;
             case 11308:
+            case 11327:
                 attackRange = 2f;
                 break;
         }
@@ -224,7 +225,8 @@ public class Player : LivingEntity
                 animator.SetTrigger(isAttack);
                 IsAttack = false;
                 StartCoroutine(Attack());
-                if (attackRange > 1) Shoot();
+                //if (attackRange > 1) Shoot();
+                Shoot();
             }
         }
 
@@ -276,7 +278,7 @@ public class Player : LivingEntity
 
         animator.SetTrigger(isSkill);
         skillTarget.OnDamage(SkillDamage);
-        var effect = Instantiate(effectPrefab, skillTarget.transform.position, Quaternion.identity);
+        var effect = Instantiate(effectPrefab, skillTarget.transform.position + new Vector3(0,0.3f,0), Quaternion.identity);
         Destroy(effect, 0.5f);
         var sound = Resources.Load<AudioClip>($"Audio/{SkillData.Skill_ID}");
         SkillSfxManager.Instance.PlaySfx(sound);
@@ -332,8 +334,9 @@ public class Player : LivingEntity
         if (target != null)
         {
 
-            GameObject proj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            GameObject proj = Instantiate(Resources.Load<GameObject>($"Effects/{BasicAttack.Skill_ID}"), transform.position, Quaternion.identity);
             proj.GetComponent<Bullet>().Init(target);
+            Destroy(proj, 0.5f);
         }
     }
 

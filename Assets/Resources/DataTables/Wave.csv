@@ -15,7 +15,7 @@ Wave_ID,Stage_ID,Wave_Number,Enemy_ID,Boss_Flag,Spawn_Delay,Wave_Condition,Speci
 10914,4805,1,"[{""Monster_ID"":1201,""Count"":2,""Position"":""Front""},{""Monster_ID"":1204,""Count"":1,""Position"":""Back""},{""Monster_ID"":1212,""Count"":1,""Position"":""Back""}]",FALSE,0,,,
 20915,4805,2,"[{""Monster_ID"":1202,""Count"":2,""Position"":""Front""},{""Monster_ID"":1204,""Count"":1,""Position"":""Back""},{""Monster_ID"":1215,""Count"":1,""Position"":""Back""}]",FALSE,2000,모든 적 처치,,
 30916,4805,3,"[{""Monster_ID"":1202,""Count"":2,""Position"":""Front""},{""Monster_ID"":1204,""Count"":2,""Position"":""Back""},{""Monster_ID"":1215,""Count"":1,""Position"":""Back""}]",FALSE,2500,모든 적 처치,,
-40917,4805,4,"{""Monster_ID"":1206,""Count"":2,""Position"":""Front""},{""Monster_ID"":1204,""Count"":1,""Position"":""Back""},{""Monster_ID"":1215,""Count"":1,""Position"":""Back""},{""Monster_ID"":2301,""Count"":1,""Position"":""Back""}]",TRUE,3000,모든 적 처치,,
+40917,4805,4,"[{""Monster_ID"":1206,""Count"":2,""Position"":""Front""},{""Monster_ID"":1204,""Count"":1,""Position"":""Back""},{""Monster_ID"":1215,""Count"":1,""Position"":""Back""},{""Monster_ID"":1205,""Count"":1,""Position"":""Back""}]",TRUE,3000,모든 적 처치,,
 10918,3806,1,"[{""Monster_ID"":1206,""Count"":2,""Position"":""Front""},{""Monster_ID"":1212,""Count"":1,""Position"":""Back""}]",FALSE,0,,,
 20919,3806,2,"[{""Monster_ID"":1206,""Count"":2,""Position"":""Front""},{""Monster_ID"":1209,""Count"":1,""Position"":""Front""},{""Monster_ID"":1204,""Count"":2,""Position"":""Back""}]",FALSE,2000,모든 적 처치,,
 30920,3806,3,"[{""Monster_ID"":1206,""Count"":2,""Position"":""Front""},{""Monster_ID"":1204,""Count"":2,""Position"":""Back""},{""Monster_ID"":1209,""Count"":1,""Position"":""Back""}]",FALSE,2500,모든 적 처치,,

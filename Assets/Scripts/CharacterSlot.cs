@@ -40,7 +40,7 @@ public class CharacterSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         if (image != null)
         {
 
-            image.color = assigned ? new Color(1, 1, 1, 0.5f) : Color.white;
+            image.color = assigned ? new Color(0, 0, 0) : Color.white;
             
         }
     }

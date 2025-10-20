@@ -25,8 +25,6 @@ public class StageCheckPanel : MonoBehaviour
         var rewardDatas = DataTableManger.RewardTable.Get(GameManager.Instance.SelectedStageId);
         text.text = $"Stage {DataTableManger.StageTable.Get(GameManager.Instance.SelectedStageId).StageName}";
 
-
-
         foreach (var data in rewardDatas)
         {
 
@@ -35,22 +33,14 @@ public class StageCheckPanel : MonoBehaviour
             var image = images[0];
             foreach (var img in images)
             {
-
-
-
                 if (img.gameObject.name == "Icon")
                 {
                     img.sprite = Resources.Load<Sprite>($"icon/{data.R_item_id}");
-                    Debug.Log(data.R_item_id);
-
                     break;
                 }
             }
-
             var text = item.GetComponentInChildren<TextMeshProUGUI>();
             text.text = data.quantity.ToString();
-            //text.text = DataTableManger.ItemTable.Get(data.R_item_id).Item_Name;
-
         }
     }
     public void UpdateLosePanel()
@@ -81,7 +71,7 @@ public class StageCheckPanel : MonoBehaviour
                 }
 
                 var text = item.GetComponentInChildren<TextMeshProUGUI>();
-                text.text = data.quantity.ToString();
+                text.text = (data.quantity / 2).ToString();
                 //text.text = DataTableManger.ItemTable.Get(data.R_item_id).Item_Name;
             }
 
@@ -97,22 +87,26 @@ public class StageCheckPanel : MonoBehaviour
             switch (data.R_item_id)
             {
                 case 40501:
-
+                    if (data.condition == "스테이지 클리어")
+                        GameManager.Instance.Chur += data.quantity / 2;
                     GameManager.Instance.Chur += data.quantity;
 
                     break;
                 case 40502:
-
+                    if (data.condition == "스테이지 클리어")
+                        GameManager.Instance.Gold += data.quantity / 2;
                     GameManager.Instance.Gold += data.quantity;
                     break;
 
                 case 20503:
-
+                    if (data.condition == "스테이지 클리어")
+                        GameManager.Instance.Yarn += data.quantity / 2;
                     GameManager.Instance.Yarn += data.quantity;
 
                     break;
                 case 40504:
-
+                    if (data.condition == "스테이지 클리어")
+                        GameManager.Instance.Exp += data.quantity / 2;
                     GameManager.Instance.Exp += data.quantity;
 
                     break;

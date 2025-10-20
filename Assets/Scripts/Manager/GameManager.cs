@@ -23,6 +23,16 @@ public class GameManager : MonoBehaviour
     public int ClearStage {  get; set; }
     public event Action OnCurrencyChanged;
 
+    public string name;
+    public string Name
+    {
+        get => name;
+        set
+        {
+            name = value;
+            OnCurrencyChanged?.Invoke();
+        }
+    }
     public int Exp
     {
         get => exp;
@@ -44,7 +54,15 @@ public class GameManager : MonoBehaviour
         }
     }
     private int gold;
-    public int Chur {  get; set; }
+    private int chur;
+    public int Chur {
+        get => chur;
+        set
+        {
+            chur = value;
+            OnCurrencyChanged?.Invoke();
+        }
+    }
     
     public int Yarn {  get; set; }
 
@@ -75,6 +93,7 @@ public class GameManager : MonoBehaviour
             
             saveCharacterList = SaveLoadManager.Data.CharacterInfos;
             ClearStage = SaveLoadManager.Data.ClearStage;
+            Name = SaveLoadManager.Data.PlayerName;
             Gold = SaveLoadManager.Data.Gold;
             Chur = SaveLoadManager.Data.Chur;
             Exp = SaveLoadManager.Data.Exp;
@@ -95,7 +114,9 @@ public class GameManager : MonoBehaviour
                 }
                 saveCharacterList.Add(CharacterInfo);
             }
-            
+            SaveLoadManager.Data.PlayerName = "User1";
+
+
         }
         SaveLoadManager.Data.CharacterInfos = saveCharacterList;
         SaveLoadManager.Save();
@@ -103,6 +124,7 @@ public class GameManager : MonoBehaviour
     }
     public void Save()
     {
+        SaveLoadManager.Data.PlayerName = Name;
         SaveLoadManager.Data.ClearStage = ClearStage;
         SaveLoadManager.Data.CharacterInfos = saveCharacterList;
         SaveLoadManager.Data.Yarn = Yarn;

@@ -132,17 +132,20 @@ public class Enemy : LivingEntity
         MaxHP = Max_HP;
 
         var health = GetComponent<EnemyHealth>();
-        if (health != null) health.Refresh();
+        health.Refresh();
         InitPosition = transform.position;
         switch (monsterData.M_Basic_attack_ID)
         {
             case 11306:
+            case 11325:
                 attackRange = 1f;
                 break;
             case 11307:
+            case 11326:
                 attackRange = 2f;
                 break;
             case 11308:
+            case 11327:
                 attackRange = 4f;
                 break;
         }
@@ -206,8 +209,8 @@ public class Enemy : LivingEntity
             {
                 animator.SetTrigger(isAttack);
                 IsAttack = false;
-                Shoot();
                 StartCoroutine(Attack());
+                Shoot();
             }
         }
 
@@ -215,14 +218,13 @@ public class Enemy : LivingEntity
 
     private IEnumerator Attack()
     {
-        
+
         if (target != null)
         {
-            if (monsterData.M_Basic_attack_ID == 11308)
-                target.OnDamage(-AttackDamage);
-            else
-                target.OnDamage(AttackDamage);
+
+            target.OnDamage(AttackDamage);
         }
+        //SkillSfxManager.Instance.PlaySfx(attackClip);
         yield return new WaitForSeconds(0.5f);
         CurrentStatus = Status.Back;
 
@@ -238,7 +240,7 @@ public class Enemy : LivingEntity
 
         }
         attackTimer += Time.deltaTime;
-        skillTimer += Time.deltaTime;
+        
 
         if (target && attackTimer > AttackInterval)
         {
@@ -253,8 +255,9 @@ public class Enemy : LivingEntity
         if (target != null)
         {
 
-            GameObject proj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            GameObject proj = Instantiate(Resources.Load<GameObject>($"Effects/{basicAttack.Skill_ID}"), transform.position, Quaternion.identity);
             proj.GetComponent<Bullet>().Init(target);
+            Destroy(proj, 0.5f);
         }
     }
     public void UseSkill()
@@ -263,7 +266,7 @@ public class Enemy : LivingEntity
 
         animator.SetTrigger(isSkill);
         skillTarget.OnDamage(SkillDamage);
-        var effect = Instantiate(effectPrefab, skillTarget.transform.position, Quaternion.identity);
+        var effect = Instantiate(effectPrefab, skillTarget.transform.position + new Vector3(0, 0.3f, 0), Quaternion.identity);
         Destroy(effect, 0.5f);
         var sound = Resources.Load<AudioClip>($"Audio/{skillData.Skill_ID}");
         SkillSfxManager.Instance.PlaySfx(sound);

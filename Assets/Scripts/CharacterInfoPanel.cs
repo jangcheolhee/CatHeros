@@ -35,6 +35,7 @@ public class CharacterInfoPanel : MonoBehaviour
     public TextMeshProUGUI atkText;
     public TextMeshProUGUI defText;
     public TextMeshProUGUI spdText;
+    public TextMeshProUGUI levelText1;
 
 
 
@@ -107,6 +108,7 @@ public class CharacterInfoPanel : MonoBehaviour
         atkText.text = $"ATK: {currentCharacter.Atk}";
         defText.text = $"DEF: {currentCharacter.Def}";
         spdText.text = $"SPD: {currentCharacter.Spd}";
+        levelText1.text = $"LEVEL: {currentCharacter.Level}";
 
         skillListText.text = $"{DataTableManger.SkillTable.Get(currentCharacter.Character_ID.Skill_Set_ID).Skill_Name} : {DataTableManger.SkillTable.Get(currentCharacter.Character_ID.Skill_Set_ID).Description} ";
         pairBonusText.text = "추후 추가 될 예정입니다.";
@@ -167,6 +169,7 @@ public class CharacterInfoPanel : MonoBehaviour
             atkText.text = $"ATK: {currentCharacter.Atk}";
             defText.text = $"DEF: {currentCharacter.Def}";
             spdText.text = $"SPD: {currentCharacter.Spd}";
+            levelText1.text = $"LEVEL: {currentCharacter.Level}";
 
 
             GameManager.Instance.Save();
